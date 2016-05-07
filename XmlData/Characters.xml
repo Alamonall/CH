@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<characters>
+	<character name="charOne">
+		<bio>oneoneoneoneoneoneoneoneoneoneone</bio>
+		<data>dataonedataonedataonedataonedataone</data>
+	</character>
+	<character name="charTwo">
+		<bio>two</bio>
+		<data>datatwo</data>
+	</character>
+	<character name="charThree">
+		<bio>three</bio>
+		<data>datathree</data>
+	</character>
+	<character name="charFour">
+		<bio>four</bio>
+		<data>datafour</data>
+	</character>
+</characters>
+
+

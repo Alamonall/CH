@@ -1,0 +1,364 @@
+fileFormatVersion: 2
+guid: 51d7ac915d1f2d24cb825c4bc9f7910d
+timeCreated: 1453190980
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Weapons_list_0
+    21300002: Weapons_list_1
+    21300004: Weapons_list_2
+    21300006: Weapons_list_3
+    21300008: Weapons_list_4
+    21300010: Weapons_list_5
+    21300012: Weapons_list_6
+    21300014: Weapons_list_7
+    21300016: Weapons_list_8
+    21300018: Weapons_list_9
+    21300020: Weapons_list_10
+    21300022: Weapons_list_11
+    21300024: Weapons_list_12
+    21300026: Weapons_list_13
+    21300028: Weapons_list_14
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Weapons_list_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1832
+        width: 513
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 408.6499, y: 0.36328125}
+        - {x: -0.35009766, y: 0.36328125}
+        - {x: -0.35009766, y: -169.63672}
+        - {x: 2.6499023, y: -172.63672}
+        - {x: 406.6499, y: -172.63672}
+        - {x: 410.6499, y: -168.63672}
+        - {x: 410.6499, y: -1.6367188}
+    - name: Weapons_list_1
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1832
+        width: 515
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2.1450195, y: 0.36328125}
+        - {x: 2.1450195, y: -0.63671875}
+        - {x: 0.14501953, y: -2.6367188}
+        - {x: 0.14501953, y: -168.63672}
+        - {x: 3.1450195, y: -172.63672}
+        - {x: 408.14502, y: -172.63672}
+        - {x: 413.14502, y: -167.63672}
+        - {x: 413.14502, y: -2.6367188}
+        - {x: 410.14502, y: 0.36328125}
+    - name: Weapons_list_2
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 1832
+        width: 514
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.74023, y: -1.6367188}
+        - {x: 409.74023, y: 0.36328125}
+        - {x: 1.7402344, y: 0.36328125}
+        - {x: -0.25976562, y: -0.63671875}
+        - {x: -0.25976562, y: -168.63672}
+        - {x: 2.7402344, y: -172.63672}
+        - {x: 408.74023, y: -172.63672}
+        - {x: 411.74023, y: -169.63672}
+    - name: Weapons_list_3
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 1832
+        width: 515
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 412.33545, y: -0.63671875}
+        - {x: 412.33545, y: 0.36328125}
+        - {x: 4.335449, y: 0.36328125}
+        - {x: 0.33544922, y: -3.6367188}
+        - {x: 0.33544922, y: -166.63672}
+        - {x: 6.335449, y: -172.63672}
+        - {x: 410.33545, y: -172.63672}
+        - {x: 413.33545, y: -169.63672}
+        - {x: 413.33545, y: -1.6367188}
+    - name: Weapons_list_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1586
+        width: 513
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 410.6499, y: -1.8886719}
+        - {x: 407.6499, y: 1.1113281}
+        - {x: 1.6499023, y: 1.1113281}
+        - {x: -0.35009766, y: -0.8886719}
+        - {x: -0.35009766, y: -170.88867}
+        - {x: 0.64990234, y: -172.88867}
+        - {x: 407.6499, y: -172.88867}
+        - {x: 410.6499, y: -169.88867}
+    - name: Weapons_list_5
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1586
+        width: 515
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 413.14502, y: -2.8886719}
+        - {x: 409.14502, y: 1.1113281}
+        - {x: 3.1450195, y: 1.1113281}
+        - {x: 0.14501953, y: -1.8886719}
+        - {x: 0.14501953, y: -169.88867}
+        - {x: 3.1450195, y: -172.88867}
+        - {x: 410.14502, y: -172.88867}
+        - {x: 413.14502, y: -169.88867}
+    - name: Weapons_list_6
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 1586
+        width: 514
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.74023, y: -1.8886719}
+        - {x: 408.74023, y: 1.1113281}
+        - {x: 2.7402344, y: 1.1113281}
+        - {x: -0.25976562, y: -1.8886719}
+        - {x: -0.25976562, y: -169.88867}
+        - {x: 2.7402344, y: -172.88867}
+        - {x: 408.74023, y: -172.88867}
+        - {x: 411.74023, y: -169.88867}
+    - name: Weapons_list_7
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 1586
+        width: 515
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.33545, y: 1.1113281}
+        - {x: 5.335449, y: 1.1113281}
+        - {x: 1.3354492, y: -1.8886719}
+        - {x: 0.33544922, y: -4.888672}
+        - {x: 0.33544922, y: -166.88867}
+        - {x: 1.3354492, y: -169.88867}
+        - {x: 4.335449, y: -172.88867}
+        - {x: 411.33545, y: -172.88867}
+        - {x: 413.33545, y: -169.88867}
+        - {x: 413.33545, y: -1.8886719}
+    - name: Weapons_list_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1338
+        width: 513
+        height: 217
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 410.6499, y: -3.6401367}
+        - {x: 407.6499, y: 0.35986328}
+        - {x: 1.6499023, y: 0.35986328}
+        - {x: -0.35009766, y: -1.6401367}
+        - {x: -0.35009766, y: -170.64014}
+        - {x: 2.6499023, y: -173.64014}
+        - {x: 406.6499, y: -173.64014}
+        - {x: 409.6499, y: -170.64014}
+        - {x: 409.6499, y: -169.64014}
+        - {x: 410.6499, y: -168.64014}
+    - name: Weapons_list_9
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1338
+        width: 515
+        height: 217
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 410.14502, y: 0.35986328}
+        - {x: 3.1450195, y: 0.35986328}
+        - {x: 0.14501953, y: -2.6401367}
+        - {x: 0.14501953, y: -169.64014}
+        - {x: 3.1450195, y: -173.64014}
+        - {x: 408.14502, y: -173.64014}
+        - {x: 413.14502, y: -168.64014}
+        - {x: 413.14502, y: -2.6401367}
+    - name: Weapons_list_10
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 1338
+        width: 514
+        height: 217
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.74023, y: -2.6401367}
+        - {x: 408.74023, y: 0.35986328}
+        - {x: 2.7402344, y: 0.35986328}
+        - {x: -0.25976562, y: -2.6401367}
+        - {x: -0.25976562, y: -170.64014}
+        - {x: 2.7402344, y: -173.64014}
+        - {x: 408.74023, y: -173.64014}
+        - {x: 411.74023, y: -170.64014}
+    - name: Weapons_list_11
+      rect:
+        serializedVersion: 2
+        x: 1609
+        y: 1338
+        width: 515
+        height: 217
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.33545, y: 0.35986328}
+        - {x: 4.335449, y: 0.35986328}
+        - {x: 1.3354492, y: -2.6401367}
+        - {x: 0.33544922, y: -5.6401367}
+        - {x: 0.33544922, y: -167.64014}
+        - {x: 6.335449, y: -173.64014}
+        - {x: 410.33545, y: -173.64014}
+        - {x: 413.33545, y: -170.64014}
+        - {x: 413.33545, y: -2.6401367}
+    - name: Weapons_list_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1092
+        width: 513
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 410.6499, y: -1.9921875}
+        - {x: 407.6499, y: 1.0078125}
+        - {x: 1.6499023, y: 1.0078125}
+        - {x: -0.35009766, y: -0.9921875}
+        - {x: -0.35009766, y: -170.99219}
+        - {x: 0.64990234, y: -172.99219}
+        - {x: 406.6499, y: -172.99219}
+        - {x: 409.6499, y: -171.99219}
+        - {x: 410.6499, y: -168.99219}
+    - name: Weapons_list_13
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1092
+        width: 515
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 413.14502, y: -2.9921875}
+        - {x: 409.14502, y: 1.0078125}
+        - {x: 3.1450195, y: 1.0078125}
+        - {x: 0.14501953, y: -1.9921875}
+        - {x: 0.14501953, y: -169.99219}
+        - {x: 3.1450195, y: -172.99219}
+        - {x: 410.14502, y: -172.99219}
+        - {x: 413.14502, y: -169.99219}
+    - name: Weapons_list_14
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 1092
+        width: 514
+        height: 216
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 411.74023, y: -1.9921875}
+        - {x: 408.74023, y: 1.0078125}
+        - {x: 2.7402344, y: 1.0078125}
+        - {x: -0.25976562, y: -1.9921875}
+        - {x: -0.25976562, y: -169.99219}
+        - {x: 2.7402344, y: -172.99219}
+        - {x: 408.74023, y: -172.99219}
+        - {x: 411.74023, y: -169.99219}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
