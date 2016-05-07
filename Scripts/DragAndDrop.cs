@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class DragAndDrop : MonoBehaviour,
 IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	
-	AdditionalMenuAction amaScript;
+	public AdditionalMenuAction amaScript;
 	Sprite tempInventoryCell;
 	GameObject icon;
 	GameObject drop;
@@ -19,14 +19,14 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 
 	bool isInventory = false;
 	bool isDropCell = false;
-	Sprite emptyInventoryCell;
+	public Sprite emptyInventoryCell;
 
 	public int idCell;
 
 	void Awake()
 	{		
 		inventoryPanel = GameObject.Find ("InventoryPanel");
-		amaScript = AdditionalMenuAction._instanceAMA;
+
 	}
 
 	void Update(){	
@@ -38,8 +38,12 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	public void OnDrop(PointerEventData data)
 	{
 		if (data.pointerDrag.GetComponent<DragAndDrop> ().isDragged) {
-			print ("Куда = " + this.gameObject.name);
-			print ("Что = " + data.pointerDrag.name);
+//			print ("Куда = " + this.gameObject.name);
+//			print ("Что = " + data.pointerDrag.name);
+			if (amaScript == null) {
+				print ("ama null");
+				amaScript = AdditionalMenuAction._instanceAMA;
+			}
 			if (amaScript.SwapItem (this.gameObject, data.pointerDrag)) {
 				if (isDropCell)
 					return;

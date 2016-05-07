@@ -12,8 +12,8 @@ public class DropListAction : MonoBehaviour {
 
 	bool isActive = false; 
 	int[] dropList;
-	List<GameObject> dropListCells;
-	Sprite defaultSprite;
+	public List<GameObject> dropListCells;
+	public Sprite defaultSprite;
 
 	private Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
 	private Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса

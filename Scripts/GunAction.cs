@@ -31,6 +31,7 @@ public class GunAction : MonoBehaviour {
 	bool weaponTriggerUp;
 	int tempQueue;
 
+	#region Awake
 	void Awake(){
 		if (_instanceGA == null)
 			_instanceGA = this;
@@ -42,7 +43,9 @@ public class GunAction : MonoBehaviour {
 		characterScript = Character._instanceCharacter;
 		UpdateParameters ();
 	}
+	#endregion
 
+	#region Update
 	void FixedUpdate(){
 		//промежуток между выстрелами
 		if (!bRate) {
@@ -93,8 +96,9 @@ public class GunAction : MonoBehaviour {
 		tempRot = Quaternion.AngleAxis(angle, Vector3.forward);
 		transform.rotation = tempRot;
 	}
+	#endregion
 
-
+	#region Shooting
 	public void Shooting()
 	{
 		if (uiScript.bAMenu || uiScript.bMMenu || uiScript.bDMenu)
@@ -119,6 +123,7 @@ public class GunAction : MonoBehaviour {
 			overReload = false;
 		}
 	}
+	#endregion
 
 	#region Shootingmode
 	//отвечает за тип стрельбы
@@ -179,6 +184,8 @@ public class GunAction : MonoBehaviour {
 	}
 	#endregion
 
+
+	#region Reload
 	public void Reload(){
 		if (holder > 0 && holder != ammo)
 			tempReload = fastReload;
@@ -186,4 +193,5 @@ public class GunAction : MonoBehaviour {
 			tempReload = fullReload;	
 		overReload = false;
 	}
+	#endregion
 }

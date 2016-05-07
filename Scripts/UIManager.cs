@@ -40,8 +40,6 @@ public class UIManager : MonoBehaviour {
 	private Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
 	public GameObject forDropObject; //ближайший drop-обьект
 
-
-
 	void Awake(){
 		if (_instanceUIM == null) {
 			DontDestroyOnLoad (this.gameObject);
@@ -51,9 +49,7 @@ public class UIManager : MonoBehaviour {
 		characterSelectionMenu.transform.localScale = uiOff;
 		allItemList = new ArrayList ();
 		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
-		characterScript = Character._instanceCharacter;
-		gunActionScript = GunAction._instanceGA;
-		characterActionScript = CharacterAction._instanceCA;
+
 	}
 
 	void Update ()
@@ -65,13 +61,38 @@ public class UIManager : MonoBehaviour {
 		if (gameActive) {
 			if(characterActionScript == null)
 			{
-				print ("characterActionScript is null");
-				return;
+				characterActionScript = CharacterAction._instanceCA;
 			}
 			if(gunActionScript == null)
 			{
-				print ("gunActionScript is null");
-				return;
+				gunActionScript = GunAction._instanceGA;
+			}
+			if (characterScript == null) {
+				characterScript = Character._instanceCharacter;
+				if (characterScript != null) {
+					switch (selectedCharacter) {
+					case "charOne":
+						characterScript.SelectSpecialization (new Assault ());
+						break;
+					case "charTwo":
+						characterScript.SelectSpecialization (new Ingeneer ());
+						break;
+					case "charThree":
+						characterScript.SelectSpecialization (new Support ());
+						break;
+					case "charFour":
+						characterScript.SelectSpecialization (new Recon ());
+						break;						
+					}
+					print ("character script DONT NULL");
+				}
+				if (characterScript == null) {
+					print ("character script is null");
+					return;
+				}
+				//TEMP
+				characterScript.assaultRiflesAmmo.CurrentAmmo = 500;
+				//TEMP
 			}
 			
 			if (characterScript.needUpdate) {
@@ -164,33 +185,7 @@ public class UIManager : MonoBehaviour {
 			LoadingItemsFromXml ();
 			gameActive = true;
 			SceneManager.LoadScene (1);
-			if (characterScript == null) {
-				print ("character script is null");
-				characterScript = Character._instanceCharacter;
-				if (characterScript != null) {
-					switch (selectedCharacter) {
-					case "charOne":
-						characterScript.SelectSpecialization (new Assault ());
-						break;
-					case "charTwo":
-						characterScript.SelectSpecialization (new Ingeneer ());
-						break;
-					case "charThree":
-						characterScript.SelectSpecialization (new Support ());
-						break;
-					case "charFour":
-						characterScript.SelectSpecialization (new Recon ());
-						break;						
-					}
-				}
-				if (characterScript == null) {
-					print ("character script is null");
-					return;
-				}
-				//TEMP
-				characterScript.assaultRiflesAmmo.CurrentAmmo = 500;
-				//TEMP
-			}
+		
 		}
 
 	}	

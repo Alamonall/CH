@@ -26,7 +26,6 @@ public class CharacterAction : MonoBehaviour {
 			print ("CA not alone");
 		}
 		uiScript = UIManager._instanceUIM;
-//		print (uiScript.name + " is sucks");
 		characterScript = Character._instanceCharacter;
 		UpdateParameters ();
 	}
@@ -42,8 +41,8 @@ public class CharacterAction : MonoBehaviour {
 
 		Cheats ();
 
-		if (characterScript.CheckLevelUp ())
-			characterScript.LevelUp ();
+//		if (characterScript.CheckLevelUp ())
+//			characterScript.LevelUp ();
 	}
 
 	public void Cheats(){

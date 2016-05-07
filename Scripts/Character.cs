@@ -66,9 +66,11 @@ public class Character : MonoBehaviour
 		if (_instanceCharacter == null) {
 			DontDestroyOnLoad (this.gameObject);
 			_instanceCharacter = this;
-		} else if (_instanceCharacter != this)
-			Destroy (this.gameObject);
-		print ("Character Awake!");
+			print ("Character Awake!");
+		}
+//		else if (_instanceCharacter != this)
+//			Destroy (this.gameObject);
+		
 	}
 
 	public void SelectSpecialization(Specialization spec){
