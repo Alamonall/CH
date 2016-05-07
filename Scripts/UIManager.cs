@@ -49,7 +49,6 @@ public class UIManager : MonoBehaviour {
 		characterSelectionMenu.transform.localScale = uiOff;
 		allItemList = new ArrayList ();
 		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
-
 	}
 
 	void Update ()

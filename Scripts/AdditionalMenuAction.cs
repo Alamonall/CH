@@ -19,8 +19,8 @@ public class AdditionalMenuAction : MonoBehaviour {
 	public GameObject pMap;
 
 	public GameObject prevActivePanel;
+	public Text previewInventoryItemText;
 	public GameObject previewInventoryItem;
-
 	Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
 	Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
 
@@ -125,10 +125,13 @@ public class AdditionalMenuAction : MonoBehaviour {
 	#endregion
 
 	#region ShowPreview
-	public void ShowPreview(int id, bool inInvetroy){
-		if (inInvetroy) {
+	public void ShowPreview(int id, bool inInventory, GameObject cell){
+		if (inInventory) {
+			print ("Show Preview!");
 			InventoryItem temp = uiScript.GetItemFromAll (id);
-
+			previewInventoryItem.transform.localScale = uiOn;
+			previewInventoryItem.transform.localPosition = new Vector3 (0, 0, 0);
+//			previewInventoryItemText.text += temp.itemName + "; " + temp.itemPrice;
 		}
 	}
 	#endregion

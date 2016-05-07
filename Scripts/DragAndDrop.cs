@@ -17,7 +17,7 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	Vector3 screenPoint;
 	Vector3 offset;
 
-	bool isInventory = false;
+	public bool isInventory = false;
 	bool isDropCell = false;
 	public Sprite emptyInventoryCell;
 
@@ -30,8 +30,14 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	}
 
 	void Update(){	
-		if (Input.GetMouseButtonDown (1))
-			amaScript.ShowPreview (idCell, isInventory);
+		if (amaScript == null) {
+			print ("ama null");
+			amaScript = AdditionalMenuAction._instanceAMA;
+		}
+		if (Input.GetMouseButtonDown (1)) {
+			print ("Right click!");
+			amaScript.ShowPreview (idCell, isInventory, this.gameObject);
+		}
 	}
 
 
@@ -40,10 +46,7 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 		if (data.pointerDrag.GetComponent<DragAndDrop> ().isDragged) {
 //			print ("Куда = " + this.gameObject.name);
 //			print ("Что = " + data.pointerDrag.name);
-			if (amaScript == null) {
-				print ("ama null");
-				amaScript = AdditionalMenuAction._instanceAMA;
-			}
+
 			if (amaScript.SwapItem (this.gameObject, data.pointerDrag)) {
 				if (isDropCell)
 					return;
