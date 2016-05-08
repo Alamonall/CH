@@ -7,11 +7,12 @@ public class BagAction : MonoBehaviour {
 	DropListAction dropListScript;
 	UIManager uiScript;
 	CharacterAction characterActionScript;
-
 	public GameObject buttonE;
 	public Sprite defaultSprite;
-	public int[] dropList;
 
+	public int[] dropList; // temp
+
+	public InventoryItem[] dropItemList;
 	ArrayList dropTempList;
 	bool isNewChest = false;
 
@@ -19,10 +20,10 @@ public class BagAction : MonoBehaviour {
 		buttonE.SetActive (false);
 		uiScript = UIManager._instanceUIM;
 		this.gameObject.GetComponent<SpriteRenderer> ().sprite = defaultSprite;
+
 	}
 
-	public void AmEmpty()
-	{
+	public void AmEmpty(){
 		Destroy (this.gameObject);
 	}
 
@@ -63,11 +64,13 @@ public class BagAction : MonoBehaviour {
 		characterActionScript.YouCantTakeMe ();
 	}
 
-	public void ShowItemList(){			
-		if (isNewChest) {
-			dropList = (int[])dropTempList.ToArray (typeof(int));
+	public void ShowItemList(){		
+		dropTempList = new ArrayList ();
+		print ("droptemp = " + dropList.Length);
+		for(int i = 0; i < dropList.Length;i++){
+			print ("droplist[i] = " + dropList [i]);
+			dropTempList.Add (uiScript.GetItemFromAll (dropList [i]));	
 		}
-		isNewChest = false;
 		if (dropList == null) {
 //			print ("doplist is null");
 			return;
@@ -76,6 +79,7 @@ public class BagAction : MonoBehaviour {
 			print ("droplistscript null");
 			return;
 		}
-		dropListScript.ShowDropList (dropList, this);	
+		dropItemList = (InventoryItem[])dropTempList.ToArray (typeof(InventoryItem[]));
+		dropListScript.ShowDropList (dropItemList, this);	
 	}
 }

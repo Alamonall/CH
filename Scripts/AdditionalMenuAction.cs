@@ -196,9 +196,8 @@ public class AdditionalMenuAction : MonoBehaviour {
 
 
 	#region PutItemFromItemList
-	public void PutItemFromItemList(int id)
+	public void PutItemFromItemList(InventoryItem item)
 	{	
-		InventoryItem item = uiScript.GetItemFromAll (id);
 		switch (item.Type) {
 		case "Weapon":
 			{
@@ -258,43 +257,43 @@ public class AdditionalMenuAction : MonoBehaviour {
 //		print("itemOne = " + itemOne.name);
 //		print ("itemTwo = " + itemTwo.name);
 
-		//выброс предмета
-		if (itemOne.name == "DropCell") {
-			int two = itemTwo.GetComponent<DragAndDrop> ().idCell;
-			switch (itemTwo.name) {
-			case "InventoryItemCell":
-//				print ("1");
-				uiScript.AddToDropZone (inventoryItemList [two]);
-				inventoryItemList [two] = null;
-				break;
-			case "PrimaryWeaponCell":
-//				print ("2");
-				uiScript.AddToDropZone (characterScript.PrimaryWeapon);
-				characterScript.PrimaryWeapon = new Weapon (); //ЗАГЛУШКА 
-				break;
-			case "SecondaryWeaponCell": 
-//				print ("3");
-				uiScript.AddToDropZone (characterScript.SecondaryWeapon);
-				characterScript.SecondaryWeapon = new Weapon (); //ЗАГЛУШКА
-				break;
-			case "ArmorCell":
-//				print ("4");
-				uiScript.AddToDropZone (characterScript.Armor);
-				characterScript.Armor =  new Armor(); //ЗАГЛУШКА
-				break;
-			case "GranadeCell":
-//				print ("5");
-				uiScript.AddToDropZone (characterScript.Granade);
-				characterScript.Granade =  new Granade(); //ЗАГЛУШКА
-				break;
-			case "MedkitCell":
-//				print ("6");
-				uiScript.AddToDropZone (characterScript.Medkit);
-				characterScript.Medkit =  new Medkit(); //ЗАГЛУШКА
-				break;
-			}
-			return true;
-		}
+//		//выброс предмета
+//		if (itemOne.name == "DropCell") {
+//			int two = itemTwo.GetComponent<DragAndDrop> ().idCell;
+//			switch (itemTwo.name) {
+//			case "InventoryItemCell":
+////				print ("1");
+//				uiScript.AddToDropZone (inventoryItemList [two]);
+//				inventoryItemList [two] = null;
+//				break;
+//			case "PrimaryWeaponCell":
+////				print ("2");
+//				uiScript.AddToDropZone (characterScript.PrimaryWeapon);
+//				characterScript.PrimaryWeapon = new Weapon (); //ЗАГЛУШКА 
+//				break;
+//			case "SecondaryWeaponCell": 
+////				print ("3");
+//				uiScript.AddToDropZone (characterScript.SecondaryWeapon);
+//				characterScript.SecondaryWeapon = new Weapon (); //ЗАГЛУШКА
+//				break;
+//			case "ArmorCell":
+////				print ("4");
+//				uiScript.AddToDropZone (characterScript.Armor);
+//				characterScript.Armor =  new Armor(); //ЗАГЛУШКА
+//				break;
+//			case "GranadeCell":
+////				print ("5");
+//				uiScript.AddToDropZone (characterScript.Granade);
+//				characterScript.Granade =  new Granade(); //ЗАГЛУШКА
+//				break;
+//			case "MedkitCell":
+////				print ("6");
+//				uiScript.AddToDropZone (characterScript.Medkit);
+//				characterScript.Medkit =  new Medkit(); //ЗАГЛУШКА
+//				break;
+//			}
+//			return true;
+//		}
 
 		// с оружия 1/2 на оружие 2/1
 		if (itemOne.name == "PrimaryWeaponCell" && itemTwo.name == "SecondaryWeaponCell" 
