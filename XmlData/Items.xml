@@ -94,7 +94,7 @@
 		<description>М16 с очередями</description>
 		<!-- тип патронов -->
 		<ammotype>AssaultRiflesAmmoType</ammotype>
-	<!-- Режим стрельбы-->
+		<!-- Режим стрельбы-->
 		<shootingmode>Queue</shootingmode>
 	</item>
 	<item id="5">
@@ -122,7 +122,7 @@
 		<description>Пистолет</description>
 		<!-- тип патронов -->
 		<ammotype>AssaultRiflesAmmoType</ammotype>
-	<!-- Режим стрельбы-->
+		<!-- Режим стрельбы-->
 		<shootingmode>Single</shootingmode>
 	</item>
 </items>

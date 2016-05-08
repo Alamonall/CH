@@ -19,8 +19,8 @@ public class AdditionalMenuAction : MonoBehaviour {
 	public GameObject pMap;
 
 	public GameObject prevActivePanel;
-	public Text previewInventoryItemText;
-	public GameObject previewInventoryItem;
+	public Comparing comparingMenu;
+	public Image previewImage;
 	Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
 	Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
 
@@ -127,10 +127,20 @@ public class AdditionalMenuAction : MonoBehaviour {
 	#region ShowPreview
 	public void ShowPreview(int id, bool inInventory, GameObject cell){
 		if (inInventory) {
-			print ("Show Preview!");
-			InventoryItem temp = uiScript.GetItemFromAll (id);
-			previewInventoryItem.transform.localScale = uiOn;
-			previewInventoryItem.transform.localPosition = new Vector3 (0, 0, 0);
+			print ("inventoryItemList null = " + inventoryItemList [id]);
+			if (inventoryItemList [id] == null)
+				return;
+			InventoryItem temp = uiScript.GetItemFromAll (inventoryItemList [id].id);
+			print ("Show Preview! = " + temp.itemName);
+			if (characterScript == null) {
+				print ("char is null");
+				return;
+			}
+			comparingMenu.ComparingItem (temp, characterScript);
+//			previewInventoryItem.transform.localScale = uiOn;
+//			print (idCell + "; localPosition cellX = " + cell.transform.localPosition.x + "; cellY = " + cell.transform.localPosition.y);
+//			print (idCell + "; position cellX = " + cell.transform.position.x + "; cellY = " + cell.transform.position.y);
+//			previewInventoryItem.transform.localPosition = new Vector3 (cell.transform.localPosition.x + 225, cell.transform.localPosition.y - 323, 0);
 //			previewInventoryItemText.text += temp.itemName + "; " + temp.itemPrice;
 		}
 	}
@@ -153,11 +163,11 @@ public class AdditionalMenuAction : MonoBehaviour {
 	public void UpdateInventoryCellList(){
 //		print ("UpdateInventoryCellList");
 		if (!characterScript.PrimaryWeapon.itemName.Equals ("hands")) {
-			print ("Sprite Primary Weapon is Upadate");
+//			print ("Sprite Primary Weapon is Upadate");
 			GameObject.Find ("PrimaryWeaponCell").GetComponent<Image> ().sprite = characterScript.PrimaryWeapon.ItemIcon;
 		} 
 		if (!characterScript.SecondaryWeapon.itemName.Equals ("hands")) {
-			print ("Sprite Secondary Weapon is Upadate");
+//			print ("Sprite Secondary Weapon is Upadate");
 			GameObject.Find ("SecondaryWeaponCell").GetComponent<Image> ().sprite = characterScript.SecondaryWeapon.ItemIcon;
 		}
 		if (!characterScript.Armor.itemName.Equals ("empty")) {
@@ -171,13 +181,13 @@ public class AdditionalMenuAction : MonoBehaviour {
 		}
 		for (int i = 0; i < characterScript.Inventory.ItemList.Length; i++) {
 			if (characterScript.Inventory.ItemList [i] != null) {
-				print (characterScript.Inventory.itemList [i].itemName);
+//				print (characterScript.Inventory.itemList [i].itemName);
 				if (characterScript.Inventory.itemList [i].ItemIcon == null) {
 					print ("item icon is null");
 					return;
 				}
 				inventoryCellList[i].GetComponent<Image> ().sprite = characterScript.Inventory.itemList [i].ItemIcon;	
-				Debug.Log (" inventoryCellList = " + inventoryCellList [i].name);
+//				Debug.Log (" inventoryCellList = " + inventoryCellList [i].name);
 			}
 		}
 		inventoryItemList = characterScript.Inventory.ItemList;
@@ -242,10 +252,9 @@ public class AdditionalMenuAction : MonoBehaviour {
 	#region Swap Items
 	public bool SwapItem(GameObject itemOne, GameObject itemTwo)
 	{
-		bool typeOfMatches;
-		string typeOfFirstCell = "", typeOfSecondCell;
+		string typeOfFirstCell = "";
 		bool onPrimWeapon = true;
-		int compare;
+		int compare, compareTwo;
 //		print("itemOne = " + itemOne.name);
 //		print ("itemTwo = " + itemTwo.name);
 
@@ -309,7 +318,8 @@ public class AdditionalMenuAction : MonoBehaviour {
 		}
 
 		//с персонажа в инвентарь
-		if (!itemTwo.name.Equals ("InventoryItemCell") && itemOne.name.Equals ("InventoryItemCell")) {				
+		if (!itemTwo.name.Equals ("InventoryItemCell") && itemOne.name.Equals ("InventoryItemCell")) {		
+			print ("с персонажа в инвентарь");
 			compare = itemOne.GetComponent<DragAndDrop> ().idCell;
 			switch (itemTwo.name) {
 			case "PrimaryWeaponCell":
@@ -338,31 +348,35 @@ public class AdditionalMenuAction : MonoBehaviour {
 
 		//персонаж <- инвентарь
 		if (!itemOne.name.Equals ("InventoryItemCell") && itemTwo.name.Equals ("InventoryItemCell")) {
+			print ("//персонаж <- инвентарь");
 			compare = itemTwo.GetComponent<DragAndDrop> ().idCell;
 			typeOfFirstCell = GetCharCellType (itemOne.name);
 			if (inventoryItemList [compare].Type.Equals (typeOfFirstCell)) {
 				if (itemOne.name.Equals ("SecondaryWeaponCell"))
 					onPrimWeapon = false;
-
 				switch (typeOfFirstCell) {
 				case "Weapon":
-					if (onPrimWeapon)
-						characterScript.PrimaryWeapon = (Weapon) inventoryItemList [compare];
-					else 
-						characterScript.SecondaryWeapon = (Weapon) inventoryItemList [compare];
+					if (onPrimWeapon) {
+						Weapon temp = (Weapon)inventoryItemList [compare];
+						inventoryItemList [compare] = characterScript.PrimaryWeapon;
+						characterScript.PrimaryWeapon = temp;
+					} else {
+						Weapon temp = (Weapon)inventoryItemList [compare];
+						inventoryItemList [compare] = characterScript.SecondaryWeapon;
+						characterScript.SecondaryWeapon = temp;
+					}
 					characterScript.activeWeapon = onPrimWeapon;
 					break;
 				case "Armor":
-					characterScript.Armor = (Armor)inventoryItemList [compare];
+					Armor temp = (Armor)inventoryItemList [compare];
+					inventoryItemList [compare] = characterScript.Armor;
+					characterScript.Armor = temp;
 					break;
 				case "Granade":
-					characterScript.Granade = (Granade)inventoryItemList [compare];
 					break;
 				case "Medkit":
-					characterScript.Medkit = (Medkit)inventoryItemList [compare];
 					break;
 				}
-				inventoryItemList [compare] = null;
 				onPrimWeapon = true;
 				return true;
 			} 

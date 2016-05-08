@@ -4,14 +4,13 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class DragAndDrop : MonoBehaviour,
-IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
+IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler{
 	
 	public AdditionalMenuAction amaScript;
 	Sprite tempInventoryCell;
 	GameObject icon;
 	GameObject drop;
 	bool isDragged = false;
-	bool isOnUi = true;
 	public Camera mainCamera;
 	GameObject inventoryPanel;
 	Vector3 screenPoint;
@@ -20,6 +19,7 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 	public bool isInventory = false;
 	bool isDropCell = false;
 	public Sprite emptyInventoryCell;
+	bool mouseInside = false;
 
 	public int idCell;
 
@@ -31,22 +31,28 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler{
 
 	void Update(){	
 		if (amaScript == null) {
-			print ("ama null");
+//			print ("ama null");
 			amaScript = AdditionalMenuAction._instanceAMA;
 		}
-		if (Input.GetMouseButtonDown (1)) {
-			print ("Right click!");
+		if (Input.GetMouseButtonUp (0) && mouseInside) {
+//			print ("Right click!");
 			amaScript.ShowPreview (idCell, isInventory, this.gameObject);
 		}
 	}
 
+	public void OnPointerEnter(PointerEventData data){
+		mouseInside = true;
+	}
+
+	public void OnPointerExit(PointerEventData data){
+		mouseInside = false;
+	}
 
 	public void OnDrop(PointerEventData data)
 	{
 		if (data.pointerDrag.GetComponent<DragAndDrop> ().isDragged) {
 //			print ("Куда = " + this.gameObject.name);
 //			print ("Что = " + data.pointerDrag.name);
-
 			if (amaScript.SwapItem (this.gameObject, data.pointerDrag)) {
 				if (isDropCell)
 					return;

@@ -207,10 +207,10 @@ public class UIManager : MonoBehaviour {
 
 	#region GetItemFormAll
 	public InventoryItem GetItemFromAll(int id){
-		print ("id = " + id + "; list = " + allItemList.Count);
+//		print ("List = " + allItemList.Count);
 		foreach (InventoryItem ii in allItemList) {
-			print (" ii = " + ii.itemName);
-			if (ii.id == id) {				
+//			print ("id = " + ii.id + "; ii = " + ii.itemName);
+			if (ii.id == id) {	
 				return ii;
 			}
 		}
