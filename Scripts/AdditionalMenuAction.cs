@@ -126,10 +126,11 @@ public class AdditionalMenuAction : MonoBehaviour {
 
 	#region ShowPreview
 	public void ShowPreview(int id, bool inInventory, GameObject cell){
-		if (inInventory) {
-			print ("inventoryItemList null = " + inventoryItemList [id]);
-			if (inventoryItemList [id] == null)
+		if (inInventory) {			
+			if (inventoryItemList [id] == null){
+//				print ("inventoryItemList is null " + inventoryItemList [id]);
 				return;
+			}
 			InventoryItem temp = uiScript.GetItemFromAll (inventoryItemList [id].id);
 			print ("Show Preview! = " + temp.itemName);
 			if (characterScript == null) {
@@ -164,20 +165,20 @@ public class AdditionalMenuAction : MonoBehaviour {
 //		print ("UpdateInventoryCellList");
 		if (!characterScript.PrimaryWeapon.itemName.Equals ("hands")) {
 //			print ("Sprite Primary Weapon is Upadate");
-			GameObject.Find ("PrimaryWeaponCell").GetComponent<Image> ().sprite = characterScript.PrimaryWeapon.ItemIcon;
+			GameObject.Find ("PrimaryWeaponCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.PrimaryWeapon);
 		} 
 		if (!characterScript.SecondaryWeapon.itemName.Equals ("hands")) {
 //			print ("Sprite Secondary Weapon is Upadate");
-			GameObject.Find ("SecondaryWeaponCell").GetComponent<Image> ().sprite = characterScript.SecondaryWeapon.ItemIcon;
+			GameObject.Find ("SecondaryWeaponCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.SecondaryWeapon);
 		}
 		if (!characterScript.Armor.itemName.Equals ("empty")) {
-			GameObject.Find ("ArmorCell").GetComponent<Image> ().sprite = characterScript.Armor.ItemIcon;
+			GameObject.Find ("ArmorCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.Armor);
 		}
 		if (!characterScript.Granade.itemName.Equals ("empty")) {
-			GameObject.Find ("GranadeCell").GetComponent<Image> ().sprite = characterScript.Granade.ItemIcon;
+			GameObject.Find ("GranadeCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.Granade);
 		}
 		if (!characterScript.Medkit.itemName.Equals ("empty")) {
-			GameObject.Find ("MedkitCell").GetComponent<Image> ().sprite = characterScript.Medkit.ItemIcon;
+			GameObject.Find ("MedkitCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.Medkit);
 		}
 		for (int i = 0; i < characterScript.Inventory.ItemList.Length; i++) {
 			if (characterScript.Inventory.ItemList [i] != null) {
@@ -186,7 +187,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 					print ("item icon is null");
 					return;
 				}
-				inventoryCellList[i].GetComponent<Image> ().sprite = characterScript.Inventory.itemList [i].ItemIcon;	
+				inventoryCellList [i].GetComponent<DragAndDrop> ().UpdateItem (characterScript.Inventory.itemList [i]);
 //				Debug.Log (" inventoryCellList = " + inventoryCellList [i].name);
 			}
 		}
@@ -217,7 +218,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 			}
 		case "Armor":
 			{
-//				print ("armor = " + item.itemName);
+				print ("armor = " + item.itemName);
 				if (characterScript.Armor.itemName == "empty")
 					characterScript.Armor = item as Armor;
 				else

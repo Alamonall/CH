@@ -158,7 +158,10 @@ public class Character : MonoBehaviour
 			return primaryWeapon;
 		}
 		set {
-			primaryWeapon = value;
+			if(value == null)
+				primaryWeapon = new Weapon();
+			else
+				primaryWeapon = value;
 			UpdateParameters ();
 		}
 	}
@@ -168,7 +171,10 @@ public class Character : MonoBehaviour
 			return secondaryWeapon;
 		}
 		set {
-			secondaryWeapon = value;
+			if (value == null)
+				secondaryWeapon = new Weapon ();
+			else
+				secondaryWeapon = value;
 			UpdateParameters ();
 		}
 	}

@@ -9,7 +9,6 @@ public class CharacterInfoPanel : MonoBehaviour {
 
 	public GameObject progressBarObject;
 	public GameObject primaryWeaponGO;
-	public GameObject secondaryWeaponGO;
 	public Image weaponIcon;
 	//not public
 	public Character characterScript;

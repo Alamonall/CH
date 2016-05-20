@@ -66,20 +66,21 @@ public class BagAction : MonoBehaviour {
 
 	public void ShowItemList(){		
 		dropTempList = new ArrayList ();
-		print ("droptemp = " + dropList.Length);
-		for(int i = 0; i < dropList.Length;i++){
-			print ("droplist[i] = " + dropList [i]);
+//		print ("droptemp = " + dropList.Length);
+		for(int i = 0; i < dropList.Length; i++){
+//			print ("droplist[i] = " + i);
+//			print ("droplist[i] = " + dropList [i]);
 			dropTempList.Add (uiScript.GetItemFromAll (dropList [i]));	
 		}
 		if (dropList == null) {
-//			print ("doplist is null");
+			print ("doplist is null");
 			return;
 		}	
 		if (dropListScript == null) {
 			print ("droplistscript null");
 			return;
 		}
-		dropItemList = (InventoryItem[])dropTempList.ToArray (typeof(InventoryItem[]));
+		dropItemList = (InventoryItem[])dropTempList.ToArray (typeof(InventoryItem));
 		dropListScript.ShowDropList (dropItemList, this);	
 	}
 }
