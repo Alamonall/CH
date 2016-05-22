@@ -24,6 +24,8 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 	bool isDragged = true;
 	public int idCell;
 
+	public GameObject preview;
+
 	void Awake()
 	{		
 		inventoryPanel = GameObject.Find ("InventoryPanel");
@@ -39,9 +41,10 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 //			print ("character is null");
 			character = Character._instanceCharacter;
 		}
-		if (Input.GetMouseButtonUp (0) && mouseInside) {
-//			print ("Right click!");
-			amaScript.ShowPreview (idCell, isInventory, this.gameObject);
+		if (Input.GetMouseButtonUp (1) && mouseInside) {
+			print ("Right click!");
+			amaScript.ShowContextMenu (this.gameObject, this);			
+//			amaScript.ShowPreview (idCell, isInventory, this.gameObject);
 		}
 	}
 
@@ -69,10 +72,10 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 				character.Armor = item as Armor;
 				break;
 			default:
-				print ("nothing sacred");
+//				print ("nothing sacred");
 				break;
 			}
-		if (item == null)
+		if (item == null) 
 			GetComponent<Image> ().sprite = emptyInventoryCell;
 		else
 			GetComponent<Image> ().sprite = item.ItemIcon;
@@ -99,7 +102,7 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 				tempScript.UpdateItem (item);
 				UpdateItem (temp);
 			} else if (type.Equals (tempScript.item.Type)) {
-				print ("type is don't any");
+//				print ("type is don't any");
 				switch (type) {
 				case "Weapon":
 					Weapon weapon = item as Weapon;
@@ -115,6 +118,8 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 			}
 		} else {
 			print ("Opps! Missed!");
+			UIManager._instanceUIM.AddToDropZone (item);
+			UpdateItem (null);
 		}
 	}
 

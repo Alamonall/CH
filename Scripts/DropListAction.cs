@@ -48,7 +48,9 @@ public class DropListAction : MonoBehaviour {
 	//взятие предмета с id в обьекте
 	public void TakeItemFromBag(int id){
 //		print ("TakeItemFromBag = " + id);
-		amaScript.PutItemFromItemList(dropList[id]);
+		amaScript.GetItemToCharacter(dropList[id]);
+		print ("Removing object with index = " + dropList [id].itemName);
+		myChest.dropListInGame.Remove (dropList [id]);
 		dropList [id] = null;
 		count--;
 		dropListCells [id].GetComponent<Button> ().interactable = false;
@@ -68,7 +70,7 @@ public class DropListAction : MonoBehaviour {
 		if (myChest != null && count == 0) {
 			myChest.AmEmpty ();
 			myChest = null;
-		}	
+		}
 		dropList = null;
 		this.transform.localScale = uiOff;
 		if (uiScript == null)
@@ -80,11 +82,13 @@ public class DropListAction : MonoBehaviour {
 		dropList = list;
 		myChest = go;
 		count = list.Length;
+		if (dropList.Length == 0)
+			return;
 		if (uiScript == null)
 			return;
 		if (dropList.Length == 1) {			
 			TakeAllItemFromBag ();
-		} else {		
+		} else {	
 			for (int i = 0; i < dropList.Length; i++) {			
 				if (dropList [i].id != 0) {
 //					print ("dropListCells = " + dropListCells [i].name);

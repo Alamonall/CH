@@ -8,22 +8,32 @@ public class BagAction : MonoBehaviour {
 	UIManager uiScript;
 	CharacterAction characterActionScript;
 	public GameObject buttonE;
-	public Sprite defaultSprite;
+	public bool isAChest;
 
-	public int[] dropList; // temp
+	public List<InventoryItem> dropListInGame; // лист для дропа походу игры
+	public int[] dropListOfChest; // лист для дропа в сундкуе
 
-	public InventoryItem[] dropItemList;
-	ArrayList dropTempList;
-	bool isNewChest = false;
+	public Sprite closed;
+	public Sprite open;
+	public Sprite bag;
 
 	void Start () {		
 		buttonE.SetActive (false);
 		uiScript = UIManager._instanceUIM;
-		this.gameObject.GetComponent<SpriteRenderer> ().sprite = defaultSprite;
-
+		if (isAChest) {
+			dropListInGame = new List<InventoryItem> ();
+			foreach (int id in dropListOfChest) {
+				dropListInGame.Add (uiScript.GetItemFromAll (id));
+			}
+		}
 	}
 
 	public void AmEmpty(){
+		if (isAChest) {
+			this.gameObject.GetComponent<SpriteRenderer> ().sprite = open;
+			return;
+		}
+			
 		Destroy (this.gameObject);
 	}
 
@@ -34,11 +44,13 @@ public class BagAction : MonoBehaviour {
 			dropListScript = DropListAction._instanceDLA;
 	}
 
-	public void AddDropList(int id){
-		isNewChest = true;
-		if (dropTempList == null)
-			dropTempList = new ArrayList();
-		dropTempList.Add (id);
+	public void AddDropList(InventoryItem item){
+		if (isAChest)
+			return;
+		if (dropListInGame == null) {
+			dropListInGame = new List<InventoryItem> ();
+		}
+		dropListInGame.Add (item);
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
@@ -65,22 +77,10 @@ public class BagAction : MonoBehaviour {
 	}
 
 	public void ShowItemList(){		
-		dropTempList = new ArrayList ();
-//		print ("droptemp = " + dropList.Length);
-		for(int i = 0; i < dropList.Length; i++){
-//			print ("droplist[i] = " + i);
-//			print ("droplist[i] = " + dropList [i]);
-			dropTempList.Add (uiScript.GetItemFromAll (dropList [i]));	
-		}
-		if (dropList == null) {
-			print ("doplist is null");
-			return;
-		}	
 		if (dropListScript == null) {
 			print ("droplistscript null");
 			return;
 		}
-		dropItemList = (InventoryItem[])dropTempList.ToArray (typeof(InventoryItem));
-		dropListScript.ShowDropList (dropItemList, this);	
+		dropListScript.ShowDropList (dropListInGame.ToArray (), this);	
 	}
 }

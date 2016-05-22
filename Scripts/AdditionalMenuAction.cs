@@ -20,12 +20,15 @@ public class AdditionalMenuAction : MonoBehaviour {
 
 	public GameObject prevActivePanel;
 	public Comparing comparingMenu;
-	public Image previewImage;
+	public GameObject previewImage;
 	Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
 	Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
 
 	public GameObject[] inventoryCellList; //список предметов в инвентаре
 	public InventoryItem[] inventoryItemList; //список предметов в инвентаре для графического представления
+
+
+	DragAndDrop dadForContextMenu; //обьект для контекстного меню
 
 	void Awake()
 	{
@@ -124,37 +127,13 @@ public class AdditionalMenuAction : MonoBehaviour {
 	}
 	#endregion
 
-	#region ShowPreview
-	public void ShowPreview(int id, bool inInventory, GameObject cell){
-		if (inInventory) {			
-			if (inventoryItemList [id] == null){
-//				print ("inventoryItemList is null " + inventoryItemList [id]);
-				return;
-			}
-			InventoryItem temp = uiScript.GetItemFromAll (inventoryItemList [id].id);
-			print ("Show Preview! = " + temp.itemName);
-			if (characterScript == null) {
-				print ("char is null");
-				return;
-			}
-			comparingMenu.ComparingItem (temp, characterScript);
-//			previewInventoryItem.transform.localScale = uiOn;
-//			print (idCell + "; localPosition cellX = " + cell.transform.localPosition.x + "; cellY = " + cell.transform.localPosition.y);
-//			print (idCell + "; position cellX = " + cell.transform.position.x + "; cellY = " + cell.transform.position.y);
-//			previewInventoryItem.transform.localPosition = new Vector3 (cell.transform.localPosition.x + 225, cell.transform.localPosition.y - 323, 0);
-//			previewInventoryItemText.text += temp.itemName + "; " + temp.itemPrice;
-		}
-	}
-	#endregion
-
-
 	#region SetupInventory
 	public void SetupInventory (){		
 		for (int i = 0; i < characterScript.Inventory.itemList.Length; i++) {		
 //			Debug.Log ("ItemList[" + i + "] = " + itemList [i]);
 			if (characterScript.Inventory.itemList [i] != null) {
 //				Debug.Log("Name = " + itemList[i].itemName + "; Icon = " + itemList [i].ItemIcon);
-				inventoryCellList [i].GetComponent<Image> ().sprite = characterScript.Inventory.itemList [i].ItemIcon;	
+				inventoryCellList [i].GetComponent<Image> ().sprite = characterScript.Inventory.itemList [i].itemIcon;	
 			}
 		}	
 	}
@@ -183,7 +162,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 		for (int i = 0; i < characterScript.Inventory.ItemList.Length; i++) {
 			if (characterScript.Inventory.ItemList [i] != null) {
 //				print (characterScript.Inventory.itemList [i].itemName);
-				if (characterScript.Inventory.itemList [i].ItemIcon == null) {
+				if (characterScript.Inventory.itemList [i].itemIcon == null) {
 					print ("item icon is null");
 					return;
 				}
@@ -197,9 +176,9 @@ public class AdditionalMenuAction : MonoBehaviour {
 
 
 	#region PutItemFromItemList
-	public void PutItemFromItemList(InventoryItem item)
+	public void GetItemToCharacter(InventoryItem item)
 	{	
-		switch (item.Type) {
+		switch (item.type) {
 		case "Weapon":
 			{
 //				print ("PrimaryWeapon = " + characterScript.PrimaryWeapon.itemName);
@@ -218,7 +197,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 			}
 		case "Armor":
 			{
-				print ("armor = " + item.itemName);
+//				print ("armor = " + item.itemName);
 				if (characterScript.Armor.itemName == "empty")
 					characterScript.Armor = item as Armor;
 				else
@@ -249,157 +228,6 @@ public class AdditionalMenuAction : MonoBehaviour {
 	}
 	#endregion
 
-	#region Swap Items
-	public bool SwapItem(GameObject itemOne, GameObject itemTwo)
-	{
-		string typeOfFirstCell = "";
-		bool onPrimWeapon = true;
-		int compare, compareTwo;
-//		print("itemOne = " + itemOne.name);
-//		print ("itemTwo = " + itemTwo.name);
-
-//		//выброс предмета
-//		if (itemOne.name == "DropCell") {
-//			int two = itemTwo.GetComponent<DragAndDrop> ().idCell;
-//			switch (itemTwo.name) {
-//			case "InventoryItemCell":
-////				print ("1");
-//				uiScript.AddToDropZone (inventoryItemList [two]);
-//				inventoryItemList [two] = null;
-//				break;
-//			case "PrimaryWeaponCell":
-////				print ("2");
-//				uiScript.AddToDropZone (characterScript.PrimaryWeapon);
-//				characterScript.PrimaryWeapon = new Weapon (); //ЗАГЛУШКА 
-//				break;
-//			case "SecondaryWeaponCell": 
-////				print ("3");
-//				uiScript.AddToDropZone (characterScript.SecondaryWeapon);
-//				characterScript.SecondaryWeapon = new Weapon (); //ЗАГЛУШКА
-//				break;
-//			case "ArmorCell":
-////				print ("4");
-//				uiScript.AddToDropZone (characterScript.Armor);
-//				characterScript.Armor =  new Armor(); //ЗАГЛУШКА
-//				break;
-//			case "GranadeCell":
-////				print ("5");
-//				uiScript.AddToDropZone (characterScript.Granade);
-//				characterScript.Granade =  new Granade(); //ЗАГЛУШКА
-//				break;
-//			case "MedkitCell":
-////				print ("6");
-//				uiScript.AddToDropZone (characterScript.Medkit);
-//				characterScript.Medkit =  new Medkit(); //ЗАГЛУШКА
-//				break;
-//			}
-//			return true;
-//		}
-
-		// с оружия 1/2 на оружие 2/1
-		if (itemOne.name == "PrimaryWeaponCell" && itemTwo.name == "SecondaryWeaponCell" 
-			|| itemOne.name == "SecondaryWeaponCell" && itemTwo.name == "PrimaryWeaponCell") 
-		{
-			Weapon temp = characterScript.PrimaryWeapon;
-			characterScript.PrimaryWeapon = characterScript.SecondaryWeapon;
-			characterScript.SecondaryWeapon = temp;
-			return true;
-		}
-
-		//с инвентаря в инвентарь
-		if (itemOne.name == "InventoryItemCell" && itemTwo.name == "InventoryItemCell") 
-		{
-			int one = itemOne.GetComponent<DragAndDrop> ().idCell, two = itemTwo.GetComponent<DragAndDrop> ().idCell;
-//			Debug.Log ("One = " + one + "; Two = " + two);
-			InventoryItem temp = inventoryItemList [one];
-			inventoryItemList [one] = inventoryItemList [two];
-			inventoryItemList [two] = temp;
-			return true;
-		}
-
-		//с персонажа в инвентарь
-		if (!itemTwo.name.Equals ("InventoryItemCell") && itemOne.name.Equals ("InventoryItemCell")) {		
-			print ("с персонажа в инвентарь");
-			compare = itemOne.GetComponent<DragAndDrop> ().idCell;
-			switch (itemTwo.name) {
-			case "PrimaryWeaponCell":
-				inventoryItemList [compare] = characterScript.PrimaryWeapon;
-				characterScript.PrimaryWeapon = new Weapon (); //ЗАГЛУШКА 
-				break;
-			case "SecondaryWeaponCell": 
-				inventoryItemList [compare] = characterScript.SecondaryWeapon;
-				characterScript.SecondaryWeapon = new Weapon (); //ЗАГЛУШКА
-				break;
-			case "ArmorCell":
-				inventoryItemList [compare] = characterScript.Armor;
-				characterScript.Armor =  new Armor(); //ЗАГЛУШКА
-				break;
-			case "GranadeCell":
-				inventoryItemList [compare] = characterScript.Granade;
-				characterScript.Granade =  new Granade(); //ЗАГЛУШКА
-				break;
-			case "MedkitCell":
-				inventoryItemList [compare] = characterScript.Medkit;
-				characterScript.Medkit =  new Medkit(); //ЗАГЛУШКА
-				break;
-			}
-			return true;
-		}
-
-		//персонаж <- инвентарь
-		if (!itemOne.name.Equals ("InventoryItemCell") && itemTwo.name.Equals ("InventoryItemCell")) {
-			print ("//персонаж <- инвентарь");
-			compare = itemTwo.GetComponent<DragAndDrop> ().idCell;
-			typeOfFirstCell = GetCharCellType (itemOne.name);
-			if (inventoryItemList [compare].Type.Equals (typeOfFirstCell)) {
-				if (itemOne.name.Equals ("SecondaryWeaponCell"))
-					onPrimWeapon = false;
-				switch (typeOfFirstCell) {
-				case "Weapon":
-					if (onPrimWeapon) {
-						Weapon temp = (Weapon)inventoryItemList [compare];
-						inventoryItemList [compare] = characterScript.PrimaryWeapon;
-						characterScript.PrimaryWeapon = temp;
-					} else {
-						Weapon temp = (Weapon)inventoryItemList [compare];
-						inventoryItemList [compare] = characterScript.SecondaryWeapon;
-						characterScript.SecondaryWeapon = temp;
-					}
-					characterScript.activeWeapon = onPrimWeapon;
-					break;
-				case "Armor":
-					Armor temp = (Armor)inventoryItemList [compare];
-					inventoryItemList [compare] = characterScript.Armor;
-					characterScript.Armor = temp;
-					break;
-				case "Granade":
-					break;
-				case "Medkit":
-					break;
-				}
-				onPrimWeapon = true;
-				return true;
-			} 
-		}
-
-		//оружие1 <-> оружие2
-		if (!itemOne.name.Equals ("InventoryItemCell") && !itemTwo.name.Equals ("InventoryItemCell")) {
-			if (GetCharCellType (itemTwo.name).Equals (GetCharCellType (itemOne.name))) {
-				if (itemOne.name.Equals ("SecondaryWeaponCell"))
-					onPrimWeapon = false;
-				Weapon tempII = characterScript.PrimaryWeapon;
-				characterScript.PrimaryWeapon = characterScript.SecondaryWeapon;
-				characterScript.SecondaryWeapon = tempII;
-				characterScript.activeWeapon = onPrimWeapon;
-				onPrimWeapon = true;
-				return true;
-			}
-		}
-		return false;
-	}
-	#endregion
-
-
 	#region GetCharCellType
 	private string GetCharCellType(string name)
 	{
@@ -420,4 +248,35 @@ public class AdditionalMenuAction : MonoBehaviour {
 		}
 	}
 	#endregion
+
+
+	#region ShowContexMenu
+	public void ShowContextMenu(GameObject go, DragAndDrop dad){
+		if (dad.item == null)
+			return;
+		previewImage.transform.localPosition = go.transform.localPosition;
+		previewImage.transform.localScale = uiOn;
+		dadForContextMenu = dad;
+	}
+	#endregion
+
+	#region Comparing
+	public void Comparing(){
+		comparingMenu.ComparingItem (dadForContextMenu.item, characterScript);
+		dadForContextMenu = null;
+		previewImage.transform.localScale = uiOff;
+	}
+	#endregion
+
+	#region Droping
+	public void Droping(){
+		uiScript.AddToDropZone (dadForContextMenu.item);
+		characterScript.Inventory.DropItem (dadForContextMenu.item);
+		dadForContextMenu.UpdateItem (null);
+		dadForContextMenu = null;
+		previewImage.transform.localScale = uiOff;
+	}
+	#endregion 
+
+
 }

@@ -49,6 +49,11 @@ public class UIManager : MonoBehaviour {
 		characterSelectionMenu.transform.localScale = uiOff;
 		allItemList = new ArrayList ();
 		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
+
+		LoadingItemsFromXml ();
+		for (int i = 0; i < allItemList.Count; i++) {
+			print ("all[" + i + "] = " + allItemList [i]);
+		}
 	}
 
 	void Update ()
@@ -181,10 +186,9 @@ public class UIManager : MonoBehaviour {
 		} else {			
 			characterSelectionMenu.transform.localScale = uiOff;
 			GameObject.Find ("CharacterInfoPanel").transform.localScale = uiOn;		
-			LoadingItemsFromXml ();
+
 			gameActive = true;
-			SceneManager.LoadScene (1);
-		
+			SceneManager.LoadScene (1);		
 		}
 
 	}	
@@ -200,8 +204,8 @@ public class UIManager : MonoBehaviour {
 					50), Quaternion.identity) as GameObject;
 			forDropObject.transform.SetParent (dropZone.transform);
 		}
-		print ("drop id = " + item.id);
-		forDropObject.GetComponent<BagAction> ().AddDropList (item.id);
+//		print ("drop id = " + item.id);
+		forDropObject.GetComponent<BagAction> ().AddDropList (item);
 	}
 	#endregion
 
@@ -220,10 +224,12 @@ public class UIManager : MonoBehaviour {
 
 	#region LoadingItemsFromXml
 	public void LoadingItemsFromXml(){
+		print ("LoadingItemsFromXml");
 		XmlDocument xmld = new XmlDocument ();
 		xmld.LoadXml (itemsXml.text);
 		XmlNodeList itemsList = xmld.GetElementsByTagName ("item");
 		foreach (XmlNode itemInfo in itemsList) {
+//			print ("allitemlist = " + allItemList.Count);
 			if(itemInfo.Name == "item")
 			{
 				switch(itemInfo.SelectSingleNode ("type").InnerText){

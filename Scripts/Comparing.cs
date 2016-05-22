@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Comparing : MonoBehaviour {
 
-	public GameObject ComparingWeapon;
+	public GameObject CompareWeapon;
 
 	public Text CompareName;
 	public Text PWName;
@@ -39,21 +39,13 @@ public class Comparing : MonoBehaviour {
 			CompareFastReload.text = " " + item.FastReload;
 			SetCompare (item, script.PrimaryWeapon, PWDamage, PWAmmo, PWFullReload, PWFastReload);
 			SetCompare (item, script.SecondaryWeapon, SWDamage, SWAmmo, SWFullReload, SWFastReload);
-			ShowCompareMenu (ComparingWeapon);
+			ShowCompareMenu (CompareWeapon);
 			break;
 		case "Armor":
 			Armor ar = item2 as Armor;
 			break;
 		}
 	}
-
-	public void ComparingItem(Weapon item){
-		
-	}
-
-	public void ComparingItem(Armor item){}
-
-
 
 	void SetCompare(Weapon item, Weapon weap, Text damage, Text ammo, Text full, Text fast){
 		SetCompareTwo (damage, item.physicalDamage, weap.physicalDamage);
