@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour {
 	CharacterAction characterActionScript;
 	GunAction gunActionScript;
 	AdditionalMenuAction addMenuAction;
+	BoardManager bmScript;
 
 	public Sprite[] inventoryItemIconList;
 	public TextAsset itemsXml;
@@ -49,6 +50,7 @@ public class UIManager : MonoBehaviour {
 		characterSelectionMenu.transform.localScale = uiOff;
 		allItemList = new ArrayList ();
 		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
+		bmScript = BoardManager._instanceBM;
 
 		LoadingItemsFromXml ();
 		for (int i = 0; i < allItemList.Count; i++) {
@@ -188,7 +190,8 @@ public class UIManager : MonoBehaviour {
 			GameObject.Find ("CharacterInfoPanel").transform.localScale = uiOn;		
 
 			gameActive = true;
-			SceneManager.LoadScene (1);		
+			SceneManager.LoadScene (1);	
+			BoardManager._instanceBM.SetupScene (1);
 		}
 
 	}	

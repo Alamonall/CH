@@ -53,10 +53,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 			if (!bInventory)
 				UIManager._instanceUIM.bAMenu = false;
 			else {
-				SwitchUIObjects ("bInventory");			
-				bSkills = false;
-				bMap = false;
-				bJournal = false;
+				SwitchUIObjects ("bInventory");	
 			}
 		}
 		else if (Input.GetKeyDown (KeyCode.P)) { 
@@ -65,9 +62,6 @@ public class AdditionalMenuAction : MonoBehaviour {
 				UIManager._instanceUIM.bAMenu = false;
 			else {
 				SwitchUIObjects ("bSkills");
-				bMap = false;
-				bJournal = false;
-				bInventory = false;
 			}
 		}
 		else if (Input.GetKeyDown (KeyCode.J)) { 
@@ -76,9 +70,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 				UIManager._instanceUIM.bAMenu = false;
 			else {
 				SwitchUIObjects ("bJournal");
-				bSkills = false;
-				bMap = false;
-				bInventory = false;
+
 			}
 		}
 		else if (Input.GetKeyDown (KeyCode.M)) { 
@@ -87,37 +79,51 @@ public class AdditionalMenuAction : MonoBehaviour {
 				UIManager._instanceUIM.bAMenu = false;
 			else {
 				SwitchUIObjects ("bMap");
-				bSkills = false;
-				bInventory = false;
-				bJournal = false;
 			}
 		}
 	}
 
 
-	public void WhichButtonIsPressed(Button button){
-		SwitchUIObjects (button.name);
-	}
-
+	#region WhichBuutonIsPressed
 	public void SwitchUIObjects(string buttonName){
 		switch (buttonName) {
 		case "bInventory":
+			bSkills = false;
+			bMap = false;
+			bJournal = false;
 			ShowUIObject (pInventory);
 			break;
 		case "bSkills":
+			bMap = false;
+			bJournal = false;
+			bInventory = false;
 			ShowUIObject (pSkills);
 			break;
 		case "bJournal":
+			bSkills = false;
+			bMap = false;
+			bInventory = false;
 			ShowUIObject (pJournal);
 			break;
 		case "bMap":
+			bSkills = false;
+			bInventory = false;
+			bJournal = false;
 			ShowUIObject (pMap);
+			break;
+		case "close":
+			bMap = false;
+			bSkills = false;
+			bInventory = false;
+			bJournal = false;
+			UIManager._instanceUIM.bAMenu = !UIManager._instanceUIM.bAMenu;
 			break;
 		}
 	}
+	#endregion
 
 	#region ShowUIObject
-	public void ShowUIObject(GameObject uiObj){	
+	void ShowUIObject(GameObject uiObj){	
 		if (!UIManager._instanceUIM.bAMenu)
 			UIManager._instanceUIM.bAMenu = true;
 		if(prevActivePanel != null)			
