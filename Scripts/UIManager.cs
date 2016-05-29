@@ -187,7 +187,8 @@ public class UIManager : MonoBehaviour {
 			//проверка на то, готовы ли все игроки
 		} else {			
 			characterSelectionMenu.transform.localScale = uiOff;
-			GameObject.Find ("CharacterInfoPanel").transform.localScale = uiOn;		
+			//Оптимихация
+			GameObject.Find ("PermanentGUI").transform.localScale = uiOn;		
 
 			gameActive = true;
 			SceneManager.LoadScene (1);	
