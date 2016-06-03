@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class AssaultRiflesAmmoType : Ammo {
+public class LaserAmmo : Ammo
+{
 	float damage;
 	int currentAmmo;
 	int maxAmmo;
+
+	override public GameObject GetPrefab(){
+		return (GameObject)Resources.Load ("LaserBullet", typeof(GameObject));
+	}
 
 	public int CurrentAmmo {
 		get {

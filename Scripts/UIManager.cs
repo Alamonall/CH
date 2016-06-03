@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour {
 	AdditionalMenuAction addMenuAction;
 	BoardManager bmScript;
 
-	public Sprite[] inventoryItemIconList;
 	public TextAsset itemsXml;
 	public ArrayList allItemList;
 	public GameObject additionalMenu;
@@ -96,9 +95,6 @@ public class UIManager : MonoBehaviour {
 					print ("character script is null");
 					return;
 				}
-				//TEMP
-				characterScript.assaultRiflesAmmo.CurrentAmmo = 500;
-				//TEMP
 			}
 			
 			if (characterScript.needUpdate) {
@@ -242,7 +238,6 @@ public class UIManager : MonoBehaviour {
 						new Weapon (int.Parse(itemInfo.Attributes["id"].Value), //int
 									itemInfo.SelectSingleNode ("name").InnerText, //string
 									float.Parse (itemInfo.SelectSingleNode ("price").InnerText), //float
-									inventoryItemIconList [int.Parse (itemInfo.SelectSingleNode ("icon").InnerText)],//sprite
 									float.Parse (itemInfo.SelectSingleNode ("damage").InnerText),//float
 									float.Parse (itemInfo.SelectSingleNode ("spread").InnerText),//float
 									float.Parse (itemInfo.SelectSingleNode ("rate").InnerText),//float
@@ -260,7 +255,6 @@ public class UIManager : MonoBehaviour {
 							int.Parse(itemInfo.Attributes["id"].Value),
 							itemInfo.SelectSingleNode ("name").InnerText,
 							int.Parse (itemInfo.SelectSingleNode ("price").InnerText),
-							inventoryItemIconList [int.Parse (itemInfo.SelectSingleNode ("icon").InnerText)],
 							itemInfo.SelectSingleNode ("description").InnerText, itemInfo.SelectSingleNode ("type").InnerText));					
 					break;
 				}

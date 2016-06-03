@@ -21,11 +21,10 @@ public class BoardManager : MonoBehaviour {
 	public void SetupScene(int lvl){
 		// Из массива с данными о каждой сцене берутся данные о сцене. Затем они загружаются и ставяться на нужных местах
 		if (lvl == 1) {
-//			GameObject env = GameObject.Find ("Environment");
-//			for (int i = 0; i < 50; i++) 
-//				for(int j = 0; j < 50; j++){
-//					Instantiate (grounds [0], new Vector2 (i * 41, j * 41), Quaternion.identity);
-//			}
+			for (int i = 0; i < 50; i++) 
+				for(int j = 0; j < 50; j++){
+					Instantiate (grounds [0], new Vector2 (i * 41, j * 41), Quaternion.identity);
+			}
 		}
 	}
 

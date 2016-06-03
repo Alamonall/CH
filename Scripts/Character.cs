@@ -60,8 +60,6 @@ public class Character : MonoBehaviour
 
 	public Ammo activeAmmoType;
 
-	public AssaultRiflesAmmoType assaultRiflesAmmo;
-
 	void Awake(){
 		if (_instanceCharacter == null) {
 			DontDestroyOnLoad (this.gameObject);
@@ -98,8 +96,6 @@ public class Character : MonoBehaviour
 		granade = new Granade ();
 		medkit = new Medkit ();
 		Inventory = new Inventory (24);
-		//Temp
-		assaultRiflesAmmo = new AssaultRiflesAmmoType ();
 	}
 
 	public bool CheckLevelUp(){
@@ -136,10 +132,7 @@ public class Character : MonoBehaviour
 			temp = primaryWeapon.ammoType;
 		else
 			temp = secondaryWeapon.ammoType;			
-		if(temp is AssaultRiflesAmmoType){
-			return assaultRiflesAmmo.CurrentAmmo;//				
-		}	
-			return 0;
+		return 0;
 	}
 
 	public void SetAmmo(int ammo){
@@ -148,9 +141,6 @@ public class Character : MonoBehaviour
 			temp = primaryWeapon.ammoType;
 		else
 			temp = secondaryWeapon.ammoType;			
-		if (temp is AssaultRiflesAmmoType) {
-			assaultRiflesAmmo.CurrentAmmo = ammo;
-		}
 	}
 
 	public Weapon PrimaryWeapon {
@@ -237,14 +227,6 @@ public class Character : MonoBehaviour
 			inventory = value;
 		}
 	}
-
-	public AssaultRiflesAmmoType AssaultRiflesAmmo {
-		get {
-			return assaultRiflesAmmo;
-		}
-		set {
-			assaultRiflesAmmo = value;
-		}
-	}
+		
 }
 

@@ -25,7 +25,6 @@ public class Inventory
 			if (itemList[i] == null) {
 				itemList[i] = item;
 //				Debug.Log ("Inventory take to " + item.itemName);
-				currSize++;
 				return;
 			}	
 		}
@@ -36,9 +35,8 @@ public class Inventory
 		if (itemList == null)
 			return;
 		for(int i = 0; i < currSize; i++)
-			if (itemList[i].itemName.Equals (item.itemName)) {
+			if (itemList[i] != null && itemList[i].itemName.Equals (item.itemName)) {
 				itemList[i] = null;
-				currSize--;
 				break;
 			}
 	}

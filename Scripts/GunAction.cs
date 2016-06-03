@@ -7,9 +7,7 @@ public class GunAction : MonoBehaviour {
 	Character characterScript;
 	UIManager uiScript;
 
-	private GameObject bulletClone; //
-	public GameObject bullet; //ссылка на префаб пули
-
+	public Weapon weapon;
 	public int ammo; // количество пуль в обойме
 	public int holder; //текущее количество пуль в обойме
 	public int maxAmmo; // общее количество патронов в рюкзаке персонажа
@@ -27,9 +25,10 @@ public class GunAction : MonoBehaviour {
 	public string shootingMode;
 
 	//tempering var
-	Weapon weaponTemp; 
 	bool weaponTriggerUp;
 	int tempQueue;
+	GameObject bulletClone; 
+	GameObject bullet; 
 
 	#region Awake
 	void Awake(){
@@ -57,11 +56,20 @@ public class GunAction : MonoBehaviour {
 		}
 
 		if (!overReload) {
+			if (maxAmmo != 0) {
+				//Сообщение о том, что патронов для данного оружия нет
+				return;
+			}
 			tempReload -= Time.deltaTime;
 			if (tempReload < 0){
-				maxAmmo -= ammo - holder;
+				if (maxAmmo < ammo) {
+					holder = maxAmmo;
+					maxAmmo = 0;
+				} else {
+					maxAmmo -= ammo - holder;
+					holder = ammo;
+				}
 				characterScript.SetAmmo (maxAmmo);
-				holder = ammo;
 				overReload = true;
 				SaveHolder ();
 			}	
@@ -110,14 +118,18 @@ public class GunAction : MonoBehaviour {
 				return;
 			}
 			if (bRate && weaponTriggerUp) {
+				bullet = weapon.ammoType.GetPrefab ();
+				if (bullet == null) {
+					print ("bullet is null");
+					return;
+				}
 				bulletClone = Instantiate(bullet, transform.position, tempRot) as GameObject; 
-//				bulletClone.transform.SetParent (bulletPull.transform);
 				Rigidbody2D rg2 = bulletClone.GetComponent<Rigidbody2D> ();
 				rg2.AddForce ((tempRot*Vector2.right));
 				holder--;
 				SaveHolder ();
 				bRate = false;
-				weaponTriggerUp = ShootingMode();
+				weaponTriggerUp = GetShootingMode();
 			}			
 		} else {	
 			overReload = false;
@@ -125,11 +137,9 @@ public class GunAction : MonoBehaviour {
 	}
 	#endregion
 
-	#region Shootingmode
-	//отвечает за тип стрельбы
-	//
-	public bool ShootingMode(){
-		
+	#region GetShootingMode
+	//отвечает за темп стрельбы
+	public bool GetShootingMode(){		
 		switch(shootingMode){
 		case "Single":
 			return false;
@@ -167,20 +177,20 @@ public class GunAction : MonoBehaviour {
 
 		//проверку на наличие оружия в руках
 		if (characterScript.activeWeapon) 
-			weaponTemp = characterScript.PrimaryWeapon;
+			weapon = characterScript.PrimaryWeapon;
 		if (!characterScript.activeWeapon)
-			weaponTemp = characterScript.SecondaryWeapon;
+			weapon = characterScript.SecondaryWeapon;
 		holder = 0;
-		ammo = weaponTemp.Ammo;
-		holder = weaponTemp.Holder;
-		fullReload = weaponTemp.FullReload;
-		fastReload = weaponTemp.FastReload;
-		rate = weaponTemp.Rate;
+		ammo = weapon.Ammo;
+		holder = weapon.Holder;
+		fullReload = weapon.FullReload;
+		fastReload = weapon.FastReload;
+		rate = weapon.Rate;
 		SaveHolder ();
 		maxAmmo = characterScript.GetAmmo();
 		tempReload = fullReload;
 		tempRate = rate;
-		shootingMode = weaponTemp.ShootingMode;
+		shootingMode = weapon.ShootingMode;
 	}
 	#endregion
 

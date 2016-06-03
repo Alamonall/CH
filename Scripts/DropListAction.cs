@@ -48,6 +48,10 @@ public class DropListAction : MonoBehaviour {
 	//взятие предмета с id в обьекте
 	public void TakeItemFromBag(int id){
 //		print ("TakeItemFromBag = " + id);
+		if (dropList[id] == null) {
+			print ("item in GetItemToChar is null");
+			return;
+		}
 		amaScript.GetItemToCharacter(dropList[id]);
 		print ("Removing object with index = " + dropList [id].itemName);
 		myChest.dropListInGame.Remove (dropList [id]);

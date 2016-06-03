@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Ammo
+abstract public class Ammo
 {
 	public float numberBullets;
 
+	abstract public GameObject GetPrefab();
 }
 

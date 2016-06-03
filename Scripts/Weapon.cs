@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : InventoryItem  {
+public class Weapon : InventoryItem {
 	
 	public float spread; 	// разброс
 	public float rate; 		// скорострельность
@@ -20,8 +20,6 @@ public class Weapon : InventoryItem  {
 	public float poisonDamage;
 	public float energyDamage;
 	public float corrosionDamage;
-
-
 
 	public Weapon(){
 		this.itemName = "hands";
@@ -42,7 +40,6 @@ public class Weapon : InventoryItem  {
 	public Weapon(		int id, 	//1
 						string name,//2
 						float price,//3
-						Sprite icon,//4
 						float damage,//6
 						float spread,//7
 						float rate,//8
@@ -57,7 +54,8 @@ public class Weapon : InventoryItem  {
 		this.id = id;
 		this.itemName = name;
 		this.itemPrice = price;
-		this.itemIcon = icon;
+		this.itemIcon = Resources.Load (name,typeof(Sprite)) as Sprite;
+		Debug.Log ("ICON = " + this.itemIcon.name);
 		this.physicalDamage = damage;
 		this.spread = spread;
 		this.rate = rate;
@@ -69,7 +67,30 @@ public class Weapon : InventoryItem  {
 		this.description = description;
 		this.shootingMode = shootingMode;
 		//Поработать
-		this.ammoType = new AssaultRiflesAmmoType ();
+		switch(ammoType){
+		case "Pistol": // Пистолеты, револьверы, пистолеты-пулеметы
+			this.ammoType = new PistolAmmo ();
+			break;
+		case "Shotgun": //дробовики
+			this.ammoType = new ShotgunAmmo ();
+			break;
+		case "Rifle":
+			this.ammoType = new RifleAmmo ();
+			break;
+		case "AssaultRifle":
+			this.ammoType = new AssaultRifleAmmo ();
+			break;
+		case "Laser":
+			this.ammoType = new LaserAmmo ();
+			break;
+		case "Beam":
+			this.ammoType = new BeamAmmo ();
+			break;
+		case "Rocket":
+			this.ammoType = new RocketAmmo ();
+			break;
+		}
+
 	}
 
 	public float Rate {

@@ -1,0 +1,194 @@
+fileFormatVersion: 2
+guid: 30d8e1877111969468ff03d58ef1ade5
+timeCreated: 1464944492
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ShotgunBullet_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: ShotgunBullet_7
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 158
+        width: 296
+        height: 284
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -85, y: -106}
+        - {x: -93, y: -114}
+        - {x: -93, y: -139}
+        - {x: -85, y: -142}
+        - {x: -60, y: -142}
+        - {x: -57, y: -139}
+        - {x: -57, y: -117}
+        - {x: -61, y: -106}
+      - - {x: 8, y: -135}
+        - {x: 13, y: -142}
+        - {x: 39, y: -142}
+        - {x: 44, y: -139}
+        - {x: 44, y: -115}
+        - {x: 38, y: -106}
+        - {x: 15, y: -106}
+        - {x: 8, y: -117}
+      - - {x: 131, y: -79}
+        - {x: 104, y: -79}
+        - {x: 99, y: -83}
+        - {x: 99, y: -106}
+        - {x: 107, y: -115}
+        - {x: 122, y: -115}
+        - {x: 127, y: -113}
+        - {x: 135, y: -107}
+        - {x: 135, y: -87}
+      - - {x: -116, y: -59}
+        - {x: -122, y: -67}
+        - {x: -122, y: -85}
+        - {x: -119, y: -94}
+        - {x: -117, y: -95}
+        - {x: -91, y: -95}
+        - {x: -86, y: -87}
+        - {x: -86, y: -63}
+        - {x: -91, y: -59}
+      - - {x: -14, y: -57}
+        - {x: -30, y: -57}
+        - {x: -37, y: -63}
+        - {x: -37, y: -82}
+        - {x: -33, y: -93}
+        - {x: -8, y: -93}
+        - {x: -1, y: -86}
+        - {x: -1, y: -61}
+      - - {x: 69, y: -10}
+        - {x: 48, y: -10}
+        - {x: 39, y: -15}
+        - {x: 39, y: -35}
+        - {x: 46, y: -45}
+        - {x: 49, y: -46}
+        - {x: 67, y: -46}
+        - {x: 75, y: -36}
+        - {x: 75, y: -17}
+      - - {x: -43, y: 10}
+        - {x: -47, y: 8}
+        - {x: -47, y: -17}
+        - {x: -38, y: -26}
+        - {x: -20, y: -26}
+        - {x: -12, y: -20}
+        - {x: -12, y: 2}
+        - {x: -16, y: 10}
+      - - {x: -143, y: 15}
+        - {x: -148, y: 6}
+        - {x: -148, y: -14}
+        - {x: -137, y: -21}
+        - {x: -123, y: -21}
+        - {x: -118, y: -20}
+        - {x: -112, y: -11}
+        - {x: -112, y: 2}
+        - {x: -115, y: 15}
+      - - {x: 123, y: 36}
+        - {x: 113, y: 29}
+        - {x: 113, y: 9}
+        - {x: 116, y: 0}
+        - {x: 139, y: 0}
+        - {x: 148, y: 7}
+        - {x: 148, y: 29}
+        - {x: 146, y: 36}
+      - - {x: -88, y: 67}
+        - {x: -97, y: 56}
+        - {x: -97, y: 36}
+        - {x: -87, y: 31}
+        - {x: -66, y: 31}
+        - {x: -61, y: 39}
+        - {x: -61, y: 64}
+        - {x: -71, y: 67}
+      - - {x: 35, y: 97}
+        - {x: 33, y: 95}
+        - {x: 33, y: 70}
+        - {x: 36, y: 61}
+        - {x: 61, y: 61}
+        - {x: 69, y: 69}
+        - {x: 69, y: 95}
+        - {x: 62, y: 97}
+      - - {x: -27, y: 98}
+        - {x: -32, y: 89}
+        - {x: -32, y: 65}
+        - {x: -23, y: 62}
+        - {x: -1, y: 62}
+        - {x: 4, y: 69}
+        - {x: 4, y: 88}
+        - {x: 1, y: 98}
+      - - {x: 100, y: 105}
+        - {x: 93, y: 99}
+        - {x: 93, y: 76}
+        - {x: 103, y: 69}
+        - {x: 122, y: 69}
+        - {x: 129, y: 78}
+        - {x: 129, y: 94}
+        - {x: 126, y: 105}
+      - - {x: -105, y: 121}
+        - {x: -114, y: 117}
+        - {x: -114, y: 94}
+        - {x: -110, y: 85}
+        - {x: -82, y: 85}
+        - {x: -79, y: 95}
+        - {x: -79, y: 114}
+        - {x: -84, y: 121}
+      - - {x: 4, y: 142}
+        - {x: 4, y: 110}
+        - {x: 8, y: 107}
+        - {x: 35, y: 107}
+        - {x: 40, y: 116}
+        - {x: 40, y: 138}
+        - {x: 31, y: 142}
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
