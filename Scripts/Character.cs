@@ -23,6 +23,7 @@ public class Character : MonoBehaviour
 	public float nextLevelExperience; // необходимо опыта до получения нового уровня
 
 	public int currentSkillPoints; // текущее количество очков умений
+	//????
 	public int nextLevelSkillPoints;	// количество очков опыта за получение нового уровня
 		
 	public float currentStaminaPoints; // текущая выносливость
@@ -124,6 +125,7 @@ public class Character : MonoBehaviour
 		currentHealthPoints = maxHealtPoints;
 		currentExperience = currentExperience-nextLevelExperience;
 		nextLevelExperience = nextLevelExperience*2;
+		currentSkillPoints++;
 	}
 
 	public int GetAmmo(){
@@ -227,6 +229,23 @@ public class Character : MonoBehaviour
 			inventory = value;
 		}
 	}
+
+	#region GetSkill
+	public void GetSkill(int skillnum){
+		switch(skillnum){
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		}
+		print ("Получил " + skillnum + " скилл!");
+	}
+
+	#endregion
 		
 }
 

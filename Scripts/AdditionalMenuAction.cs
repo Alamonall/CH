@@ -124,8 +124,12 @@ public class AdditionalMenuAction : MonoBehaviour {
 
 	#region ShowUIObject
 	void ShowUIObject(GameObject uiObj){	
-		if (!UIManager._instanceUIM.bAMenu)
-			UIManager._instanceUIM.bAMenu = true;
+		if (uiScript == null) {
+			print ("uiScript is null");
+			return;
+		}
+		if (!uiScript.bAMenu)
+			uiScript.bAMenu = true;
 		if(prevActivePanel != null)			
 			prevActivePanel.transform.localScale = uiOff;
 		uiObj.transform.localScale = uiOn;

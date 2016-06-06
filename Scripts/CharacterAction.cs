@@ -41,8 +41,8 @@ public class CharacterAction : MonoBehaviour {
 
 		Cheats ();
 
-//		if (characterScript.CheckLevelUp ())
-//			characterScript.LevelUp ();
+		if (characterScript.CheckLevelUp ())
+			characterScript.LevelUp ();
 	}
 
 	public void Cheats(){

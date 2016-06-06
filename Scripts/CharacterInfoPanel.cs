@@ -3,10 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using ProgressBar;
 
-
 public class CharacterInfoPanel : MonoBehaviour {
-
-
+	
 	public GameObject progressBarObject;
 	public GameObject primaryWeaponGO;
 	public Image weaponIcon;
