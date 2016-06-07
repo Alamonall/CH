@@ -11,11 +11,12 @@ public class UIManager : MonoBehaviour {
 
 	public static UIManager _instanceUIM;
 
-	Character characterScript; 
+	public Character characterScript; 
 	CharacterAction characterActionScript;
 	GunAction gunActionScript;
 	AdditionalMenuAction addMenuAction;
 	BoardManager bmScript;
+	public CharacterMenuAction _cmAction;
 
 	public TextAsset itemsXml;
 	public ArrayList allItemList;
@@ -263,6 +264,10 @@ public class UIManager : MonoBehaviour {
 	}
 	#endregion
 
-
+	#region CharGetLevel
+	public void CharGetLevel(Character self){
+		_cmAction.CharacterGetLevel (self);
+	}
+	#endregion
 
 }

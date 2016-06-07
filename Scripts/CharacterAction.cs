@@ -47,6 +47,8 @@ public class CharacterAction : MonoBehaviour {
 
 	public void Cheats(){
 		//чит TEMP
+		if(Input.GetKeyDown(KeyCode.F3))
+			characterScript.currentExperience += 10000;
 		if(Input.GetKeyDown(KeyCode.F2))
 			characterScript.currentExperience += 100;
 

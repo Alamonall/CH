@@ -4,30 +4,91 @@ using UnityEngine.UI;
 
 public class CharacterMenuAction : MonoBehaviour {
 
+	public static CharacterMenuAction _instanceCMA;
+
 	public Character characterScript;
 	public UIManager uiScript;
 
 	public Text skillPointCount;
 	public Text levelCount;
 
-	public ToggleGroup tgBefore5;
-	public ToggleGroup tgBefore10;
-	public ToggleGroup tgBefore15;
-	public ToggleGroup tgBefore20;
+	public Toggle[] allToggles;
+	public Toggle[] tgBefore5;
+	public Toggle[] tgBefore10;
+	public Toggle[] tgBefore15;
+	public Toggle[] tgBefore20;
+
+	void Start ()
+	{
+		if (_instanceCMA == null)
+			_instanceCMA = this;
+		else if (_instanceCMA != this) {
+			print ("CMA not alone");
+		}
+		characterScript = Character._instanceCharacter;
+		foreach (Toggle t in allToggles) {
+			t.onValueChanged.AddListener (delegate {TakeSkillPoint(t);});
+		}
+	}
 
 	void Update()
 	{
-		if (characterScript == null && uiScript.gameActive)
-			characterScript = Character._instanceCharacter;
 		if (uiScript.gameActive) {
 			skillPointCount.text = "" + characterScript.currentSkillPoints;
 			levelCount.text = "" + characterScript.currentLevel;	
-		if(characterScript.currentLevel >= 5)
-			tgBefore10.allowSwitchOff = true;
-		if(characterScript.currentLevel >= 10)
-			tgBefore15.allowSwitchOff = true;
-		if(characterScript.currentLevel >= 15)
-			tgBefore20.allowSwitchOff = true;
+			if (characterScript.currentSkillPoints == 0) {
+				DeactivateAbilitys (allToggles);
+			}
 		}	
 	}
+
+	public void DeactivateAbilitys(Toggle[] ta){
+		foreach (Toggle t in ta) {
+			t.interactable = false;
+		}
+	}
+
+	public void CharacterGetLevel(Character self){
+//		print ("CharacterGetLvl! " + characterScript.currentLevel + "!");
+		ActivateAbilitys (tgBefore5);
+		if (self.currentLevel >= 5) {
+			ActivateAbilitys (tgBefore10);
+//			print ("Ability for 5 activated!");
+		}
+		if (self.currentLevel >= 10) {
+			ActivateAbilitys (tgBefore15);
+//			print ("Ability for 10 activated!");
+		}
+		if (self.currentLevel >= 15) {
+			ActivateAbilitys (tgBefore20);
+//			print ("Ability for 15 activated!");
+		}
+	}
+
+	void ActivateAbilitys(Toggle[] ta){
+		foreach (Toggle t in ta) {
+			t.interactable = true;
+		}
+	}
+
+	public void TakeSkillPoint(Toggle self){
+		//проверка на сохраненность
+		print("Take a skill" + self.name);
+		if (!self.isOn) {			
+			characterScript.currentSkillPoints++;			
+		} 
+		if (characterScript.currentSkillPoints == 0) {
+			if (self.isOn) {
+				//проверка
+				print ("WOW!");
+				self.isOn = false;
+			}
+		} else {
+			if (self.isOn)
+				characterScript.currentSkillPoints--;		
+		}
+
+
+	}
+	
 }

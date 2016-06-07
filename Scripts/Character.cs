@@ -82,7 +82,7 @@ public class Character : MonoBehaviour
 		this.speed = spec.speed;
 		this.overSpeed = spec.overSpeed;
 
-		currentLevel = 0;
+		currentLevel = 1;
 		currentMoney = 100;
 
 		currentExperience = 0;
@@ -119,7 +119,8 @@ public class Character : MonoBehaviour
 	}
 
 	public void LevelUp(){
-		Debug.Log ("Level Up!");
+//		Debug.Log ("Level Up! " + currentLevel + "!" );
+		gameObject.SendMessage ("CharGetLevel", this);
 		currentLevel++;
 		maxHealtPoints += modHealtPoints;
 		currentHealthPoints = maxHealtPoints;
