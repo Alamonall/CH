@@ -26,9 +26,6 @@ public class CharacterMenuAction : MonoBehaviour {
 			print ("CMA not alone");
 		}
 		characterScript = Character._instanceCharacter;
-		foreach (Toggle t in allToggles) {
-			t.onValueChanged.AddListener (delegate {TakeSkillPoint(t);});
-		}
 	}
 
 	void Update()
@@ -36,16 +33,24 @@ public class CharacterMenuAction : MonoBehaviour {
 		if (uiScript.gameActive) {
 			skillPointCount.text = "" + characterScript.currentSkillPoints;
 			levelCount.text = "" + characterScript.currentLevel;	
-			if (characterScript.currentSkillPoints == 0) {
-				DeactivateAbilitys (allToggles);
-			}
 		}	
 	}
 
+	//Деактивирует ячейки умений в массиве ta
 	public void DeactivateAbilitys(Toggle[] ta){
 		foreach (Toggle t in ta) {
-			t.interactable = false;
+			if (t != null)
+				if(t.interactable && !t.isOn)
+					t.interactable = false;
 		}
+	}
+
+	//Проверяет сколько умений может активировать полльзователь
+	public void CheckAbillitysForAccess(){
+		if (characterScript.currentSkillPoints == 0)
+			DeactivateAbilitys (allToggles);
+		else
+			CharacterGetLevel (characterScript);
 	}
 
 	public void CharacterGetLevel(Character self){
@@ -65,6 +70,7 @@ public class CharacterMenuAction : MonoBehaviour {
 		}
 	}
 
+	//Активирует ячейки умений в массиве ta
 	void ActivateAbilitys(Toggle[] ta){
 		foreach (Toggle t in ta) {
 			t.interactable = true;
@@ -73,22 +79,23 @@ public class CharacterMenuAction : MonoBehaviour {
 
 	public void TakeSkillPoint(Toggle self){
 		//проверка на сохраненность
-		print("Take a skill" + self.name);
+//		print("Take a skill" + self.name);
 		if (!self.isOn) {			
-			characterScript.currentSkillPoints++;			
-		} 
-		if (characterScript.currentSkillPoints == 0) {
-			if (self.isOn) {
-				//проверка
-				print ("WOW!");
-				self.isOn = false;
-			}
-		} else {
-			if (self.isOn)
-				characterScript.currentSkillPoints--;		
+			characterScript.currentSkillPoints++;		 
+		} else{
+			characterScript.currentSkillPoints--;		
 		}
-
-
+		CheckAbillitysForAccess ();
 	}
+
+	public void SetSkill(){		
+		for (int i = 0; i < allToggles.Length; i++) {
+			if (allToggles [i].isOn) {
+//				allToggles[i].image.overrideSprite = new Sprite(
+				//запись в персонажа, что данный скилл подтвержден
+			}
+		}
+	}
+
 	
 }

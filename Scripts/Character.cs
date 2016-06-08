@@ -120,13 +120,13 @@ public class Character : MonoBehaviour
 
 	public void LevelUp(){
 //		Debug.Log ("Level Up! " + currentLevel + "!" );
-		gameObject.SendMessage ("CharGetLevel", this);
 		currentLevel++;
 		maxHealtPoints += modHealtPoints;
 		currentHealthPoints = maxHealtPoints;
 		currentExperience = currentExperience-nextLevelExperience;
 		nextLevelExperience = nextLevelExperience*2;
 		currentSkillPoints++;
+		gameObject.SendMessage ("CharGetLevel", this);
 	}
 
 	public int GetAmmo(){
