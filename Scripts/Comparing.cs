@@ -42,6 +42,7 @@ public class Comparing : MonoBehaviour {
 			ShowCompareMenu (CompareWeapon);
 			break;
 		case "Armor":
+			// доработать
 			Armor ar = item2 as Armor;
 			break;
 		}

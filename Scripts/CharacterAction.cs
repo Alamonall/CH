@@ -6,7 +6,7 @@ public class CharacterAction : MonoBehaviour {
 	public static CharacterAction _instanceCA;
 
 	Character characterScript;
-	UIManager uiScript;
+	private UIManager uiScript;
 
 
 	public Transform player;
@@ -14,7 +14,6 @@ public class CharacterAction : MonoBehaviour {
 
 	public GunAction gunActionScript;
 	GameObject item;
-	float time = 0;
 	bool pressing = false;
 
 
@@ -47,11 +46,12 @@ public class CharacterAction : MonoBehaviour {
 
 	public void Cheats(){
 		//чит TEMP
+		if (Input.GetKeyDown (KeyCode.F4))
+			characterScript.LevelUp ();
 		if(Input.GetKeyDown(KeyCode.F3))
 			characterScript.currentExperience += 10000;
 		if(Input.GetKeyDown(KeyCode.F2))
 			characterScript.currentExperience += 100;
-
 		if (Input.GetKeyDown (KeyCode.F1))
 			characterScript.currentHealthPoints -= 25;
 	}

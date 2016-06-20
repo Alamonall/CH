@@ -8,94 +8,81 @@ public class CharacterMenuAction : MonoBehaviour {
 
 	public Character characterScript;
 	public UIManager uiScript;
+	public AdditionalMenuAction amScript;
 
 	public Text skillPointCount;
 	public Text levelCount;
 
-	public Toggle[] allToggles;
-	public Toggle[] tgBefore5;
-	public Toggle[] tgBefore10;
-	public Toggle[] tgBefore15;
-	public Toggle[] tgBefore20;
+	public Skill[] allSkills;
+	public ArrayList takenSkills;
+	public Skill acceptSkill;
+	public Skill[] acceptSkills;
 
-	void Start ()
+	public int LEVEL = -1;
+
+	void AWake ()
 	{
 		if (_instanceCMA == null)
 			_instanceCMA = this;
 		else if (_instanceCMA != this) {
 			print ("CMA not alone");
 		}
-		characterScript = Character._instanceCharacter;
+		characterScript = uiScript.characterScript;
+
 	}
 
 	void Update()
 	{
+		LEVEL = characterScript.currentLevel;
 		if (uiScript.gameActive) {
 			skillPointCount.text = "" + characterScript.currentSkillPoints;
 			levelCount.text = "" + characterScript.currentLevel;	
-		}	
+		}		
 	}
 
-	//Деактивирует ячейки умений в массиве ta
-	public void DeactivateAbilitys(Toggle[] ta){
-		foreach (Toggle t in ta) {
-			if (t != null)
-				if(t.interactable && !t.isOn)
-					t.interactable = false;
-		}
-	}
-
-	//Проверяет сколько умений может активировать полльзователь
-	public void CheckAbillitysForAccess(){
-		if (characterScript.currentSkillPoints == 0)
-			DeactivateAbilitys (allToggles);
-		else
-			CharacterGetLevel (characterScript);
-	}
-
-	public void CharacterGetLevel(Character self){
-//		print ("CharacterGetLvl! " + characterScript.currentLevel + "!");
-		ActivateAbilitys (tgBefore5);
-		if (self.currentLevel >= 5) {
-			ActivateAbilitys (tgBefore10);
-//			print ("Ability for 5 activated!");
-		}
-		if (self.currentLevel >= 10) {
-			ActivateAbilitys (tgBefore15);
-//			print ("Ability for 10 activated!");
-		}
-		if (self.currentLevel >= 15) {
-			ActivateAbilitys (tgBefore20);
-//			print ("Ability for 15 activated!");
-		}
-	}
-
-	//Активирует ячейки умений в массиве ta
-	void ActivateAbilitys(Toggle[] ta){
-		foreach (Toggle t in ta) {
-			t.interactable = true;
-		}
-	}
-
-	public void TakeSkillPoint(Toggle self){
-		//проверка на сохраненность
-//		print("Take a skill" + self.name);
-		if (!self.isOn) {			
-			characterScript.currentSkillPoints++;		 
-		} else{
-			characterScript.currentSkillPoints--;		
-		}
-		CheckAbillitysForAccess ();
-	}
-
-	public void SetSkill(){		
-		for (int i = 0; i < allToggles.Length; i++) {
-			if (allToggles [i].isOn) {
-//				allToggles[i].image.overrideSprite = new Sprite(
-				//запись в персонажа, что данный скилл подтвержден
+	public void CheckOnAvalaible(){		
+		foreach (Skill s in allSkills) {
+//			print ("checkonavalaible = " + LEVEL);
+			if (s.openingLevel <= LEVEL) {
+//				print ("you should go");
+				if (s.state == -1) {
+//					print ("something");
+					s.Avalaible ();
+				}
 			}
 		}
 	}
 
-	
+	public void Clicked(Skill self){	
+//		print ("self name = " + self.name);	
+		if (self.state == 1) {
+//			print ("state 0!");
+			self.Avalaible ();
+			DeleteFromConfirm (self);
+			characterScript.currentSkillPoints++;
+		} else if (self.state == 0 && characterScript.currentSkillPoints > 0) {
+//			print ("state 1");
+			self.Taken ();
+			AddForConfirm (self);
+			characterScript.currentSkillPoints--;
+		}
+		CheckOnAvalaible ();
+	}
+
+
+	public void AddForConfirm(Skill skill){
+		if(takenSkills == null)
+			takenSkills = new ArrayList ();
+		takenSkills.Add (skill);
+	}
+
+	public void DeleteFromConfirm(Skill skill){
+		takenSkills.Remove (skill);
+	}
+
+	public void ConfirmedAll(){
+		foreach (Skill s in takenSkills)
+			s.Confirmed ();
+		takenSkills.Clear ();
+	}	
 }

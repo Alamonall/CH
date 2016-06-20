@@ -55,7 +55,7 @@ public class Weapon : InventoryItem {
 		this.itemName = name;
 		this.itemPrice = price;
 		this.itemIcon = Resources.Load (name,typeof(Sprite)) as Sprite;
-		Debug.Log ("ICON = " + this.itemIcon.name);
+//		Debug.Log ("ICON = " + this.itemIcon.name);
 		this.physicalDamage = damage;
 		this.spread = spread;
 		this.rate = rate;

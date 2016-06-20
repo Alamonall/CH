@@ -10,7 +10,7 @@ namespace ProgressBar
     public class ProgressBarBehaviour : MonoBehaviour, IIncrementable, IDecrementable
     {
 
-		private float maxValue, curValue = 0;
+//		private float maxValue, curValue = 0;
 		private bool hp = true;
         /// <summary>
         /// Rect from the panel that will act as Filler.

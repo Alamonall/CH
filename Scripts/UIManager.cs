@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour {
 
 		LoadingItemsFromXml ();
 		for (int i = 0; i < allItemList.Count; i++) {
-			print ("all[" + i + "] = " + allItemList [i]);
+//			print ("all[" + i + "] = " + allItemList [i]);
 		}
 	}
 
@@ -225,7 +225,7 @@ public class UIManager : MonoBehaviour {
 
 	#region LoadingItemsFromXml
 	public void LoadingItemsFromXml(){
-		print ("LoadingItemsFromXml");
+//		print ("LoadingItemsFromXml");
 		XmlDocument xmld = new XmlDocument ();
 		xmld.LoadXml (itemsXml.text);
 		XmlNodeList itemsList = xmld.GetElementsByTagName ("item");
@@ -266,7 +266,7 @@ public class UIManager : MonoBehaviour {
 
 	#region CharGetLevel
 	public void CharGetLevel(Character self){
-		_cmAction.CharacterGetLevel (self);
+		_cmAction.CheckOnAvalaible ();
 	}
 	#endregion
 

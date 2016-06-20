@@ -139,7 +139,7 @@ public class Character : MonoBehaviour
 	}
 
 	public void SetAmmo(int ammo){
-		Ammo temp;
+		Ammo temp; // заменить на глобальнуб переменную
 		if (activeWeapon)
 			temp = primaryWeapon.ammoType;
 		else
