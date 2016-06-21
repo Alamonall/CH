@@ -13,14 +13,8 @@ public class Skill : MonoBehaviour {
 
 	public int openingLevel; 	//уровень открытия умения
 	public int state = -1; // -1 - недоступно, 0 - доступно, 1 - взято, 2 - подтверждено
+	public Growth[] Growths;
 
-	public int growthMax = 5;
-	public int growthTime = 0;
-	public int tempGrowthTime = 0;
-	public int growthAction = 0;
-	public int tempGrowthAction = 0;
-	public int growthRecoil = 0;
-	public int tempGrowthRecoil = 0;
 
 	void Start(){
 		//print ("start = " + target.GetComponent<Image> ().sprite.name);
@@ -51,67 +45,29 @@ public class Skill : MonoBehaviour {
 
 	//подтверждение Развития и Умения
 	public void Confirmed(){
-		if (state != 2) {
+		if (state == 1) {
 			state = 2;
 			image.sprite = iconConfirmed;
-		} else {
-			growthTime = tempGrowthTime;
-			growthAction = tempGrowthAction;
-			growthRecoil = tempGrowthRecoil;
+			NotifyCharacter ();
+			ShowGrowths ();
 		}
-		NotifyCharacter ();
+		//Есть возможность оптимизировать. Выделить в отдельную функцию без проверки
+		if (state == 2) {
+			foreach (Growth g in Growths)
+				g.Confirmed ();
+		}
+	}
+
+	public void ShowGrowths(){
+		foreach (Growth g in Growths)
+			g.ShowUp ();
 	}
 
 	public void NotifyCharacter(){
+		print ("I'm notify = " + this.gameObject.name);
 		//сообщить персонажу, какие умения и развития были приняты
 	}
 
-	//функции для кнопок
-	public void GrowUp(string growth){
-		switch(growth){
-			case "action":
-				if (tempGrowthAction < growthMax) {
-					tempGrowthAction++;
-					//изменить визуально
-				}
-				break;
-			case "time":
-				if (tempGrowthTime < growthMax) {
-					tempGrowthTime++;
-					//изменить визуально
-				}
-				break;
-			case "recoil":
-				if (tempGrowthRecoil < growthMax) {
-					tempGrowthRecoil++;
-					//изменить визуально
-				}
-				break;
-		}
-	}
 
-	//функции для кнопок
-	public void GrowDown(string growth){
-		switch(growth){
-			case "action":
-				if(tempGrowthRecoil > growthAction){
-						tempGrowthAction--;
-					//изменить визуально
-				}
-				break;
-			case "time":
-				if(tempGrowthTime > growthTime){
-						tempGrowthTime--;
-					//изменить визуально
-				}
-				break;
-			case "recoil":
-				if(tempGrowthRecoil > growthRecoil){
-						tempGrowthRecoil--;
-					//изменить визуально
-				}
-				break;
-		}
-	}
 		
 }

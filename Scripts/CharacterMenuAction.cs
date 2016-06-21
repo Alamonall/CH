@@ -16,7 +16,7 @@ public class CharacterMenuAction : MonoBehaviour {
 	public Skill[] allSkills;
 	public ArrayList takenSkills;
 	public Skill acceptSkill;
-	public Skill[] acceptSkills;
+	public ArrayList acceptSkills;
 
 	public int LEVEL = -1;
 
@@ -48,7 +48,7 @@ public class CharacterMenuAction : MonoBehaviour {
 				if (s.state == -1) {
 //					print ("something");
 					s.Avalaible ();
-				}
+				} 
 			}
 		}
 	}
@@ -69,6 +69,21 @@ public class CharacterMenuAction : MonoBehaviour {
 		CheckOnAvalaible ();
 	}
 
+	public bool GrowthHandler(string dir){
+		if (dir.Equals ("Down")) {
+			characterScript.currentSkillPoints++;
+//			print ("Down");
+			return true;
+		}
+		if (dir.Equals ("Up") && characterScript.currentSkillPoints > 0) {
+			characterScript.currentSkillPoints--;
+//			print ("Up!");
+			return true;
+		} 	
+		print ("false");
+		return false;	
+	}
+
 
 	public void AddForConfirm(Skill skill){
 		if(takenSkills == null)
@@ -83,6 +98,5 @@ public class CharacterMenuAction : MonoBehaviour {
 	public void ConfirmedAll(){
 		foreach (Skill s in takenSkills)
 			s.Confirmed ();
-		takenSkills.Clear ();
 	}	
 }
