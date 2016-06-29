@@ -61,6 +61,14 @@ public class Character : MonoBehaviour
 
 	public Ammo activeAmmoType;
 
+	public int pistolAmmo = 100;
+	public int shotgunAmmo = 100;
+	public int rifleAmmo = 100;
+	public int assaultRifleAmmo = 100;
+	public int laserAmmo = 100;
+	public int beamAmmo = 100;
+	public int rocketAmmo = 100;
+
 	void Awake(){
 		if (_instanceCharacter == null) {
 			DontDestroyOnLoad (this.gameObject);
@@ -130,20 +138,71 @@ public class Character : MonoBehaviour
 	}
 
 	public int GetAmmo(){
-		Ammo temp;
 		if (activeWeapon)
-			temp = primaryWeapon.ammoType;
+			return GetTypeOfAmmo (primaryWeapon.ammoType);
 		else
-			temp = secondaryWeapon.ammoType;			
+			return GetTypeOfAmmo (secondaryWeapon.ammoType);
+		return 0;
+	}
+
+	public int GetTypeOfAmmo(string ammoType){
+			switch(ammoType){
+				case "Pistol": // Пистолеты, револьверы, пистолеты-пулеметы
+					return pistolAmmo;
+					break;
+				case "Shotgun": //дробовики
+					return shotgunAmmo;
+					break;
+				case "Rifle":
+					return rifleAmmo;
+					break;
+				case "AssaultRifle":
+					return assaultRifleAmmo;
+					break;
+				case "Laser":
+					return laserAmmo;
+					break;
+				case "Beam":
+					return beamAmmo;
+					break;
+				case "Rocket":
+					return rocketAmmo;
+					break;
+			}		
 		return 0;
 	}
 
 	public void SetAmmo(int ammo){
-		Ammo temp; // заменить на глобальнуб переменную
+		string ammoType;
+
 		if (activeWeapon)
-			temp = primaryWeapon.ammoType;
+			ammoType = primaryWeapon.ammoType;
 		else
-			temp = secondaryWeapon.ammoType;			
+			ammoType = secondaryWeapon.ammoType;
+		
+		switch(ammoType){
+			case "Pistol": // Пистолеты, револьверы, пистолеты-пулеметы
+				pistolAmmo = ammo;
+				break;
+			case "Shotgun": //дробовики
+				shotgunAmmo = ammo;
+				break;
+			case "Rifle":
+				rifleAmmo = ammo;
+				break;
+			case "AssaultRifle":
+				assaultRifleAmmo = ammo;
+				break;
+			case "Laser":
+				laserAmmo = ammo;
+				break;
+			case "Beam":
+				beamAmmo = ammo;
+				break;
+			case "Rocket":
+				rocketAmmo = ammo;
+				break;
+		}			
 	}
 
 	public Weapon PrimaryWeapon {

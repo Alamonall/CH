@@ -9,7 +9,7 @@ public class Weapon : InventoryItem {
 	public float fastReload; 	//Время перезарядки с не пустой обоймой
 	public int ammo; 		// максимальное количетсво патронов в обойме
 	public int holder; 		// текущее количетсво патронов в обойме
-	public Ammo ammoType; 	//тип патронов
+	public string ammoType; 	//тип патронов
 	public string description;
 	public string shootingMode;
 
@@ -34,7 +34,7 @@ public class Weapon : InventoryItem {
 		this.type = "";
 		this.holder = 0;
 		this.shootingMode = "Continuous";
-		this.ammoType = new Hands ();
+		this.ammoType = "";
 	}
 
 	public Weapon(		int id, 	//1
@@ -66,31 +66,7 @@ public class Weapon : InventoryItem {
 		this.holder = ammo;
 		this.description = description;
 		this.shootingMode = shootingMode;
-		//Поработать
-		switch(ammoType){
-		case "Pistol": // Пистолеты, револьверы, пистолеты-пулеметы
-			this.ammoType = new PistolAmmo ();
-			break;
-		case "Shotgun": //дробовики
-			this.ammoType = new ShotgunAmmo ();
-			break;
-		case "Rifle":
-			this.ammoType = new RifleAmmo ();
-			break;
-		case "AssaultRifle":
-			this.ammoType = new AssaultRifleAmmo ();
-			break;
-		case "Laser":
-			this.ammoType = new LaserAmmo ();
-			break;
-		case "Beam":
-			this.ammoType = new BeamAmmo ();
-			break;
-		case "Rocket":
-			this.ammoType = new RocketAmmo ();
-			break;
-		}
-
+		this.ammoType = ammoType;
 	}
 
 	public float Rate {

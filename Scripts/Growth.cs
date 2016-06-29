@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Growth : MonoBehaviour , IPointerClickHandler{
 
@@ -11,6 +12,10 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 	public bool bTime = false;
 	public bool bRecoil = false;
 	public bool bAction = false;
+
+	public Sprite[] activSprites;
+	public Sprite[] confSprites;
+	public Sprite thisSprite;
 
 	public int state = -1; // -1 - недоступно, 0 - доступно, 2 - на максимуме
 
@@ -49,6 +54,7 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 		//
 	}
 
+
 	public void Avalaible(){	
 		state = 0;	
 		//		print ("state = 0");
@@ -72,6 +78,7 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 			state = 2;
 		}
 		NotifyCharacter ();
+//		this.gameObject.GetComponent<Image> ().sprite = confSprites [temp];
 	}
 
 	public void NotifyCharacter(){
@@ -84,7 +91,8 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 		if (temp < growthMax)
 			if(_cma.GrowthHandler("Up")) {
 				temp++;
-				//изменить визуально
+//				this.gameObject.GetComponent<Image> ().sprite = activSprites [temp];
+			//изменить визуально		
 			}
 	}
 
@@ -93,7 +101,9 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 		if (temp > cons)
 			if(_cma.GrowthHandler("Down")) {
 				temp--;
+//				this.gameObject.GetComponent<Image> ().sprite = activSprites [temp];
 				//изменить визуально
+//				anim.CrossFade("GrowthDown", 2);
 			}
 	}
 }

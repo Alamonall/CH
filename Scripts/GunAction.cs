@@ -118,7 +118,7 @@ public class GunAction : MonoBehaviour {
 				return;
 			}
 			if (bRate && weaponTriggerUp) {
-				bullet = weapon.ammoType.GetPrefab ();
+				bullet = GetBulletPrefab ();
 				if (bullet == null) {
 					print ("bullet is null");
 					return;
@@ -136,6 +136,10 @@ public class GunAction : MonoBehaviour {
 		}
 	}
 	#endregion
+
+	public Sprite GetBulletPrefab(){
+		return null;
+	}
 
 	#region GetShootingMode
 	//отвечает за темп стрельбы
