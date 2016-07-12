@@ -137,7 +137,7 @@ public class GunAction : MonoBehaviour {
 	}
 	#endregion
 
-	public Sprite GetBulletPrefab(){
+	public GameObject GetBulletPrefab(){
 		return null;
 	}
 

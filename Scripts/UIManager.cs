@@ -37,8 +37,8 @@ public class UIManager : MonoBehaviour {
 	private string prevMenu;
 	public string selectedCharacter;
 	public bool gameActive = false; //активна ли сейчас игра
-	private Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
-	private Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
+	public Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
+	public Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
 	public GameObject forDropObject; //ближайший drop-обьект
 
 	void Awake(){

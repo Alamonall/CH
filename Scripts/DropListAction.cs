@@ -53,7 +53,7 @@ public class DropListAction : MonoBehaviour {
 			return;
 		}
 		amaScript.GetItemToCharacter(dropList[id]);
-		print ("Removing object with index = " + dropList [id].itemName);
+		print ("Taking object with index = " + dropList [id].itemName + "from the Bag");
 		myChest.dropListInGame.Remove (dropList [id]);
 		dropList [id] = null;
 		count--;

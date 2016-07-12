@@ -44,6 +44,7 @@ public class BagAction : MonoBehaviour {
 			dropListScript = DropListAction._instanceDLA;
 	}
 
+	//Если не сундук, то создаем новый список, либо добавляем существующий список выкинутых предметов
 	public void AddDropList(InventoryItem item){
 		if (isAChest)
 			return;
@@ -75,6 +76,7 @@ public class BagAction : MonoBehaviour {
 		}
 		characterActionScript.YouCantTakeMe ();
 	}
+
 
 	public void ShowItemList(){		
 		if (dropListScript == null) {

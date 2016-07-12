@@ -54,7 +54,7 @@ public class CharacterMenuAction : MonoBehaviour {
 	}
 
 	public void Clicked(Skill self){	
-//		print ("self name = " + self.name);	
+		print ("Clicked on " + self.name);	
 		if (self.state == 1) {
 //			print ("state 0!");
 			self.Avalaible ();
@@ -66,6 +66,9 @@ public class CharacterMenuAction : MonoBehaviour {
 			AddForConfirm (self);
 			characterScript.currentSkillPoints--;
 		}
+//		else if (self.state == 2) {
+//			
+//		}
 		CheckOnAvalaible ();
 	}
 
@@ -98,5 +101,5 @@ public class CharacterMenuAction : MonoBehaviour {
 	public void ConfirmedAll(){
 		foreach (Skill s in takenSkills)
 			s.Confirmed ();
-	}	
+	}
 }

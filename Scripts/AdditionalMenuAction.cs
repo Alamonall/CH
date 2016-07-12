@@ -265,7 +265,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 		if (dad.item == null)
 			return;
 		previewImage.transform.localPosition = go.transform.localPosition;
-		previewImage.transform.localScale = uiOn;
+		previewImage.GetComponent<PreviewScript> ().TurnOnPreview ();
 		dadForContextMenu = dad;
 	}
 	#endregion
@@ -274,7 +274,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 	public void Comparing(){
 		comparingMenu.ComparingItem (dadForContextMenu.item, characterScript);
 		dadForContextMenu = null;
-		previewImage.transform.localScale = uiOff;
+		previewImage.GetComponent<PreviewScript> ().TurnOffPreview ();
 	}
 	#endregion
 
@@ -284,7 +284,7 @@ public class AdditionalMenuAction : MonoBehaviour {
 		characterScript.Inventory.DropItem (dadForContextMenu.item);
 		dadForContextMenu.UpdateItem (null);
 		dadForContextMenu = null;
-		previewImage.transform.localScale = uiOff;
+		previewImage.GetComponent<PreviewScript> ().TurnOffPreview ();
 	}
 	#endregion 
 

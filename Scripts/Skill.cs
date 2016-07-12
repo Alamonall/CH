@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Skill : MonoBehaviour {
+public class Skill : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
 	public GameObject target;
 	public Image image;
@@ -15,11 +16,38 @@ public class Skill : MonoBehaviour {
 	public int state = -1; // -1 - недоступно, 0 - доступно, 1 - взято, 2 - подтверждено
 	public Growth[] Growths;
 
+	bool mouseInside = false;
+	public GameObject previewGo;
 
 	void Start(){
 		//print ("start = " + target.GetComponent<Image> ().sprite.name);
 		image = target.GetComponent<Image> ();
 		image.sprite = iconDontAvalaible;
+	}
+
+	void Update(){	
+		if (Input.GetMouseButtonUp (1) && mouseInside) {
+			print ("Right click!");
+			ShowContextMenu ();
+		}
+	}
+
+	#region ShowContexMenu
+	public void ShowContextMenu(){
+		if (state != 2) {
+			return;
+		}
+		previewGo.transform.localPosition = this.gameObject.transform.localPosition;
+		previewGo.GetComponent<PreviewScript> ().TurnOnPreview ();
+	}
+	#endregion
+
+	public void OnPointerEnter(PointerEventData data){
+		mouseInside = true;
+	}
+
+	public void OnPointerExit(PointerEventData data){
+		mouseInside = false;
 	}
 
 	public void Avalaible(){
