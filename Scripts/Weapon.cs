@@ -69,6 +69,14 @@ public class Weapon : InventoryItem {
 		this.ammoType = ammoType;
 	}
 
+	public void Use(){
+		
+	}
+
+	public void Set(){
+		
+	}
+
 	public float Rate {
 		get {
 			return rate;

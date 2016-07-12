@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-abstract public class Ammo
+abstract public class Ammo : InventoryItem
 {
-	public float numberBullets;
-
-	abstract public GameObject GetPrefab();
+	public int modificatorAmmo;
+	abstract public void Use ();
+	abstract public void Set ();
 }
 

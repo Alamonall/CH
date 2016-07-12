@@ -18,17 +18,22 @@ public class GunAction : MonoBehaviour {
 	public float rate; //промежуток между выстрелами, получаем из оружия
 	public float tempRate;
 	public bool bRate = true; // промежуток между выстрелами
-
+	public string ammoType;
 	public GameObject bulletPull;
 	public Quaternion tempRot;
 	public Vector3 lookPos;
 	public string shootingMode;
-
+	public 
 	//tempering var
 	bool weaponTriggerUp;
 	int tempQueue;
 	GameObject bulletClone; 
 	GameObject bullet; 
+
+	public GameObject assaultRiflePrefab;
+	public GameObject riflePrefab;
+	public GameObject pistolPrefab;
+	public GameObject shotgunPrefab;
 
 	#region Awake
 	void Awake(){
@@ -118,6 +123,8 @@ public class GunAction : MonoBehaviour {
 				return;
 			}
 			if (bRate && weaponTriggerUp) {
+
+
 				bullet = GetBulletPrefab ();
 				if (bullet == null) {
 					print ("bullet is null");
@@ -138,7 +145,17 @@ public class GunAction : MonoBehaviour {
 	#endregion
 
 	public GameObject GetBulletPrefab(){
-		return null;
+		switch(ammoType){
+		case "AssaultRifle":
+			return assaultRiflePrefab;
+		case "Rifle":
+			return riflePrefab;
+		case "Pistol":
+			return pistolPrefab;
+		case "Shotgun":
+			return shotgunPrefab;
+		}
+			return null;
 	}
 
 	#region GetShootingMode
@@ -195,6 +212,7 @@ public class GunAction : MonoBehaviour {
 		tempReload = fullReload;
 		tempRate = rate;
 		shootingMode = weapon.ShootingMode;
+		ammoType = weapon.ammoType;
 	}
 	#endregion
 

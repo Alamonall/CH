@@ -153,5 +153,16 @@
 		<!-- Режим стрельбы-->
 		<shootingmode>Single</shootingmode>
 	</item>
+	<item id="7">
+		<!-- имя -->
+		<name>Light Medkit</name>
+		<!-- Описание-->
+		<description>Легкая аптечка </description>
+		<!-- цена на рынке -->
+		<price>150</price>
+		<!-- имя спрайта -->
+		<icon>5</icon>
+		<!-- урон -->
+	</item>
 </items>
 	

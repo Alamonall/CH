@@ -1,13 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Medkit : InventoryItem {
+abstract public class Medkit : InventoryItem
+{
 	public float regenHp;
-	public float regenSpeed;
-
-	public Medkit(){
-		this.itemName = "empty";
-	}
+	abstract public void Use ();
+	abstract public void Set ();
 }
 
 

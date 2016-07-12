@@ -259,8 +259,6 @@ public class Character : MonoBehaviour
 		}
 	}
 
-
-
 	public Medkit Medkit {
 		get {
 			return medkit;
@@ -307,5 +305,40 @@ public class Character : MonoBehaviour
 
 	#endregion
 		
+	public float CurrentHealthPoints {
+		get {
+			return currentHealthPoints;
+		}
+		set {
+			currentHealthPoints = value;
+		}
+	}
+
+	public float MaxHealtPoints {
+		get {
+			return maxHealtPoints;
+		}
+		set {
+			maxHealtPoints = value;
+		}
+	}
+
+	public float OverSpeed {
+		get {
+			return overSpeed;
+		}
+		set {
+			overSpeed = value;
+		}
+	}
+
+	public float CurrentMoney {
+		get {
+			return currentMoney;
+		}
+		set {
+			currentMoney = value;
+		}
+	}
 }
 

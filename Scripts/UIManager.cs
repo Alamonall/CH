@@ -258,6 +258,26 @@ public class UIManager : MonoBehaviour {
 							int.Parse (itemInfo.SelectSingleNode ("price").InnerText),
 							itemInfo.SelectSingleNode ("description").InnerText, itemInfo.SelectSingleNode ("type").InnerText));					
 					break;
+				case "FirstTierMedkit":
+					allItemList.Add (new FirstTierMedkit ());
+					break;
+				case "SecondTierMedkit":
+					allItemList.Add (new SecondTierMedkit ());
+					break;
+				case "ThirdTierMedkit":
+					allItemList.Add (new ThirdTierMedkit ());
+					break;
+				case "FourTierMedkit":
+					allItemList.Add (new FourTierMedkit ());
+					break;
+				case "AssaultRifleAmmo":
+					allItemList.Add (new AssaultRifleAmmo ());
+				case "RifleAmmo":
+					allItemList.Add (new RifleAmmo ());
+				case "Pisto;Ammo":
+					allItemList.Add (new PistolAmmo ());
+				case "ShotgunAmmo":
+					allItemList.Add (new ShotgunAmmo ());
 				}
 			}		
 		}
