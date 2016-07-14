@@ -59,15 +59,19 @@ public class Character : MonoBehaviour
 	public float totalCorrosionResistance;
 	public float totalEnergyResistance;
 
-	public Ammo activeAmmoType;
+	public int activeAmmoType;
 
-	public int pistolAmmo = 100;
-	public int shotgunAmmo = 100;
-	public int rifleAmmo = 100;
-	public int assaultRifleAmmo = 100;
-	public int laserAmmo = 100;
-	public int beamAmmo = 100;
-	public int rocketAmmo = 100;
+	public int pistolAmmo;
+	public int shotgunAmmo;
+	public int rifleAmmo;
+	public int assaultRifleAmmo;
+	public int laserAmmo;
+	public int beamAmmo;
+	public int rocketAmmo;
+
+	public bool firstSkillActivity;
+	public bool secondSkillActivity;
+	public bool thirtdSkillActivity;
 
 	void Awake(){
 		if (_instanceCharacter == null) {
@@ -77,6 +81,23 @@ public class Character : MonoBehaviour
 		}
 //		else if (_instanceCharacter != this)
 //			Destroy (this.gameObject);
+		pistolAmmo = 100;
+		shotgunAmmo = 100;
+		rifleAmmo = 100;
+		assaultRifleAmmo = 100;
+		laserAmmo = 100;
+		beamAmmo = 100;
+		rocketAmmo = 100;
+		firstSkillActivity = false;
+		secondSkillActivity = false;
+		thirtdSkillActivity = false;
+	}
+
+	public void ActivateSkill(){
+		
+	}
+
+	public void IncreaseGrowth(int incDuration, int incRecoil, int incAction){
 		
 	}
 
@@ -103,7 +124,8 @@ public class Character : MonoBehaviour
 		secondaryWeapon = new Weapon();
 		armor = new Armor();
 		granade = new Granade ();
-		medkit = new Medkit ();
+		//????
+		medkit = null;
 		Inventory = new Inventory (24);
 	}
 
@@ -137,41 +159,45 @@ public class Character : MonoBehaviour
 		gameObject.SendMessage ("CharGetLevel", this);
 	}
 
+	#region GetAmmo
 	public int GetAmmo(){
+		int temp = 0;
+		string ammoType;
 		if (activeWeapon)
-			return GetTypeOfAmmo (primaryWeapon.ammoType);
+			ammoType = primaryWeapon.ammoType;
 		else
-			return GetTypeOfAmmo (secondaryWeapon.ammoType);
-		return 0;
-	}
-
-	public int GetTypeOfAmmo(string ammoType){
-			switch(ammoType){
-				case "Pistol": // Пистолеты, револьверы, пистолеты-пулеметы
-					return pistolAmmo;
-					break;
-				case "Shotgun": //дробовики
-					return shotgunAmmo;
-					break;
-				case "Rifle":
-					return rifleAmmo;
-					break;
-				case "AssaultRifle":
-					return assaultRifleAmmo;
-					break;
-				case "Laser":
-					return laserAmmo;
-					break;
-				case "Beam":
-					return beamAmmo;
-					break;
-				case "Rocket":
-					return rocketAmmo;
-					break;
+			ammoType = secondaryWeapon.ammoType;
+	
+		switch(ammoType){
+			case "PistolAmmo": // Пистолеты, револьверы, пистолеты-пулеметы
+				temp = pistolAmmo;
+				
+				break;
+			case "ShotgunAmmo": //дробовики				
+				temp = shotgunAmmo;
+				break;
+			case "RifleAmmo":				
+				temp = rifleAmmo;
+				break;
+			case "AssaultRifleAmmo":
+				temp = assaultRifleAmmo;
+				break;
+			case "LaserAmmo":
+				temp = laserAmmo;
+				break;
+			case "BeamAmmo":
+				temp = beamAmmo;
+				break;
+			case "RocketAmmo":				
+				temp = rocketAmmo;
+				break;
 			}		
-		return 0;
+		print ("GetAmmo " + ammoType + " = " + temp);
+		return temp;
 	}
+	#endregion
 
+	#region SetAmmo
 	public void SetAmmo(int ammo){
 		string ammoType;
 
@@ -181,29 +207,31 @@ public class Character : MonoBehaviour
 			ammoType = secondaryWeapon.ammoType;
 		
 		switch(ammoType){
-			case "Pistol": // Пистолеты, револьверы, пистолеты-пулеметы
+			case "PistolAmmo": // Пистолеты, револьверы, пистолеты-пулеметы
 				pistolAmmo = ammo;
 				break;
-			case "Shotgun": //дробовики
+			case "ShotgunAmmo": //дробовики
 				shotgunAmmo = ammo;
 				break;
-			case "Rifle":
+			case "RifleAmmo":
 				rifleAmmo = ammo;
 				break;
-			case "AssaultRifle":
+			case "AssaultRifleAmmo":
+			print ("SetAmmo " + ammoType + " = " + ammo);
 				assaultRifleAmmo = ammo;
 				break;
-			case "Laser":
+			case "LaserAmmo":
 				laserAmmo = ammo;
 				break;
-			case "Beam":
+			case "BeamAmmo":
 				beamAmmo = ammo;
 				break;
-			case "Rocket":
+			case "RocketAmmo":
 				rocketAmmo = ammo;
 				break;
 		}			
 	}
+	#endregion
 
 	public Weapon PrimaryWeapon {
 		get {
@@ -288,23 +316,6 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	#region GetSkill
-	public void GetSkill(int skillnum){
-		switch(skillnum){
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		}
-		print ("Получил " + skillnum + " скилл!");
-	}
-
-	#endregion
-		
 	public float CurrentHealthPoints {
 		get {
 			return currentHealthPoints;

@@ -269,15 +269,7 @@ public class UIManager : MonoBehaviour {
 					break;
 				case "FourTierMedkit":
 					allItemList.Add (new FourTierMedkit ());
-					break;
-				case "AssaultRifleAmmo":
-					allItemList.Add (new AssaultRifleAmmo ());
-				case "RifleAmmo":
-					allItemList.Add (new RifleAmmo ());
-				case "Pisto;Ammo":
-					allItemList.Add (new PistolAmmo ());
-				case "ShotgunAmmo":
-					allItemList.Add (new ShotgunAmmo ());
+					break;			
 				}
 			}		
 		}

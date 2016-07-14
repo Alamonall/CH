@@ -63,7 +63,7 @@ public class Weapon : InventoryItem {
 		this.fastReload = fastReload;
 		this.ammo = ammo;
 		this.type = type;
-		this.holder = ammo;
+		this.holder = 0;
 		this.description = description;
 		this.shootingMode = shootingMode;
 		this.ammoType = ammoType;

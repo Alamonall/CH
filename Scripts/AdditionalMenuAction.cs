@@ -166,9 +166,9 @@ public class AdditionalMenuAction : MonoBehaviour {
 		if (!characterScript.Granade.itemName.Equals ("empty")) {
 			GameObject.Find ("GranadeCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.Granade);
 		}
-		if (!characterScript.Medkit.itemName.Equals ("empty")) {
-			GameObject.Find ("MedkitCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.Medkit);
-		}
+//		if (!characterScript.Medkit.itemName.Equals ("empty")) {
+//			GameObject.Find ("MedkitCell").GetComponent<DragAndDrop> ().UpdateItem (characterScript.Medkit);
+//		}
 		for (int i = 0; i < characterScript.Inventory.ItemList.Length; i++) {
 			if (characterScript.Inventory.ItemList [i] != null) {
 //				print (characterScript.Inventory.itemList [i].itemName);

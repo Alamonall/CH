@@ -60,19 +60,20 @@ public class GunAction : MonoBehaviour {
 			tempRate -= Time.deltaTime*10;
 		}
 
-		if (!overReload) {
-			if (maxAmmo != 0) {
-				//Сообщение о том, что патронов для данного оружия нет
-				return;
+		if (!overReload) {			
+			if (maxAmmo == 0 || holder == ammo) {
+				print ("Сообщение о том, что патронов для данного оружия нет");
+				overReload = true;
 			}
 			tempReload -= Time.deltaTime;
+			Debug.Log ("Time = " + tempReload);
 			if (tempReload < 0){
-				if (maxAmmo < ammo) {
-					holder = maxAmmo;
+				if (maxAmmo < ammo && (ammo - holder) >= maxAmmo) {
+					holder += maxAmmo;
 					maxAmmo = 0;
 				} else {
 					maxAmmo -= ammo - holder;
-					holder = ammo;
+					holder += ammo - holder;
 				}
 				characterScript.SetAmmo (maxAmmo);
 				overReload = true;
@@ -92,6 +93,7 @@ public class GunAction : MonoBehaviour {
 
 		//быстрая смена оружия
 		if(Input.GetKeyUp(KeyCode.Q)){
+			overReload = true;
 			characterScript.SwapWeapon();
 			tempReload = -1;
 		}
@@ -123,11 +125,9 @@ public class GunAction : MonoBehaviour {
 				return;
 			}
 			if (bRate && weaponTriggerUp) {
-
-
 				bullet = GetBulletPrefab ();
 				if (bullet == null) {
-					print ("bullet is null");
+					Debug.Log ("Bullet prefab is null");
 					return;
 				}
 				bulletClone = Instantiate(bullet, transform.position, tempRot) as GameObject; 
@@ -146,13 +146,13 @@ public class GunAction : MonoBehaviour {
 
 	public GameObject GetBulletPrefab(){
 		switch(ammoType){
-		case "AssaultRifle":
+		case "AssaultRifleAmmo":
 			return assaultRiflePrefab;
-		case "Rifle":
+		case "RifleAmmo":
 			return riflePrefab;
-		case "Pistol":
+		case "PistolAmmo":
 			return pistolPrefab;
-		case "Shotgun":
+		case "ShotgunAmmo":
 			return shotgunPrefab;
 		}
 			return null;
@@ -195,24 +195,23 @@ public class GunAction : MonoBehaviour {
 			print ("charScript is null");
 			return;
 		}
-
 		//проверку на наличие оружия в руках
 		if (characterScript.activeWeapon) 
 			weapon = characterScript.PrimaryWeapon;
 		if (!characterScript.activeWeapon)
 			weapon = characterScript.SecondaryWeapon;
 		holder = 0;
-		ammo = weapon.Ammo;
-		holder = weapon.Holder;
 		fullReload = weapon.FullReload;
 		fastReload = weapon.FastReload;
 		rate = weapon.Rate;
-		SaveHolder ();
-		maxAmmo = characterScript.GetAmmo();
 		tempReload = fullReload;
 		tempRate = rate;
 		shootingMode = weapon.ShootingMode;
 		ammoType = weapon.ammoType;
+		maxAmmo = characterScript.GetAmmo ();
+		ammo = weapon.Ammo;
+		holder = weapon.Holder;
+		SaveHolder ();
 	}
 	#endregion
 

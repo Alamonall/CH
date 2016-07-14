@@ -42,6 +42,7 @@ public class CharacterInfoPanel : MonoBehaviour {
 			iHolder = gunActionScript.holder;
 			iAmmo = gunActionScript.ammo;
 			iMaxAmmo = gunActionScript.maxAmmo;
+
 			if (characterScript.activeWeapon) {
 				weaponIcon.sprite = characterScript.PrimaryWeapon.ItemIcon;	
 				weaponAmmoPanel.text = "Primary: " + iHolder + " / " + iAmmo;
@@ -49,7 +50,7 @@ public class CharacterInfoPanel : MonoBehaviour {
 				weaponIcon.sprite = characterScript.SecondaryWeapon.ItemIcon;
 				weaponAmmoPanel.text = "Secondary: " + iHolder + " / " + iAmmo;
 			}
-			weaponMaxAmmoInfoPanel.text = " " + iMaxAmmo;
+			weaponMaxAmmoInfoPanel.text = "Max: " + iMaxAmmo;
 
 			if (!characterScript.activeWeapon && !activeWeaponCheck) {
 				primaryWeaponGO.GetComponent<Image> ().color = Color.white;

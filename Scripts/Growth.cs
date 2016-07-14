@@ -9,7 +9,7 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 
 	public int growthMax = 5;
 
-	public bool bTime = false;
+	public bool bDuration = false;
 	public bool bRecoil = false;
 	public bool bAction = false;
 

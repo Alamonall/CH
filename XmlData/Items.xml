@@ -25,7 +25,7 @@
 		<!-- описание -->
 		<description>отличный автомат</description>
 		<!-- тип патронов -->
-		<ammotype>AssaultRifle</ammotype>
+		<ammotype>AssaultRifleAmmo</ammotype>
 		<!-- Режим стрельбы-->
 		<shootingmode>Continuous</shootingmode>
 	</item>
@@ -65,7 +65,7 @@
 		<!-- описание -->
 		<description>пулемет</description>
 		<!-- тип патронов -->
-		<ammotype>Rifle</ammotype>
+		<ammotype>RifleAmmo</ammotype>
 		<!-- Режим стрельбы-->
 		<shootingmode>Continuous</shootingmode>
 	</item>
@@ -93,7 +93,7 @@
 		<!-- описание -->
 		<description>М16 с очередями</description>
 		<!-- тип патронов -->
-		<ammotype>AssaultRifle</ammotype>
+		<ammotype>AssaultRifleAmmo</ammotype>
 		<!-- Режим стрельбы-->
 		<shootingmode>Queue</shootingmode>
 	</item>
@@ -121,7 +121,7 @@
 		<!-- описание -->
 		<description>Пистолет</description>
 		<!-- тип патронов -->
-		<ammotype>Pistol</ammotype>
+		<ammotype>PistolAmmo</ammotype>
 		<!-- Режим стрельбы-->
 		<shootingmode>Single</shootingmode>
 	</item>
@@ -149,20 +149,9 @@
 		<!-- описание -->
 		<description>Дробовик</description>
 		<!-- тип патронов -->
-		<ammotype>Shotgun</ammotype>
+		<ammotype>ShotgunAmmo</ammotype>
 		<!-- Режим стрельбы-->
 		<shootingmode>Single</shootingmode>
-	</item>
-	<item id="7">
-		<!-- имя -->
-		<name>Light Medkit</name>
-		<!-- Описание-->
-		<description>Легкая аптечка </description>
-		<!-- цена на рынке -->
-		<price>150</price>
-		<!-- имя спрайта -->
-		<icon>5</icon>
-		<!-- урон -->
 	</item>
 </items>
 	

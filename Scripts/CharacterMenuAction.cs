@@ -102,4 +102,12 @@ public class CharacterMenuAction : MonoBehaviour {
 		foreach (Skill s in takenSkills)
 			s.Confirmed ();
 	}
+
+	public void SetSkillToFirstQuickCell(){
+		
+	}
+	public void SetSkillToSecondQuickCell(){
+	}
+	public void SetSkillToThirdQuickCell(){
+	}
 }

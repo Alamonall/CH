@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CharacterAction : MonoBehaviour {
 	
@@ -42,6 +43,18 @@ public class CharacterAction : MonoBehaviour {
 
 		if (characterScript.CheckLevelUp ())
 			characterScript.LevelUp ();
+
+//		if(Input.GetKeyUp(KeyCode.One)){
+//			Debug.Log ("One!");
+//		}
+//
+//		if(Input.GetKeyUp(KeyCode.Two)){
+//			Debug.Log ("Two!");
+//
+//		}
+//		if(Input.GetKeyUp(KeyCode.Three)){
+//			Debug.Log ("Tjree!");
+//		}
 	}
 
 	public void Cheats(){
