@@ -11,10 +11,15 @@ public class CharacterInfoPanel : MonoBehaviour {
 	//not public
 	public Character characterScript;
 	public GunAction gunActionScript;
+	public CharacterAction characterActionScript;
 	public UIManager uiScript;
 	public ProgressBarBehaviour progressBarScript;
 	public ProgressBarBehaviour hpProgressBarScript;
 	public ProgressBarBehaviour spProgressBarScript;
+
+	public Image FirstQuickCell;
+	public Image SecondQuickCell;
+	public Image ThirdQuickCell;
 
 	string iPrimaryWeapon = "";
 	string iSecondaryyWeapon = "";
@@ -29,20 +34,34 @@ public class CharacterInfoPanel : MonoBehaviour {
 	float tempAmmo;
 	bool activeWeaponCheck = true;
 
+	void Awake(){
+		gunActionScript = GunAction._instanceGA;
+		characterScript = Character._instanceCharacter;
+		characterActionScript = CharacterAction._instanceCA;
+	}
+
 	void Update () {		
 		if (gunActionScript == null && uiScript.gameActive)
 			gunActionScript = GunAction._instanceGA;
 		if (characterScript == null && uiScript.gameActive)
 			characterScript = Character._instanceCharacter;
+		if(characterActionScript == null && uiScript.gameActive)
+			characterActionScript = CharacterAction._instanceCA;
 		if (characterScript == null || gunActionScript == null) {
 			return;
 		} else {
+			if (characterActionScript.FirstQuickCellSkill != null)
+				FirstQuickCell.sprite = characterActionScript.FirstQuickCellSkill.icon;
+			if (characterActionScript.SecondQuickCellSkill != null)
+				SecondQuickCell.sprite = characterActionScript.SecondQuickCellSkill.icon;
+			if (characterActionScript.ThirdQuickCellSkill != null)
+				ThirdQuickCell.sprite = characterActionScript.ThirdQuickCellSkill.icon;
+
 			iPrimaryWeapon = characterScript.PrimaryWeapon.itemName;
 			iSecondaryyWeapon = characterScript.SecondaryWeapon.itemName;
 			iHolder = gunActionScript.holder;
 			iAmmo = gunActionScript.ammo;
 			iMaxAmmo = gunActionScript.maxAmmo;
-
 			if (characterScript.activeWeapon) {
 				weaponIcon.sprite = characterScript.PrimaryWeapon.ItemIcon;	
 				weaponAmmoPanel.text = "Primary: " + iHolder + " / " + iAmmo;

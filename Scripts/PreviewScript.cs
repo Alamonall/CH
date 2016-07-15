@@ -7,6 +7,7 @@ public class PreviewScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	float consOvertime = 5;
 	float overtime = 5;
 	bool switchPreview = false;
+	public int tempNumberSkill;
 
 	void FixedUpdate () {
 		if(!mouseInside && switchPreview)
@@ -29,8 +30,16 @@ public class PreviewScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		this.gameObject.transform.localScale = new Vector3 (0,0,0);
 		switchPreview = false;
 	}
+
+	public void TurnOnPreview(int num){
+		tempNumberSkill = num;
+		this.gameObject.transform.localScale = new Vector3(1,1,1);
+		switchPreview = true;
+	}
+
 	public void TurnOnPreview(){
 		this.gameObject.transform.localScale = new Vector3(1,1,1);
 		switchPreview = true;
 	}
+
 }

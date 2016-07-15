@@ -9,7 +9,6 @@ public class CharacterAction : MonoBehaviour {
 	Character characterScript;
 	private UIManager uiScript;
 
-
 	public Transform player;
 	private float speed; // скорость передвижения
 
@@ -17,6 +16,9 @@ public class CharacterAction : MonoBehaviour {
 	GameObject item;
 	bool pressing = false;
 
+	public Skill firstQuickCellSkill;
+	public Skill secondQuickCellSkill;
+	public Skill thirdQuickCellSkill;
 
 	void Start () 
 	{
@@ -44,17 +46,20 @@ public class CharacterAction : MonoBehaviour {
 		if (characterScript.CheckLevelUp ())
 			characterScript.LevelUp ();
 
-//		if(Input.GetKeyUp(KeyCode.One)){
-//			Debug.Log ("One!");
-//		}
-//
-//		if(Input.GetKeyUp(KeyCode.Two)){
-//			Debug.Log ("Two!");
-//
-//		}
-//		if(Input.GetKeyUp(KeyCode.Three)){
-//			Debug.Log ("Tjree!");
-//		}
+		if(Input.GetKeyUp(KeyCode.Alpha1)){
+			firstQuickCellSkill.Use ();
+			Debug.Log ("One!");
+		}
+
+		if(Input.GetKeyUp(KeyCode.Alpha2)){
+			secondQuickCellSkill.Use ();
+			Debug.Log ("Two!");
+
+		}
+		if(Input.GetKeyUp(KeyCode.Alpha3)){
+			thirdQuickCellSkill.Use ();
+			Debug.Log ("Tjree!");
+		}
 	}
 
 	public void Cheats(){
@@ -106,5 +111,32 @@ public class CharacterAction : MonoBehaviour {
 
 	public Vector3 GetCurrentPositionOfPlayer(){
 		return GameObject.Find ("Player").transform.localPosition;
+	}
+
+	public Skill FirstQuickCellSkill {
+		get {
+			return firstQuickCellSkill;
+		}
+		set {			
+			firstQuickCellSkill = value;
+		}
+	}
+
+	public Skill SecondQuickCellSkill {
+		get {
+			return secondQuickCellSkill;
+		}
+		set {
+			secondQuickCellSkill = value;
+		}
+	}
+
+	public Skill ThirdQuickCellSkill {
+		get {
+			return thirdQuickCellSkill;
+		}
+		set {
+			thirdQuickCellSkill = value;
+		}
 	}
 }

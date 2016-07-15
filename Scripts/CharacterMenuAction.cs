@@ -9,26 +9,27 @@ public class CharacterMenuAction : MonoBehaviour {
 	public Character characterScript;
 	public UIManager uiScript;
 	public AdditionalMenuAction amScript;
+	public CharacterAction caScript;
 
 	public Text skillPointCount;
 	public Text levelCount;
 
-	public Skill[] allSkills;
+	public SkillAction[] allSkills;
 	public ArrayList takenSkills;
-	public Skill acceptSkill;
+	public SkillAction acceptSkill;
 	public ArrayList acceptSkills;
 
 	public int LEVEL = -1;
 
-	void AWake ()
+	void Awake ()
 	{
-		if (_instanceCMA == null)
+		if (_instanceCMA == null) {
+			DontDestroyOnLoad (this.gameObject);
 			_instanceCMA = this;
-		else if (_instanceCMA != this) {
-			print ("CMA not alone");
-		}
+		} else if (_instanceCMA != this)
+			Destroy (this.gameObject);
 		characterScript = uiScript.characterScript;
-
+//		caScript = CharacterAction._instanceCA;
 	}
 
 	void Update()
@@ -41,7 +42,7 @@ public class CharacterMenuAction : MonoBehaviour {
 	}
 
 	public void CheckOnAvalaible(){		
-		foreach (Skill s in allSkills) {
+		foreach (SkillAction s in allSkills) {
 //			print ("checkonavalaible = " + LEVEL);
 			if (s.openingLevel <= LEVEL) {
 //				print ("you should go");
@@ -53,7 +54,7 @@ public class CharacterMenuAction : MonoBehaviour {
 		}
 	}
 
-	public void Clicked(Skill self){	
+	public void Clicked(SkillAction self){	
 		print ("Clicked on " + self.name);	
 		if (self.state == 1) {
 //			print ("state 0!");
@@ -88,26 +89,34 @@ public class CharacterMenuAction : MonoBehaviour {
 	}
 
 
-	public void AddForConfirm(Skill skill){
+	public void AddForConfirm(SkillAction skill){
 		if(takenSkills == null)
 			takenSkills = new ArrayList ();
 		takenSkills.Add (skill);
 	}
 
-	public void DeleteFromConfirm(Skill skill){
+	public void DeleteFromConfirm(SkillAction skill){
 		takenSkills.Remove (skill);
 	}
 
 	public void ConfirmedAll(){
-		foreach (Skill s in takenSkills)
+		foreach (SkillAction s in takenSkills)
 			s.Confirmed ();
 	}
 
-	public void SetSkillToFirstQuickCell(){
-		
+	public void SetFirstQuickCell(GameObject self){
+		if (caScript == null) {
+			Debug.Log ("caScript us null");
+			caScript = CharacterAction._instanceCA;
+		}
+		caScript.FirstQuickCellSkill = characterScript.GetSkill(self.GetComponent<PreviewScript>().tempNumberSkill);
 	}
-	public void SetSkillToSecondQuickCell(){
+
+	public void SetSecondQuickCell(GameObject self){
+		caScript.SecondQuickCellSkill = characterScript.GetSkill(self.GetComponent<PreviewScript>().tempNumberSkill);
 	}
-	public void SetSkillToThirdQuickCell(){
+
+	public void SetThirdQuickCell(GameObject self){
+		caScript.ThirdQuickCellSkill = characterScript.GetSkill(self.GetComponent<PreviewScript>().tempNumberSkill);
 	}
 }

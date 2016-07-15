@@ -8,7 +8,6 @@ public class Character : MonoBehaviour
 	public bool needUpdate = false;
 
 	//[SerializeField]
-	public Specialization currentSpec;
 	public Weapon primaryWeapon;
 	public Weapon secondaryWeapon;
 	public Armor armor;
@@ -69,9 +68,7 @@ public class Character : MonoBehaviour
 	public int beamAmmo;
 	public int rocketAmmo;
 
-	public bool firstSkillActivity;
-	public bool secondSkillActivity;
-	public bool thirtdSkillActivity;
+	public Skill[] ArraySkills;
 
 	void Awake(){
 		if (_instanceCharacter == null) {
@@ -79,8 +76,12 @@ public class Character : MonoBehaviour
 			_instanceCharacter = this;
 			print ("Character Awake!");
 		}
-//		else if (_instanceCharacter != this)
-//			Destroy (this.gameObject);
+
+		ArraySkills = new Skill[16];
+		ArraySkills [0] = FirstSkill._instFirstS;
+		ArraySkills [1] = SecondSkill._instSecondS;
+		ArraySkills [2] = ThirdSkill._instThirdS;
+
 		pistolAmmo = 100;
 		shotgunAmmo = 100;
 		rifleAmmo = 100;
@@ -88,28 +89,16 @@ public class Character : MonoBehaviour
 		laserAmmo = 100;
 		beamAmmo = 100;
 		rocketAmmo = 100;
-		firstSkillActivity = false;
-		secondSkillActivity = false;
-		thirtdSkillActivity = false;
-	}
+		PrimaryWeapon = new Weapon ();
+		SecondaryWeapon = new Weapon ();
 
-	public void ActivateSkill(){
-		
-	}
-
-	public void IncreaseGrowth(int incDuration, int incRecoil, int incAction){
-		
-	}
-
-	public void SelectSpecialization(Specialization spec){
-		this.currentSpec = spec;
-		this.nextLevelExperience = spec.nextLevelExperience;
-		this.nextLevelSkillPoints = spec.nextLevelSkillPoints;
-		this.maxStaminaPoints = spec.maxStaminaPoints;
-		this.maxHealtPoints = spec.maxHealtPoints;
-		this.modHealtPoints = spec.modHealtPoints;
-		this.speed = spec.speed;
-		this.overSpeed = spec.overSpeed;
+		this.nextLevelExperience = 1000;
+		this.nextLevelSkillPoints = 1;
+		this.maxStaminaPoints = 500;
+		this.maxHealtPoints = 100;
+		this.modHealtPoints = 100;
+		this.speed = 5;
+		this.overSpeed = 7;
 
 		currentLevel = 1;
 		currentMoney = 100;
@@ -127,6 +116,14 @@ public class Character : MonoBehaviour
 		//????
 		medkit = null;
 		Inventory = new Inventory (24);
+	}
+
+	public void IncreaseGrowth(int incDuration, int incRecoil, int incAction){
+		
+	}
+
+	public Skill GetSkill(int num){
+		return ArraySkills [num];
 	}
 
 	public bool CheckLevelUp(){

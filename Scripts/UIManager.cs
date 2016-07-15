@@ -12,11 +12,11 @@ public class UIManager : MonoBehaviour {
 	public static UIManager _instanceUIM;
 
 	public Character characterScript; 
-	CharacterAction characterActionScript;
-	GunAction gunActionScript;
-	AdditionalMenuAction addMenuAction;
-	BoardManager bmScript;
-	public CharacterMenuAction _cmAction;
+	public CharacterAction characterActionScript;
+	public GunAction gunActionScript;
+	public AdditionalMenuAction addMenuAction;
+	public BoardManager bmScript;
+	public CharacterMenuAction characterMenuActionScript;
 
 	public TextAsset itemsXml;
 	public ArrayList allItemList;
@@ -47,10 +47,12 @@ public class UIManager : MonoBehaviour {
 			_instanceUIM = this;
 		} else if (_instanceUIM != this)
 			Destroy (this.gameObject);
+		bmScript = BoardManager._instanceBM;
+		characterMenuActionScript = CharacterMenuAction._instanceCMA;
 		characterSelectionMenu.transform.localScale = uiOff;
 		allItemList = new ArrayList ();
-		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
-		bmScript = BoardManager._instanceBM;
+//		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
+
 
 		LoadingItemsFromXml ();
 		for (int i = 0; i < allItemList.Count; i++) {
@@ -74,28 +76,7 @@ public class UIManager : MonoBehaviour {
 				gunActionScript = GunAction._instanceGA;
 			}
 			if (characterScript == null) {
-				characterScript = Character._instanceCharacter;
-				if (characterScript != null) {
-					switch (selectedCharacter) {
-					case "charOne":
-						characterScript.SelectSpecialization (new Assault ());
-						break;
-					case "charTwo":
-						characterScript.SelectSpecialization (new Ingeneer ());
-						break;
-					case "charThree":
-						characterScript.SelectSpecialization (new Support ());
-						break;
-					case "charFour":
-						characterScript.SelectSpecialization (new Recon ());
-						break;						
-					}
-					print ("character script DONT NULL");
-				}
-				if (characterScript == null) {
-					print ("character script is null");
-					return;
-				}
+				characterScript = Character._instanceCharacter;			
 			}
 			
 			if (characterScript.needUpdate) {
@@ -103,6 +84,12 @@ public class UIManager : MonoBehaviour {
 					print ("charScript is null");
 					return;
 				}
+				if (characterActionScript == null) {
+					characterActionScript = CharacterAction._instanceCA;
+					Debug.Log ("char Action is null = " + characterActionScript);
+					return;
+				}
+
 				characterScript.needUpdate = false;
 				characterActionScript.UpdateParameters ();
 			}
@@ -190,6 +177,10 @@ public class UIManager : MonoBehaviour {
 			gameActive = true;
 			SceneManager.LoadScene (1);	
 			BoardManager._instanceBM.SetupScene (1);
+
+			characterScript = Character._instanceCharacter;
+			gunActionScript = GunAction._instanceGA;
+			characterActionScript = CharacterAction._instanceCA;
 		}
 
 	}	
@@ -278,7 +269,12 @@ public class UIManager : MonoBehaviour {
 
 	#region CharGetLevel
 	public void CharGetLevel(Character self){
-		_cmAction.CheckOnAvalaible ();
+		if (characterMenuActionScript == null) {
+			characterMenuActionScript = CharacterMenuAction._instanceCMA;
+			Debug.Log ("character menu action script is null = " + characterMenuActionScript);
+			return;
+		}
+		characterMenuActionScript.CheckOnAvalaible ();
 	}
 	#endregion
 
