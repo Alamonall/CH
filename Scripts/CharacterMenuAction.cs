@@ -24,16 +24,20 @@ public class CharacterMenuAction : MonoBehaviour {
 	void Awake ()
 	{
 		if (_instanceCMA == null) {
-			DontDestroyOnLoad (this.gameObject);
+//			DontDestroyOnLoad (this.gameObject);
 			_instanceCMA = this;
 		} else if (_instanceCMA != this)
 			Destroy (this.gameObject);
 		characterScript = uiScript.characterScript;
-//		caScript = CharacterAction._instanceCA;
+		caScript = CharacterAction._instanceCA; //?? не работает
 	}
 
 	void Update()
 	{
+		if (caScript == null) {
+//			Debug.Log ("caScript us null");
+			caScript = CharacterAction._instanceCA;
+		}
 		LEVEL = characterScript.currentLevel;
 		if (uiScript.gameActive) {
 			skillPointCount.text = "" + characterScript.currentSkillPoints;
@@ -101,18 +105,17 @@ public class CharacterMenuAction : MonoBehaviour {
 
 	public void ConfirmedAll(){
 		foreach (SkillAction s in takenSkills)
-			s.Confirmed ();
+			if (s != null)
+				s.Confirmed ();
 	}
 
-	public void SetFirstQuickCell(GameObject self){
-		if (caScript == null) {
-			Debug.Log ("caScript us null");
-			caScript = CharacterAction._instanceCA;
-		}
+	public void SetFirstQuickCell(GameObject self){		
 		caScript.FirstQuickCellSkill = characterScript.GetSkill(self.GetComponent<PreviewScript>().tempNumberSkill);
 	}
 
 	public void SetSecondQuickCell(GameObject self){
+		Debug.Log ("Number skill = " + self.GetComponent<PreviewScript> ().tempNumberSkill + ";");// +
+			//" SetSQC = " + characterScript.GetSkill(self.GetComponent<PreviewScript>().tempNumberSkill).skillName);
 		caScript.SecondQuickCellSkill = characterScript.GetSkill(self.GetComponent<PreviewScript>().tempNumberSkill);
 	}
 

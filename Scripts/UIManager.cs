@@ -61,12 +61,12 @@ public class UIManager : MonoBehaviour {
 	}
 
 	void Update ()
-	{	
-		
+	{			
 		if (Input.GetKeyDown (KeyCode.Escape))
 			WasPressedEscape ();
 
 		if (gameActive) {
+			//
 			if(characterActionScript == null)
 			{
 				characterActionScript = CharacterAction._instanceCA;
@@ -75,18 +75,11 @@ public class UIManager : MonoBehaviour {
 			{
 				gunActionScript = GunAction._instanceGA;
 			}
-			if (characterScript == null) {
-				characterScript = Character._instanceCharacter;			
-			}
+			//
 			
 			if (characterScript.needUpdate) {
-				if (characterScript == null) {
-					print ("charScript is null");
-					return;
-				}
-				if (characterActionScript == null) {
-					characterActionScript = CharacterAction._instanceCA;
-					Debug.Log ("char Action is null = " + characterActionScript);
+				if (characterActionScript == null) {					
+					Debug.Log ("char Action is null");
 					return;
 				}
 
@@ -95,7 +88,7 @@ public class UIManager : MonoBehaviour {
 			}
 
 			if (bAMenu && !bMMenu) {
-				if (bDMenu)
+				if (bDMenu){
 					dropListMenu.transform.localScale = uiOff;
 				additionalMenu.transform.localScale = uiOn;
 			}
@@ -104,19 +97,20 @@ public class UIManager : MonoBehaviour {
 			
 			if (!bDMenu)
 				dropListMenu.transform.localScale = uiOff;
+			}
 		}
 	}
 
 	#region EscapeWasPressed
 	public void WasPressedEscape(){
 		if (bAMenu) {
-			bAMenu = !bAMenu;
+			bAMenu = false;
 			additionalMenu.transform.localScale = uiOff;
 		} else if (bMMenu) {
+			bMMenu = false;
 			mainMenu.transform.localScale = uiOff;
-			bMMenu = !bMMenu;
 		} else if (bDMenu) {
-			bDMenu = !bDMenu;
+			bDMenu = false;
 			dropListMenu.transform.localScale = uiOff;
 		} else {
 			bMMenu = !bMMenu;
@@ -124,12 +118,10 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 	#endregion
-	#region ButtonFunctions
-	public void buttonMultiplayerGameMenu(){
-		single = false;
-		prevMenu = "mainMenu";
-		GameObject.FindGameObjectWithTag (prevMenu).transform.localScale = uiOff;
-		multiplayerMenu.transform.localScale = uiOn;	
+
+	public void buttonContinue()
+	{
+		
 	}
 
 	public void buttonSettings()
@@ -143,18 +135,6 @@ public class UIManager : MonoBehaviour {
 		Application.Quit ();	
 	}
 
-	public void buttonCharacterSelection(string prev)
-	{
-		prevMenu = prev;
-		characterSelectionMenu.transform.localScale = uiOn;	
-		GameObject.FindGameObjectWithTag (prev).transform.localScale = uiOff;	
-	}
-
-	public void buttonStartArena()
-	{
-		SceneManager.LoadScene ("Arena");
-	}
-
 	public void buttonBackToPrevMenu()
 	{
 		multiplayerMenu.transform.localScale = uiOff;
@@ -162,7 +142,6 @@ public class UIManager : MonoBehaviour {
 		GameObject.FindGameObjectWithTag (prevMenu).transform.localScale = uiOn;
 		prevMenu = "mainMenu";
 	}
-	#endregion
 
 	#region StartGame
 	public void StartGame ()
@@ -170,7 +149,8 @@ public class UIManager : MonoBehaviour {
 		if (!single) {
 			//проверка на то, готовы ли все игроки
 		} else {			
-			characterSelectionMenu.transform.localScale = uiOff;
+			mainMenu.transform.localScale = uiOff;
+			bMMenu = false;
 			//Оптимихация
 			GameObject.Find ("PermanentGUI").transform.localScale = uiOn;		
 
@@ -201,7 +181,7 @@ public class UIManager : MonoBehaviour {
 	}
 	#endregion
 
-	#region GetItemFormAll
+	#region GetItemFromAll
 	public InventoryItem GetItemFromAll(int id){
 //		print ("List = " + allItemList.Count);
 		foreach (InventoryItem ii in allItemList) {

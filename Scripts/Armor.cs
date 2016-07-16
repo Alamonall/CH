@@ -19,7 +19,6 @@ public class Armor : InventoryItem
 		this.itemName = name;
 		this.itemPrice = price;
 		this.itemIcon = Resources.Load(name,typeof(Sprite)) as Sprite;
-		Debug.Log ("ICON = " + itemIcon.name);
 		this.description = description;
 		this.type = type;
 	}

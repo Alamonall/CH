@@ -10,7 +10,7 @@ public class CharacterAction : MonoBehaviour {
 	private UIManager uiScript;
 
 	public Transform player;
-	private float speed; // скорость передвижения
+	public float speed; // скорость передвижения
 
 	public GunAction gunActionScript;
 	GameObject item;
@@ -34,29 +34,33 @@ public class CharacterAction : MonoBehaviour {
 
 	void Update () 
 	{
-		InputMovement();
+		
 		//при нажатие на Е персонажа говорит менаджеру, что предмет с idItem я хочу взять
 		if (Input.GetKeyUp(KeyCode.E) && item != null) {
 			item.GetComponent<BagAction> ().ShowItemList ();
 			YouCantTakeMe ();
 		}
-
-		Cheats ();
-
 		if (characterScript.CheckLevelUp ())
 			characterScript.LevelUp ();
 
-		if(Input.GetKeyUp(KeyCode.Alpha1)){
+
+		Cheats ();
+		InputMovement();
+		PressingHotButtons ();
+	}
+
+	public void PressingHotButtons(){
+		if (Input.GetKeyUp (KeyCode.Alpha1)) {
 			firstQuickCellSkill.Use ();
 			Debug.Log ("One!");
 		}
 
-		if(Input.GetKeyUp(KeyCode.Alpha2)){
+		if (Input.GetKeyUp (KeyCode.Alpha2)) {
 			secondQuickCellSkill.Use ();
 			Debug.Log ("Two!");
 
 		}
-		if(Input.GetKeyUp(KeyCode.Alpha3)){
+		if (Input.GetKeyUp (KeyCode.Alpha3)) {
 			thirdQuickCellSkill.Use ();
 			Debug.Log ("Tjree!");
 		}
@@ -119,6 +123,7 @@ public class CharacterAction : MonoBehaviour {
 		}
 		set {			
 			firstQuickCellSkill = value;
+			Debug.Log ("FQCS = " + firstQuickCellSkill);
 		}
 	}
 
@@ -128,6 +133,7 @@ public class CharacterAction : MonoBehaviour {
 		}
 		set {
 			secondQuickCellSkill = value;
+			Debug.Log ("SQCS = " + secondQuickCellSkill);
 		}
 	}
 
@@ -137,6 +143,7 @@ public class CharacterAction : MonoBehaviour {
 		}
 		set {
 			thirdQuickCellSkill = value;
+			Debug.Log ("TQCS = " + thirdQuickCellSkill);
 		}
 	}
 }

@@ -25,7 +25,8 @@ public class SkillAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	void Start()
 	{
 //		Debug.Log("This name = " + this.gameObject.name + " typeOf = " + typeof(Sprite));
-		iconImage.sprite = Resources.Load (this.gameObject.name, typeof(Sprite)) as Sprite;
+//		iconImage.sprite = Resources.Load (this.gameObject.name, typeof(Sprite)) as Sprite;
+		iconImage.sprite = Character._instanceCharacter.ArraySkills[numberSkill].icon;
 	}
 
 	void Update(){	

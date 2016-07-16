@@ -74,14 +74,25 @@ public class Character : MonoBehaviour
 		if (_instanceCharacter == null) {
 			DontDestroyOnLoad (this.gameObject);
 			_instanceCharacter = this;
-			print ("Character Awake!");
 		}
 
 		ArraySkills = new Skill[16];
-		ArraySkills [0] = FirstSkill._instFirstS;
-		ArraySkills [1] = SecondSkill._instSecondS;
-		ArraySkills [2] = ThirdSkill._instThirdS;
-
+		ArraySkills [0] = new FirstSkill();
+		ArraySkills [1] = new SecondSkill ();
+		ArraySkills [2] = new ThirdSkill ();
+		ArraySkills [3] = new FourthSkill ();
+		ArraySkills [4] = new FifthSkill ();
+		ArraySkills [5] = new SixthSkill ();
+		ArraySkills [6] = new SeventhSkill ();
+		ArraySkills [7] = new EighthSkill ();
+		ArraySkills [8] = new NinthSkill ();
+		ArraySkills [9] = new TenthSkill ();
+		ArraySkills [10] = new EleventhSkill ();
+		ArraySkills [11] = new TwelfthSkill ();
+		ArraySkills [12] = new ThirteenthSkill ();
+		ArraySkills [13] = new FourteenthSkill ();
+		ArraySkills [14] = new FifteenthSkill ();
+		ArraySkills [15] = new SixteenthSkill ();
 		pistolAmmo = 100;
 		shotgunAmmo = 100;
 		rifleAmmo = 100;
@@ -97,8 +108,8 @@ public class Character : MonoBehaviour
 		this.maxStaminaPoints = 500;
 		this.maxHealtPoints = 100;
 		this.modHealtPoints = 100;
-		this.speed = 5;
-		this.overSpeed = 7;
+		this.speed = 100;
+		this.overSpeed = 175;
 
 		currentLevel = 1;
 		currentMoney = 100;
@@ -189,7 +200,7 @@ public class Character : MonoBehaviour
 				temp = rocketAmmo;
 				break;
 			}		
-		print ("GetAmmo " + ammoType + " = " + temp);
+//		print ("GetAmmo " + ammoType + " = " + temp);
 		return temp;
 	}
 	#endregion

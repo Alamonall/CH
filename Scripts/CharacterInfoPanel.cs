@@ -51,11 +51,11 @@ public class CharacterInfoPanel : MonoBehaviour {
 			return;
 		} else {
 			if (characterActionScript.FirstQuickCellSkill != null)
-				FirstQuickCell.sprite = characterActionScript.FirstQuickCellSkill.icon;
+				FirstQuickCell.sprite = characterActionScript.FirstQuickCellSkill.SkillIcon();
 			if (characterActionScript.SecondQuickCellSkill != null)
-				SecondQuickCell.sprite = characterActionScript.SecondQuickCellSkill.icon;
+				SecondQuickCell.sprite = characterActionScript.SecondQuickCellSkill.SkillIcon();
 			if (characterActionScript.ThirdQuickCellSkill != null)
-				ThirdQuickCell.sprite = characterActionScript.ThirdQuickCellSkill.icon;
+				ThirdQuickCell.sprite = characterActionScript.ThirdQuickCellSkill.SkillIcon();
 
 			iPrimaryWeapon = characterScript.PrimaryWeapon.itemName;
 			iSecondaryyWeapon = characterScript.SecondaryWeapon.itemName;
