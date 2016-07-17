@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class AdditionalMenuAction : MonoBehaviour {
 	public static AdditionalMenuAction _instanceAMA;
@@ -13,12 +14,22 @@ public class AdditionalMenuAction : MonoBehaviour {
 	public bool bJournal;
 	public bool bMap;
 
+	public bool bAMenu = false; //button additional menu
+	public bool bMMenu = false; //button main menu
+	public bool bDMenu = false; // drop menu flag
+
+	public bool dontShoot;
+
+	public GameObject AdditionalMenu;
 	public GameObject pInventory;
 	public GameObject pSkills;
 	public GameObject pJournal;
 	public GameObject pMap;
-
+	public GameObject pQuickNavButtons;
+	public GameObject dropListMenu;
 	public GameObject prevActivePanel;
+	public GameObject mainMenu;
+
 	public Comparing comparingMenu;
 	public GameObject previewImage;
 	Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
@@ -39,48 +50,61 @@ public class AdditionalMenuAction : MonoBehaviour {
 		
 		uiScript = UIManager._instanceUIM;
 		characterScript = Character._instanceCharacter;
+		HideAddMenu ();
+	}
 
+	void Start(){
 		bInventory = false;
 		bSkills = false;
 		bJournal = false;
 		bMap = false;
+		prevActivePanel = null;
+		dontShoot = true;
+		bAMenu = false;
+	}
+
+	void OnGUI(){
+		if (Input.GetKeyDown (KeyCode.I)) {
+			bInventory = !bInventory;
+			if (bInventory)
+				SwitchUIObjects ("bInventory");
+			else
+				HideAddMenu ();
+		} else if (Input.GetKeyDown (KeyCode.P)) {
+			bSkills = !bSkills;
+			if (bSkills)
+				SwitchUIObjects ("bSkills");
+			else
+				HideAddMenu ();
+		} else if (Input.GetKeyDown (KeyCode.J)) {
+			bJournal = !bJournal;
+			if (bJournal)
+				SwitchUIObjects ("bJournal");
+			else
+				HideAddMenu ();
+		} else if (Input.GetKeyDown (KeyCode.M)) {
+			bMap = !bMap;
+			if (bMap)
+				SwitchUIObjects ("bMap");
+			else
+				HideAddMenu ();	
+		}
+		if(Input.GetKeyDown(KeyCode.Escape))
+			WasPressedEscape ();
 	}
 
 	void Update ()
 	{		
-		if (Input.GetKeyDown (KeyCode.I)) { 
-			bInventory = !bInventory;
-			if (!bInventory)
-				UIManager._instanceUIM.bAMenu = false;
-			else {
-				SwitchUIObjects ("bInventory");	
-			}
-		}
-		else if (Input.GetKeyDown (KeyCode.P)) { 
-			bSkills = !bSkills;
-			if (!bSkills)
-				UIManager._instanceUIM.bAMenu = false;
-			else {
-				SwitchUIObjects ("bSkills");
-			}
-		}
-		else if (Input.GetKeyDown (KeyCode.J)) { 
-			bJournal = !bJournal;
-			if (!bJournal)
-				UIManager._instanceUIM.bAMenu = false;
-			else {
-				SwitchUIObjects ("bJournal");
+		//temp 
+		if (!uiScript.gameActive)
+			HideAddMenu ();
+		//TEMP
+		if(bAMenu || bDMenu || bMMenu)
+			dontShoot = true;
+		else 
+			dontShoot = false;
 
-			}
-		}
-		else if (Input.GetKeyDown (KeyCode.M)) { 
-			bMap = !bMap;
-			if (!bMap)				
-				UIManager._instanceUIM.bAMenu = false;
-			else {
-				SwitchUIObjects ("bMap");
-			}
-		}
+		OnGUI ();
 	}
 
 
@@ -116,24 +140,71 @@ public class AdditionalMenuAction : MonoBehaviour {
 			bSkills = false;
 			bInventory = false;
 			bJournal = false;
-			UIManager._instanceUIM.bAMenu = !UIManager._instanceUIM.bAMenu;
+			HideAddMenu ();
 			break;
 		}
 	}
 	#endregion
 
-	#region ShowUIObject
-	void ShowUIObject(GameObject uiObj){	
-		if (uiScript == null) {
-			print ("uiScript is null");
-			return;
+	#region EscapeWasPressed
+	public void WasPressedEscape(){
+		if (bAMenu) {
+			bAMenu = false;
+			bMap = false;
+			bSkills = false;
+			bInventory = false;
+			bJournal = false;
+			this.gameObject.transform.localScale = uiOff;
+		} else if (bMMenu) {
+			bMMenu = false;
+			mainMenu.transform.localScale = uiOff;
+		} else if (bDMenu) {
+			bDMenu = false;
+			dropListMenu.transform.localScale = uiOff;
+		} else {
+			bMMenu = !bMMenu;
+			mainMenu.transform.localScale = uiOn;
 		}
-		if (!uiScript.bAMenu)
-			uiScript.bAMenu = true;
-		if(prevActivePanel != null)			
-			prevActivePanel.transform.localScale = uiOff;
-		uiObj.transform.localScale = uiOn;
-		prevActivePanel = uiObj;
+	}
+	#endregion
+
+	#region Hide&ShowAddMenu
+	public void HideAddMenu()
+	{
+		//temp if
+		if(bAMenu)
+			bAMenu = !bAMenu;
+		AdditionalMenu.transform.localScale = uiOff;
+	}
+
+	#endregion
+
+	#region Hide&ShowUIObject
+	void ShowUIObject(GameObject uiObj){	
+		try{
+			if (!bAMenu){
+				bAMenu = true;
+				AdditionalMenu.transform.localScale = uiOn;
+			}
+			if(prevActivePanel != null)			
+				prevActivePanel.transform.localScale = uiOff;
+			uiObj.transform.localScale = uiOn;
+			prevActivePanel = uiObj;
+
+		} catch(Exception exc){
+			Debug.LogException (exc, this);
+		}
+	}
+
+	void HideObject(){	
+		if (!bInventory)
+			pInventory.transform.localScale = uiOff;
+		if (bSkills)
+			pSkills.transform.localScale = uiOff;		
+		if (bJournal)
+			pJournal.transform.localScale = uiOff;		
+		if (bMap)
+			pMap.transform.localScale = uiOff;
 	}
 	#endregion
 

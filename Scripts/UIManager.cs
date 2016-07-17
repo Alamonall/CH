@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
+using System;
 
 public class UIManager : MonoBehaviour {
 
@@ -20,19 +21,12 @@ public class UIManager : MonoBehaviour {
 
 	public TextAsset itemsXml;
 	public ArrayList allItemList;
-	public GameObject additionalMenu;
-	public GameObject mainMenu;
-	public GameObject dropListMenu;
 	public GameObject dropZone;
-	public GameObject characterSelectionMenu;
-	public GameObject multiplayerMenu;
 
 	private GameObject inventoryCellClone; // копия префаба ячейки инвентаря
 	public GameObject prefabEmptyInventoryCell; // пребаф пустой ячейки инвентаря
 	public GameObject prefabDropItem;
-	public bool bAMenu = false; //button additional menu
-	public bool bMMenu = false; //button main menu
-	public bool bDMenu = false; // drop menu flag
+
 	private bool single = true;
 	private string prevMenu;
 	public string selectedCharacter;
@@ -49,7 +43,6 @@ public class UIManager : MonoBehaviour {
 			Destroy (this.gameObject);
 		bmScript = BoardManager._instanceBM;
 		characterMenuActionScript = CharacterMenuAction._instanceCMA;
-		characterSelectionMenu.transform.localScale = uiOff;
 		allItemList = new ArrayList ();
 //		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
 
@@ -60,64 +53,39 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	void Update ()
-	{			
-		if (Input.GetKeyDown (KeyCode.Escape))
-			WasPressedEscape ();
+	void Update (){	
+		if (gameActive){
+			InGameMenuActions ();
+		}
+	}
 
-		if (gameActive) {
-			//
-			if(characterActionScript == null)
-			{
-				characterActionScript = CharacterAction._instanceCA;
-			}
-			if(gunActionScript == null)
-			{
-				gunActionScript = GunAction._instanceGA;
-			}
-			//
-			
-			if (characterScript.needUpdate) {
+	#region InGameMenuActions
+	public void InGameMenuActions(){
+		//
+		if(characterActionScript == null){
+			characterActionScript = CharacterAction._instanceCA;
+		}
+		if(gunActionScript == null){
+			gunActionScript = GunAction._instanceGA;
+		}
+		//
+
+		if (characterScript.needUpdate) {			
+			try{
 				if (characterActionScript == null) {					
 					Debug.Log ("char Action is null");
 					return;
 				}
-
 				characterScript.needUpdate = false;
 				characterActionScript.UpdateParameters ();
+			}catch (Exception exc){
+				Debug.LogException (exc, this);
 			}
-
-			if (bAMenu && !bMMenu) {
-				if (bDMenu){
-					dropListMenu.transform.localScale = uiOff;
-				additionalMenu.transform.localScale = uiOn;
-			}
-			if (!bAMenu)
-				additionalMenu.transform.localScale = uiOff;
-			
-			if (!bDMenu)
-				dropListMenu.transform.localScale = uiOff;
-			}
-		}
-	}
-
-	#region EscapeWasPressed
-	public void WasPressedEscape(){
-		if (bAMenu) {
-			bAMenu = false;
-			additionalMenu.transform.localScale = uiOff;
-		} else if (bMMenu) {
-			bMMenu = false;
-			mainMenu.transform.localScale = uiOff;
-		} else if (bDMenu) {
-			bDMenu = false;
-			dropListMenu.transform.localScale = uiOff;
-		} else {
-			bMMenu = !bMMenu;
-			mainMenu.transform.localScale = uiOn;
 		}
 	}
 	#endregion
+
+
 
 	public void buttonContinue()
 	{
@@ -137,8 +105,6 @@ public class UIManager : MonoBehaviour {
 
 	public void buttonBackToPrevMenu()
 	{
-		multiplayerMenu.transform.localScale = uiOff;
-		characterSelectionMenu.transform.localScale = uiOff;
 		GameObject.FindGameObjectWithTag (prevMenu).transform.localScale = uiOn;
 		prevMenu = "mainMenu";
 	}
@@ -149,8 +115,8 @@ public class UIManager : MonoBehaviour {
 		if (!single) {
 			//проверка на то, готовы ли все игроки
 		} else {			
-			mainMenu.transform.localScale = uiOff;
-			bMMenu = false;
+			addMenuAction.mainMenu.transform.localScale = uiOff;
+			addMenuAction.bMMenu = false;
 			//Оптимихация
 			GameObject.Find ("PermanentGUI").transform.localScale = uiOn;		
 

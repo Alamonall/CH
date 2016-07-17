@@ -43,6 +43,7 @@ public class Character : MonoBehaviour
 	public float poisonDamagePrimaryWeapon;
 	public float energyDamagePrimaryWeapon;
 	public float corrosionDamagePrimaryWeapon;
+
 	public float physicalDamageSecondaryWeapon;
 	public float fireDamageSecondaryWeapon;
 	public float electricDamageSecondaryWeapon;
@@ -50,6 +51,7 @@ public class Character : MonoBehaviour
 	public float poisonDamageSecondaryWeapon;
 	public float energyDamageSecondaryWeapon;
 	public float corrosionDamageSecondaryyWeapon;
+
 	public float totalPhysicalResistance;
 	public float totalFireResistance;
 	public float totalElectricResistance;
@@ -158,12 +160,12 @@ public class Character : MonoBehaviour
 
 	public void LevelUp(){
 //		Debug.Log ("Level Up! " + currentLevel + "!" );
-		currentLevel++;
+		currentLevel+=100;
 		maxHealtPoints += modHealtPoints;
 		currentHealthPoints = maxHealtPoints;
 		currentExperience = currentExperience-nextLevelExperience;
 		nextLevelExperience = nextLevelExperience*2;
-		currentSkillPoints++;
+		currentSkillPoints+=1000;
 		gameObject.SendMessage ("CharGetLevel", this);
 	}
 

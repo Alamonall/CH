@@ -33,7 +33,7 @@ public class DropListAction : MonoBehaviour {
 	}
 
 	void Update(){
-		if (!uiScript.bDMenu)
+		if (!amaScript.bDMenu)
 			dropList = null;
 
 		if (count == 0) 	
@@ -53,7 +53,7 @@ public class DropListAction : MonoBehaviour {
 			return;
 		}
 		amaScript.GetItemToCharacter(dropList[id]);
-		print ("Taking object with index = " + dropList [id].itemName + "from the Bag");
+		Debug.Log ("Taking object with index = " + dropList [id].itemName + "from the Bag");
 		myChest.dropListInGame.Remove (dropList [id]);
 		dropList [id] = null;
 		count--;
@@ -79,7 +79,7 @@ public class DropListAction : MonoBehaviour {
 		this.transform.localScale = uiOff;
 		if (uiScript == null)
 			return;
-		uiScript.bDMenu = false;
+		amaScript.bDMenu = false;
 	}
 
 	public void ShowDropList(InventoryItem[] list, BagAction go){
@@ -101,7 +101,7 @@ public class DropListAction : MonoBehaviour {
 				}
 			}
 			this.transform.localScale = uiOn;
-			uiScript.bDMenu = true;
+			amaScript.bDMenu = true;
 		}
 
 		/// Добавить Обновление графического представления 

@@ -71,14 +71,16 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 	}
 
 	public void Confirmed(){
-		print ("I'm confirmed!");
+		print ("I'm confirmed!" + temp);
 		cons = temp;
 		if (growthMax == cons) {
 			OnMaximum ();
 			state = 2;
 		}
 		NotifyCharacter ();
-//		this.gameObject.GetComponent<Image> ().sprite = confSprites [temp];
+		//temp if
+		if(temp != 0)
+			this.gameObject.GetComponent<Image> ().sprite = confSprites [temp - 1];
 	}
 
 	public void NotifyCharacter(){
@@ -91,7 +93,8 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 		if (temp < growthMax)
 			if(_cma.GrowthHandler("Up")) {
 				temp++;
-//				this.gameObject.GetComponent<Image> ().sprite = activSprites [temp];
+				Debug.Log ("temp = " + temp);
+				this.gameObject.GetComponent<Image> ().sprite = activSprites [temp];
 			//изменить визуально		
 			}
 	}
@@ -101,7 +104,8 @@ public class Growth : MonoBehaviour , IPointerClickHandler{
 		if (temp > cons)
 			if(_cma.GrowthHandler("Down")) {
 				temp--;
-//				this.gameObject.GetComponent<Image> ().sprite = activSprites [temp];
+				Debug.Log ("temp = " + temp);
+				this.gameObject.GetComponent<Image> ().sprite = activSprites [temp];
 				//изменить визуально
 //				anim.CrossFade("GrowthDown", 2);
 			}

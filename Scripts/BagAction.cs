@@ -7,6 +7,8 @@ public class BagAction : MonoBehaviour {
 	DropListAction dropListScript;
 	UIManager uiScript;
 	CharacterAction characterActionScript;
+	AdditionalMenuAction addMenuAcion;
+
 	public GameObject buttonE;
 	public bool isAChest;
 
@@ -20,6 +22,8 @@ public class BagAction : MonoBehaviour {
 	void Start () {		
 		buttonE.SetActive (false);
 		uiScript = UIManager._instanceUIM;
+		addMenuAcion = AdditionalMenuAction._instanceAMA;
+
 		if (isAChest) {
 			dropListInGame = new List<InventoryItem> ();
 			foreach (int id in dropListOfChest) {
@@ -69,7 +73,7 @@ public class BagAction : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other){
 //		Debug.Log ("OnTriggerExit!");
 		buttonE.SetActive (false);
-		uiScript.bDMenu = false;
+		addMenuAcion.bDMenu = false;
 		if (characterActionScript == null) {
 			print ("CAS is null");
 			return;

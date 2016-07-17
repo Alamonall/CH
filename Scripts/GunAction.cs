@@ -116,7 +116,7 @@ public class GunAction : MonoBehaviour {
 	#region Shooting
 	public void Shooting()
 	{
-		if (uiScript.bAMenu || uiScript.bMMenu || uiScript.bDMenu)
+		if (AdditionalMenuAction._instanceAMA.dontShoot)
 			return;
 		//проверка не активна ли сейчас перезарядка или не кончились ли патроны
 		if (overReload) {			
