@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour {
 	public CharacterMenuAction characterMenuActionScript;
 
 	public TextAsset itemsXml;
-	public ArrayList allItemList;
+	public ArrayList allItemsList;
 	public GameObject dropZone;
 
 	private GameObject inventoryCellClone; // копия префаба ячейки инвентаря
@@ -43,18 +43,15 @@ public class UIManager : MonoBehaviour {
 			Destroy (this.gameObject);
 		bmScript = BoardManager._instanceBM;
 		characterMenuActionScript = CharacterMenuAction._instanceCMA;
-		allItemList = new ArrayList ();
+		allItemsList = new ArrayList ();
 //		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
-
-
-		LoadingItemsFromXml ();
-		for (int i = 0; i < allItemList.Count; i++) {
-//			print ("all[" + i + "] = " + allItemList [i]);
-		}
+//		for (int i = 0; i < allItemsList.Count; i++) {
+//			print ("all[" + i + "] = " + allItemsList [i]);
+//		}
 	}
 
 	void Update (){	
-		if (gameActive){
+		if (gameActive){			
 			InGameMenuActions ();
 		}
 	}
@@ -112,9 +109,11 @@ public class UIManager : MonoBehaviour {
 	#region StartGame
 	public void StartGame ()
 	{
+		LoadingItemsFromXml ();
 		if (!single) {
 			//проверка на то, готовы ли все игроки
-		} else {			
+		} else {
+			
 			addMenuAction.mainMenu.transform.localScale = uiOff;
 			addMenuAction.bMMenu = false;
 			//Оптимихация
@@ -149,9 +148,9 @@ public class UIManager : MonoBehaviour {
 
 	#region GetItemFromAll
 	public InventoryItem GetItemFromAll(int id){
-//		print ("List = " + allItemList.Count);
-		foreach (InventoryItem ii in allItemList) {
-//			print ("id = " + ii.id + "; ii = " + ii.itemName);
+		print ("List = " + allItemsList.Count);
+		foreach (InventoryItem ii in allItemsList) {
+			print ("id = " + ii.id + "; ii = " + ii.itemName);
 			if (ii.id == id) {	
 				return ii;
 			}
@@ -165,51 +164,66 @@ public class UIManager : MonoBehaviour {
 //		print ("LoadingItemsFromXml");
 		XmlDocument xmld = new XmlDocument ();
 		xmld.LoadXml (itemsXml.text);
-		XmlNodeList itemsList = xmld.GetElementsByTagName ("item");
-		foreach (XmlNode itemInfo in itemsList) {
-//			print ("allitemlist = " + allItemList.Count);
-			if(itemInfo.Name == "item")
-			{
-				switch(itemInfo.SelectSingleNode ("type").InnerText){
-				case "Weapon":						
-					allItemList.Add (
-						new Weapon (int.Parse(itemInfo.Attributes["id"].Value), //int
-									itemInfo.SelectSingleNode ("name").InnerText, //string
-									float.Parse (itemInfo.SelectSingleNode ("price").InnerText), //float
-									float.Parse (itemInfo.SelectSingleNode ("damage").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("spread").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("rate").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("fullreload").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("fastreload").InnerText),//float
-									int.Parse (itemInfo.SelectSingleNode ("ammo").InnerText),/*int*/ 
-									itemInfo.SelectSingleNode ("type").InnerText,//string
-									itemInfo.SelectSingleNode ("description").InnerText, /*string*/
-									itemInfo.SelectSingleNode ("ammotype").InnerText,//string
-									itemInfo.SelectSingleNode("shootingmode").InnerText));//string
-					break;
-				case "Armor":						
-					allItemList.Add (
-						new Armor (
-							int.Parse(itemInfo.Attributes["id"].Value),
-							itemInfo.SelectSingleNode ("name").InnerText,
-							int.Parse (itemInfo.SelectSingleNode ("price").InnerText),
-							itemInfo.SelectSingleNode ("description").InnerText, itemInfo.SelectSingleNode ("type").InnerText));					
-					break;
-				case "FirstTierMedkit":
-					allItemList.Add (new FirstTierMedkit ());
-					break;
-				case "SecondTierMedkit":
-					allItemList.Add (new SecondTierMedkit ());
-					break;
-				case "ThirdTierMedkit":
-					allItemList.Add (new ThirdTierMedkit ());
-					break;
-				case "FourTierMedkit":
-					allItemList.Add (new FourTierMedkit ());
-					break;			
-				}
-			}		
+
+		XmlNodeList weapons = xmld.GetElementsByTagName ("weapon");
+		foreach (XmlNode weapon in weapons) {
+			Debug.Log ("weapon = " + weapon.Name);	
+			allItemsList.Add (
+				new Weapon (
+					int.Parse (weapon.SelectSingleNode ("id").InnerText), //int
+					weapon.SelectSingleNode ("name").InnerText, //string
+					weapon.SelectSingleNode ("sprite").InnerText, //string
+					float.Parse (weapon.SelectSingleNode ("rate").InnerText),//float
+					weapon.SelectSingleNode ("shootingmode").InnerText,//string
+					int.Parse (weapon.SelectSingleNode ("holder").InnerText),/*int*/ 
+					float.Parse (weapon.SelectSingleNode ("price").InnerText), //float
+					float.Parse (weapon.SelectSingleNode ("fullreload").InnerText),//float
+					float.Parse (weapon.SelectSingleNode ("fastreload").InnerText),//float
+					weapon.SelectSingleNode ("ammo").InnerText, //string	
+					new Damages (float.Parse (weapon.SelectSingleNode ("minphysicaldamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxphysicaldamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minfiredamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxfiredamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minelectrialdamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxelectrialdamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minenergydamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxenergydamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minpoisondamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxpoisondamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("mincorrosivedamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxcorrosivedamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minicedamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxicedamage").InnerText)),
+					weapon.SelectSingleNode ("type").InnerText));						
 		}
+
+		XmlNodeList armors = xmld.GetElementsByTagName ("armor");
+		foreach (XmlNode armor in armors) {										
+			allItemsList.Add (
+				new Armor (
+					int.Parse (armor.Attributes ["id"].Value),
+					armor.SelectSingleNode ("name").InnerText,
+					int.Parse (armor.SelectSingleNode ("price").InnerText),
+					armor.SelectSingleNode ("description").InnerText, armor.SelectSingleNode ("type").InnerText));					
+		}
+
+		XmlNodeList medkits = xmld.GetElementsByTagName ("medkit");
+		foreach (XmlNode medkit in medkits) {	
+			switch (medkit.Name) {
+			case "FirstTierMedkit":
+				allItemsList.Add (new FirstTierMedkit ());
+				break;
+			case "SecondTierMedkit":
+				allItemsList.Add (new SecondTierMedkit ());
+				break;
+			case "ThirdTierMedkit":
+				allItemsList.Add (new ThirdTierMedkit ());
+				break;
+			case "FourTierMedkit":
+				allItemsList.Add (new FourTierMedkit ());
+				break;			
+			}
+		}				
 	}
 	#endregion
 

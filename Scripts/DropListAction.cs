@@ -47,7 +47,7 @@ public class DropListAction : MonoBehaviour {
 
 	//взятие предмета с id в обьекте
 	public void TakeItemFromBag(int id){
-//		print ("TakeItemFromBag = " + id);
+		print ("TakeItemFromBag = " + id);
 		if (dropList[id] == null) {
 			print ("item in GetItemToChar is null");
 			return;

@@ -48,12 +48,14 @@ public class AdditionalMenuAction : MonoBehaviour {
 		} else if (_instanceAMA != this)
 			Destroy (this.gameObject);
 		
-		uiScript = UIManager._instanceUIM;
+
 		characterScript = Character._instanceCharacter;
 		HideAddMenu ();
 	}
 
+
 	void Start(){
+		uiScript = UIManager._instanceUIM;
 		bInventory = false;
 		bSkills = false;
 		bJournal = false;

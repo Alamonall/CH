@@ -33,7 +33,6 @@ public class Comparing : MonoBehaviour {
 			CompareName.text = item.itemName;
 			PWName.text = "PW: " + script.PrimaryWeapon.itemName;
 			SWName.text = "SW: " + script.SecondaryWeapon.itemName;
-			CompareDamage.text = " " + item.physicalDamage;
 			CompareAmmo.text = " " + item.Ammo;
 			CompareFullReload.text = " " + item.FullReload;
 			CompareFastReload.text = " " + item.FastReload;
@@ -49,10 +48,7 @@ public class Comparing : MonoBehaviour {
 	}
 
 	void SetCompare(Weapon item, Weapon weap, Text damage, Text ammo, Text full, Text fast){
-		SetCompareTwo (damage, item.physicalDamage, weap.physicalDamage);
-		SetCompareTwo (ammo, item.ammo, weap.ammo);
-		SetCompareTwo (full, item.FullReload, weap.FullReload);
-		SetCompareTwo (fast, item.FastReload, weap.FastReload);
+		SetCompareTwo (ammo, item.ammo, weap.ammo);	
 	}
 
 	void SetCompareTwo(Text t, float one, float two){

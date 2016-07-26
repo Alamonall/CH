@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Weapon : InventoryItem {
 	
-	public float spread; 	// разброс
 	public float rate; 		// скорострельность
 	public float fullReload; 	// Время перезарядки с пустой обоймой
 	public float fastReload; 	//Время перезарядки с не пустой обоймой
@@ -11,22 +11,22 @@ public class Weapon : InventoryItem {
 	public int holder; 		// текущее количетсво патронов в обойме
 	public string ammoType; 	//тип патронов
 	public string description;
-	public string shootingMode;
+	public string shootingMode; // Single Auto Semi-auto Queue
 
-	public float physicalDamage;
-	public float fireDamage;
-	public float electricDamage;
-	public float plasmaDamage;
-	public float poisonDamage;
-	public float energyDamage;
-	public float corrosionDamage;
+//	public float physicalDamage;
+//	public float fireDamage;
+//	public float electricDamage;
+//	public float iceDamage;
+//	public float poisonDamage;
+//	public float energyDamage;
+//	public float corrosionDamage;
+
+	Dictionary<string, Damages> damages;
 
 	public Weapon(){
 		this.itemName = "hands";
 		this.itemPrice = 0;
 		this.itemIcon = null;
-		this.physicalDamage = 0;
-		this.spread = 0;
 		this.rate = 0;
 		this.fullReload = 0;
 		this.fastReload = 0;
@@ -38,35 +38,45 @@ public class Weapon : InventoryItem {
 	}
 
 	public Weapon(		int id, 	//1
-						string name,//2
-						float price,//3
-						float damage,//6
-						float spread,//7
-						float rate,//8
-						float fullReload,//9
-						float fastReload,//10
-						int ammo,//11
-						string type,//12
-						string description,//13
+						string wname,//2
+						string itemIcon,//3						
+						float rate,//4
+						string shootingMode, //5
+						int ammo,//6
+						float wprice, //7
+						float fullReload,//8
+						float fastReload,//9
 						string ammoType, //14
-						string shootingMode
+		Damages physical,
+		Damages fire,
+		Damages electrial,
+		Damages energy,
+		Damages poison,
+		Damages corrosive,
+		Damages ice,
+		string type
 	){
+		damages = new Dictionary<string, Damages> ();
+		damages.Add ("physical", physical);
+		damages.Add ("fire", fire);
+		damages.Add ("electrial", electrial);
+		damages.Add ("energy", energy);
+		damages.Add ("poison", poison);
+		damages.Add ("corrosive", corrosive);
+		damages.Add ("ice", ice);
 		this.id = id;
-		this.itemName = name;
-		this.itemPrice = price;
-		this.itemIcon = Resources.Load (name,typeof(Sprite)) as Sprite;
-//		Debug.Log ("ICON = " + this.itemIcon.name);
-		this.physicalDamage = damage;
-		this.spread = spread;
+		this.itemName = wname;
+		this.itemPrice = wprice;
+		this.itemIcon = Resources.Load (itemIcon,typeof(Sprite)) as Sprite;
+		Debug.Log ("ICON = " + this.itemIcon.name);
 		this.rate = rate;
 		this.fullReload = fullReload;
 		this.fastReload = fastReload;
 		this.ammo = ammo;
-		this.type = type;
-		this.holder = 0;
-		this.description = description;
+		this.holder = ammo;
 		this.shootingMode = shootingMode;
 		this.ammoType = ammoType;
+		this.type = type;
 	}
 
 	public void Use(){

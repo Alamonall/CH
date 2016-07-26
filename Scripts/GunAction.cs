@@ -52,12 +52,10 @@ public class GunAction : MonoBehaviour {
 	#region Update
 	void FixedUpdate(){
 		//промежуток между выстрелами
-		if (!bRate) {
-			if (tempRate <= 0) {
+		if (!bRate) {			
+			if (tempRate <= Time.time) {
 				bRate = true;
-				tempRate = rate;
 			}
-			tempRate -= Time.deltaTime*10;
 		}
 
 		if (!overReload) {			
@@ -65,9 +63,7 @@ public class GunAction : MonoBehaviour {
 				print ("Сообщение о том, что патронов для данного оружия нет");
 				overReload = true;
 			}
-			tempReload -= Time.deltaTime;
-			Debug.Log ("Time = " + tempReload);
-			if (tempReload < 0){
+			if (tempReload <= Time.time){
 				if (maxAmmo < ammo && (ammo - holder) >= maxAmmo) {
 					holder += maxAmmo;
 					maxAmmo = 0;
@@ -129,13 +125,14 @@ public class GunAction : MonoBehaviour {
 				if (bullet == null) {
 					Debug.Log ("Bullet prefab is null");
 					return;
-				}
+				}			
 				bulletClone = Instantiate(bullet, transform.position, tempRot) as GameObject; 
 				Rigidbody2D rg2 = bulletClone.GetComponent<Rigidbody2D> ();
 				rg2.AddForce ((tempRot*Vector2.right));
 				holder--;
 				SaveHolder ();
 				bRate = false;
+				tempRate = Time.time + rate;
 				weaponTriggerUp = GetShootingMode();
 			}			
 		} else {	
@@ -162,15 +159,15 @@ public class GunAction : MonoBehaviour {
 	//отвечает за темп стрельбы
 	public bool GetShootingMode(){		
 		switch(shootingMode){
-		case "Single":
-			return false;
-		case "Queue":
-			tempQueue++;
-			if (tempQueue == 4) {
-				tempQueue = 0;
+			case "Single":
 				return false;
-			}
-			break;
+			case "Queue":
+				tempQueue++;
+				if (tempQueue == 3) {
+					tempQueue = 0;
+					return false;
+				}
+				break;
 		}	
 		return true;	
 	}
@@ -203,9 +200,9 @@ public class GunAction : MonoBehaviour {
 		holder = 0;
 		fullReload = weapon.FullReload;
 		fastReload = weapon.FastReload;
-		rate = weapon.Rate;
+		rate = (weapon.Rate/60)/1000; // Возможно поправить
+//		Debug.Log("Rate = " + rate);
 		tempReload = fullReload;
-		tempRate = rate;
 		shootingMode = weapon.ShootingMode;
 		ammoType = weapon.ammoType;
 		maxAmmo = characterScript.GetAmmo ();
@@ -219,9 +216,9 @@ public class GunAction : MonoBehaviour {
 	#region Reload
 	public void Reload(){
 		if (holder > 0 && holder != ammo)
-			tempReload = fastReload;
+			tempReload = Time.time + fastReload;
 		else
-			tempReload = fullReload;	
+			tempReload = Time.time + fullReload;	
 		overReload = false;
 	}
 	#endregion

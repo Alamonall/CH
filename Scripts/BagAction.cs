@@ -27,6 +27,7 @@ public class BagAction : MonoBehaviour {
 		if (isAChest) {
 			dropListInGame = new List<InventoryItem> ();
 			foreach (int id in dropListOfChest) {
+//				Debug.Log ("GetItemFromAll = " + uiScript.GetItemFromAll (id));
 				dropListInGame.Add (uiScript.GetItemFromAll (id));
 			}
 		}
