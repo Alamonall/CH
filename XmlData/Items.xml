@@ -1,129 +1,39 @@
 <?xml version="1.0" encoding="windows-1250"?>
 
 <items>
-	<item id="1">
-		<!-- имя -->
-		<name>acwr</name>
-		<!-- цена на рынке -->
-		<price>100</price>
-		<!-- имя спрайта -->
-		<icon>0</icon>
-		<!-- Урон -->
-		<damage>36</damage>
-		<!-- разброс ????-->
-		<spread>2</spread>
-		<!-- скорострельность -->
-		<rate>1</rate>
-		<!-- Время перезарядки с пустой обоймой -->
-		<fullreload>6</fullreload>
-		<!-- Время перезарядки с не пустой обоймой -->
-		<fastreload>3</fastreload>
-		<!-- максимальное количетсво патронов в обойме -->
-		<ammo>26</ammo>
-		<!-- тип предмета -->
-		<type>Weapon</type>
-		<!-- описание -->
-		<description>отличный автомат</description>
-		<!-- тип патронов -->
-		<ammotype>AssaultRiflesAmmoType</ammotype>
-		<!-- Режим стрельбы-->
-		<shootingmode>Continuous</shootingmode>
-	</item>
-	<item id="2">
-		<!-- имя -->
-		<name>armor-52</name>
-		<!-- цена на рынке -->
-		<price>140</price>
-		<!-- имя спрайта -->
-		<icon>1</icon>
-		<!-- описание -->
-		<description>средняя броня</description>
-		<!-- тип предмета -->
-		<type>Armor</type>
-	</item>
-	<item id="3">
-		<!-- имя -->
-		<name>lsat</name>
-		<!-- цена на рынке -->
-		<price>1000</price>
-		<!-- имя спрайта -->
-		<icon>2</icon>
-		<!-- время перезарядки -->
-		<damage>50</damage>
-		<!-- разброс -->
-		<spread>5</spread>
-		<!-- скорострельность -->
-		<rate>4</rate>
-		<!-- Время перезарядки с пустой обоймой -->
-		<fullreload>12</fullreload>
-		<!-- Время перезарядки с не пустой обоймой -->
-		<fastreload>7</fastreload>
-		<!-- максимальное количетсво патронов в обойме -->
-		<ammo>64</ammo>
-		<!-- тип предмета -->
-		<type>Weapon</type>
-		<!-- описание -->
-		<description>пулемет</description>
-		<!-- тип патронов -->
-		<ammotype>AssaultRiflesAmmoType</ammotype>
-		<!-- Режим стрельбы-->
-		<shootingmode>Continuous</shootingmode>
-	</item>
-	<item id="4">
-		<!-- имя -->
-		<name>m16a4</name>
-		<!-- цена на рынке -->
-		<price>1000</price>
-		<!-- имя спрайта -->
-		<icon>3</icon>
-		<!-- время перезарядки -->
-		<damage>24</damage>
-		<!-- разброс -->
-		<spread>36</spread>
-		<!-- скорострельность -->
-		<rate>1</rate>
-		<!-- Время перезарядки с пустой обоймой -->
-		<fullreload>6</fullreload>
-		<!-- Время перезарядки с не пустой обоймой -->
-		<fastreload>3</fastreload>
-		<!-- максимальное количетсво патронов в обойме -->
-		<ammo>30</ammo>
-		<!-- тип предмета -->
-		<type>Weapon</type>
-		<!-- описание -->
-		<description>М16 с очередями</description>
-		<!-- тип патронов -->
-		<ammotype>AssaultRiflesAmmoType</ammotype>
-		<!-- Режим стрельбы-->
-		<shootingmode>Queue</shootingmode>
-	</item>
-	<item id="5">
-		<!-- имя -->
-		<name>mp443</name>
-		<!-- цена на рынке -->
-		<price>1000</price>
-		<!-- имя спрайта -->
-		<icon>4</icon>
-		<!-- урон -->
-		<damage>22</damage>
-		<!-- разброс -->
-		<spread>15</spread>
-		<!-- скорострельность -->
-		<rate>1</rate>
-		<!-- Время перезарядки с пустой обоймой -->
-		<fullreload>6</fullreload>
-		<!-- Время перезарядки с не пустой обоймой -->
-		<fastreload>3</fastreload>
-		<!-- максимальное количетсво патронов в обойме -->
-		<ammo>17</ammo>
-		<!-- тип предмета -->
-		<type>Weapon</type>
-		<!-- описание -->
-		<description>Пистолет</description>
-		<!-- тип патронов -->
-		<ammotype>AssaultRiflesAmmoType</ammotype>
-		<!-- Режим стрельбы-->
-		<shootingmode>Single</shootingmode>
-	</item>
+	<weapons>
+		<weapon>
+			<id>1</id>
+			<name>BM-57</name>
+			<sprite>BM-57</sprite>
+			<firerate>360</firerate>
+			<shootingmode>Single</shootingmode>
+			<holder>13</holder>
+			<minphysicaldamage>30</minphysicaldamage>
+			<maxphysicaldamage>15.4</maxphysicaldamage>
+			<minfiredamage>0</minfiredamage>
+			<maxfiredamage>0</maxfiredamage>
+			<minelectrialdamage>0</minelectrialdamage>
+			<maxelectrialdamage>0</maxelectrialdamage>
+			<minenergydamage>0</minenergydamage>
+			<maxenergydamage>0</maxenergydamage>
+			<minpoisondamage>0</minpoisondamage>
+			<maxpoisondamage>0</maxpoisondamage>
+			<mincorrosivedamage>0</mincorrosivedamage>
+			<maxcorrosivedamage>0</maxcorrosivedamage>
+			<minicedamage>0</minicedamage>
+			<maxicedamage>0</maxicedamage>
+			<price>0</price>
+			<fullreload>1.6</fullreload>
+			<fastreload>1.35</fastreload>
+			<ammo>PistolAmmo</ammo>
+			<type>Weapon</type>
+		</weapon>
+	</weapons>
+	<armors>
+		<armor>
+			<id></id>
+		</armor>
+	</armors>
 </items>
 	

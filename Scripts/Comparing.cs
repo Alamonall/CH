@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Comparing : MonoBehaviour {
 
-	public GameObject ComparingWeapon;
+	public GameObject CompareWeapon;
 
 	public Text CompareName;
 	public Text PWName;
@@ -33,33 +33,22 @@ public class Comparing : MonoBehaviour {
 			CompareName.text = item.itemName;
 			PWName.text = "PW: " + script.PrimaryWeapon.itemName;
 			SWName.text = "SW: " + script.SecondaryWeapon.itemName;
-			CompareDamage.text = " " + item.physicalDamage;
 			CompareAmmo.text = " " + item.Ammo;
 			CompareFullReload.text = " " + item.FullReload;
 			CompareFastReload.text = " " + item.FastReload;
 			SetCompare (item, script.PrimaryWeapon, PWDamage, PWAmmo, PWFullReload, PWFastReload);
 			SetCompare (item, script.SecondaryWeapon, SWDamage, SWAmmo, SWFullReload, SWFastReload);
-			ShowCompareMenu (ComparingWeapon);
+			ShowCompareMenu (CompareWeapon);
 			break;
 		case "Armor":
+			// доработать
 			Armor ar = item2 as Armor;
 			break;
 		}
 	}
 
-	public void ComparingItem(Weapon item){
-		
-	}
-
-	public void ComparingItem(Armor item){}
-
-
-
 	void SetCompare(Weapon item, Weapon weap, Text damage, Text ammo, Text full, Text fast){
-		SetCompareTwo (damage, item.physicalDamage, weap.physicalDamage);
-		SetCompareTwo (ammo, item.ammo, weap.ammo);
-		SetCompareTwo (full, item.FullReload, weap.FullReload);
-		SetCompareTwo (fast, item.FastReload, weap.FastReload);
+		SetCompareTwo (ammo, item.ammo, weap.ammo);	
 	}
 
 	void SetCompareTwo(Text t, float one, float two){

@@ -7,9 +7,7 @@ public class GunAction : MonoBehaviour {
 	Character characterScript;
 	UIManager uiScript;
 
-	private GameObject bulletClone; //
-	public GameObject bullet; //ссылка на префаб пули
-
+	public Weapon weapon;
 	public int ammo; // количество пуль в обойме
 	public int holder; //текущее количество пуль в обойме
 	public int maxAmmo; // общее количество патронов в рюкзаке персонажа
@@ -20,16 +18,22 @@ public class GunAction : MonoBehaviour {
 	public float rate; //промежуток между выстрелами, получаем из оружия
 	public float tempRate;
 	public bool bRate = true; // промежуток между выстрелами
-
+	public string ammoType;
 	public GameObject bulletPull;
 	public Quaternion tempRot;
 	public Vector3 lookPos;
 	public string shootingMode;
-
+	public 
 	//tempering var
-	Weapon weaponTemp; 
 	bool weaponTriggerUp;
 	int tempQueue;
+	GameObject bulletClone; 
+	GameObject bullet; 
+
+	public GameObject assaultRiflePrefab;
+	public GameObject riflePrefab;
+	public GameObject pistolPrefab;
+	public GameObject shotgunPrefab;
 
 	#region Awake
 	void Awake(){
@@ -48,20 +52,26 @@ public class GunAction : MonoBehaviour {
 	#region Update
 	void FixedUpdate(){
 		//промежуток между выстрелами
-		if (!bRate) {
-			if (tempRate <= 0) {
+		if (!bRate) {			
+			if (tempRate <= Time.time) {
 				bRate = true;
-				tempRate = rate;
 			}
-			tempRate -= Time.deltaTime*10;
 		}
 
-		if (!overReload) {
-			tempReload -= Time.deltaTime;
-			if (tempReload < 0){
-				maxAmmo -= ammo - holder;
+		if (!overReload) {			
+			if (maxAmmo == 0 || holder == ammo) {
+				print ("Сообщение о том, что патронов для данного оружия нет");
+				overReload = true;
+			}
+			if (tempReload <= Time.time){
+				if (maxAmmo < ammo && (ammo - holder) >= maxAmmo) {
+					holder += maxAmmo;
+					maxAmmo = 0;
+				} else {
+					maxAmmo -= ammo - holder;
+					holder += ammo - holder;
+				}
 				characterScript.SetAmmo (maxAmmo);
-				holder = ammo;
 				overReload = true;
 				SaveHolder ();
 			}	
@@ -79,6 +89,7 @@ public class GunAction : MonoBehaviour {
 
 		//быстрая смена оружия
 		if(Input.GetKeyUp(KeyCode.Q)){
+			overReload = true;
 			characterScript.SwapWeapon();
 			tempReload = -1;
 		}
@@ -101,7 +112,7 @@ public class GunAction : MonoBehaviour {
 	#region Shooting
 	public void Shooting()
 	{
-		if (uiScript.bAMenu || uiScript.bMMenu || uiScript.bDMenu)
+		if (AdditionalMenuAction._instanceAMA.dontShoot)
 			return;
 		//проверка не активна ли сейчас перезарядка или не кончились ли патроны
 		if (overReload) {			
@@ -110,14 +121,19 @@ public class GunAction : MonoBehaviour {
 				return;
 			}
 			if (bRate && weaponTriggerUp) {
+				bullet = GetBulletPrefab ();
+				if (bullet == null) {
+					Debug.Log ("Bullet prefab is null");
+					return;
+				}			
 				bulletClone = Instantiate(bullet, transform.position, tempRot) as GameObject; 
-//				bulletClone.transform.SetParent (bulletPull.transform);
 				Rigidbody2D rg2 = bulletClone.GetComponent<Rigidbody2D> ();
 				rg2.AddForce ((tempRot*Vector2.right));
 				holder--;
 				SaveHolder ();
 				bRate = false;
-				weaponTriggerUp = ShootingMode();
+				tempRate = Time.time + rate;
+				weaponTriggerUp = GetShootingMode();
 			}			
 		} else {	
 			overReload = false;
@@ -125,21 +141,33 @@ public class GunAction : MonoBehaviour {
 	}
 	#endregion
 
-	#region Shootingmode
-	//отвечает за тип стрельбы
-	//
-	public bool ShootingMode(){
-		
+	public GameObject GetBulletPrefab(){
+		switch(ammoType){
+		case "AssaultRifleAmmo":
+			return assaultRiflePrefab;
+		case "RifleAmmo":
+			return riflePrefab;
+		case "PistolAmmo":
+			return pistolPrefab;
+		case "ShotgunAmmo":
+			return shotgunPrefab;
+		}
+			return null;
+	}
+
+	#region GetShootingMode
+	//отвечает за темп стрельбы
+	public bool GetShootingMode(){		
 		switch(shootingMode){
-		case "Single":
-			return false;
-		case "Queue":
-			tempQueue++;
-			if (tempQueue == 4) {
-				tempQueue = 0;
+			case "Single":
 				return false;
-			}
-			break;
+			case "Queue":
+				tempQueue++;
+				if (tempQueue == 3) {
+					tempQueue = 0;
+					return false;
+				}
+				break;
 		}	
 		return true;	
 	}
@@ -164,23 +192,23 @@ public class GunAction : MonoBehaviour {
 			print ("charScript is null");
 			return;
 		}
-
 		//проверку на наличие оружия в руках
 		if (characterScript.activeWeapon) 
-			weaponTemp = characterScript.PrimaryWeapon;
+			weapon = characterScript.PrimaryWeapon;
 		if (!characterScript.activeWeapon)
-			weaponTemp = characterScript.SecondaryWeapon;
+			weapon = characterScript.SecondaryWeapon;
 		holder = 0;
-		ammo = weaponTemp.Ammo;
-		holder = weaponTemp.Holder;
-		fullReload = weaponTemp.FullReload;
-		fastReload = weaponTemp.FastReload;
-		rate = weaponTemp.Rate;
-		SaveHolder ();
-		maxAmmo = characterScript.GetAmmo();
+		fullReload = weapon.FullReload;
+		fastReload = weapon.FastReload;
+		rate = (weapon.Rate/60)/1000; // Возможно поправить
+//		Debug.Log("Rate = " + rate);
 		tempReload = fullReload;
-		tempRate = rate;
-		shootingMode = weaponTemp.ShootingMode;
+		shootingMode = weapon.ShootingMode;
+		ammoType = weapon.ammoType;
+		maxAmmo = characterScript.GetAmmo ();
+		ammo = weapon.Ammo;
+		holder = weapon.Holder;
+		SaveHolder ();
 	}
 	#endregion
 
@@ -188,9 +216,9 @@ public class GunAction : MonoBehaviour {
 	#region Reload
 	public void Reload(){
 		if (holder > 0 && holder != ammo)
-			tempReload = fastReload;
+			tempReload = Time.time + fastReload;
 		else
-			tempReload = fullReload;	
+			tempReload = Time.time + fullReload;	
 		overReload = false;
 	}
 	#endregion

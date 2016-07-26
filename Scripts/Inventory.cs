@@ -17,6 +17,7 @@ public class Inventory
 	}
 
 	public void PutItem(InventoryItem item){
+		currSize++;
 		if (itemList == null) {
 //			Debug.Log ("Item List is null");
 			return;
@@ -25,7 +26,6 @@ public class Inventory
 			if (itemList[i] == null) {
 				itemList[i] = item;
 //				Debug.Log ("Inventory take to " + item.itemName);
-				currSize++;
 				return;
 			}	
 		}
@@ -33,14 +33,19 @@ public class Inventory
 
 	//запрашиваем количество выбрасываемых предметов
 	public void DropItem(InventoryItem item){
-		if (itemList == null)
+		Debug.Log ("Finding " + item.itemName + "in inventory with size = " + currSize);
+		if (itemList == null) {
+			Debug.Log ("itemList is null");
 			return;
-		for(int i = 0; i < currSize; i++)
-			if (itemList[i].itemName.Equals (item.itemName)) {
-				itemList[i] = null;
-				currSize--;
+		}
+		for (int i = 0; i < currSize; i++) {
+			Debug.Log ("Item = " + itemList [i].itemName);
+			if (itemList [i] != null && itemList [i].itemName.Equals (item.itemName)) {
+				Debug.Log ("Removing " + item.itemName + " from the inventory");
+				itemList [i] = null;
 				break;
 			}
+		}
 	}
 
 	public InventoryItem[] ItemList {

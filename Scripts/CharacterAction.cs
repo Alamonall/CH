@@ -1,22 +1,24 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CharacterAction : MonoBehaviour {
 	
 	public static CharacterAction _instanceCA;
 
 	Character characterScript;
-	UIManager uiScript;
-
+	private UIManager uiScript;
 
 	public Transform player;
-	private float speed; // скорость передвижения
+	public float speed; // скорость передвижения
 
 	public GunAction gunActionScript;
 	GameObject item;
-	float time = 0;
 	bool pressing = false;
 
+	public Skill firstQuickCellSkill;
+	public Skill secondQuickCellSkill;
+	public Skill thirdQuickCellSkill;
 
 	void Start () 
 	{
@@ -32,24 +34,46 @@ public class CharacterAction : MonoBehaviour {
 
 	void Update () 
 	{
-		InputMovement();
+		
 		//при нажатие на Е персонажа говорит менаджеру, что предмет с idItem я хочу взять
 		if (Input.GetKeyUp(KeyCode.E) && item != null) {
 			item.GetComponent<BagAction> ().ShowItemList ();
 			YouCantTakeMe ();
 		}
+		if (characterScript.CheckLevelUp ())
+			characterScript.LevelUp ();
+
 
 		Cheats ();
+		InputMovement();
+		PressingHotButtons ();
+	}
 
-//		if (characterScript.CheckLevelUp ())
-//			characterScript.LevelUp ();
+	public void PressingHotButtons(){
+		if (Input.GetKeyUp (KeyCode.Alpha1)) {
+			firstQuickCellSkill.Use ();
+			Debug.Log ("One!");
+		}
+
+		if (Input.GetKeyUp (KeyCode.Alpha2)) {
+			secondQuickCellSkill.Use ();
+			Debug.Log ("Two!");
+
+		}
+		if (Input.GetKeyUp (KeyCode.Alpha3)) {
+			thirdQuickCellSkill.Use ();
+			Debug.Log ("Tjree!");
+		}
 	}
 
 	public void Cheats(){
 		//чит TEMP
+		if (Input.GetKeyDown (KeyCode.F4))
+			characterScript.LevelUp ();
+		if(Input.GetKeyDown(KeyCode.F3))
+			characterScript.currentExperience += 10000;
 		if(Input.GetKeyDown(KeyCode.F2))
 			characterScript.currentExperience += 100;
-
 		if (Input.GetKeyDown (KeyCode.F1))
 			characterScript.currentHealthPoints -= 25;
 	}
@@ -91,5 +115,35 @@ public class CharacterAction : MonoBehaviour {
 
 	public Vector3 GetCurrentPositionOfPlayer(){
 		return GameObject.Find ("Player").transform.localPosition;
+	}
+
+	public Skill FirstQuickCellSkill {
+		get {
+			return firstQuickCellSkill;
+		}
+		set {			
+			firstQuickCellSkill = value;
+			Debug.Log ("FQCS = " + firstQuickCellSkill);
+		}
+	}
+
+	public Skill SecondQuickCellSkill {
+		get {
+			return secondQuickCellSkill;
+		}
+		set {
+			secondQuickCellSkill = value;
+			Debug.Log ("SQCS = " + secondQuickCellSkill);
+		}
+	}
+
+	public Skill ThirdQuickCellSkill {
+		get {
+			return thirdQuickCellSkill;
+		}
+		set {
+			thirdQuickCellSkill = value;
+			Debug.Log ("TQCS = " + thirdQuickCellSkill);
+		}
 	}
 }

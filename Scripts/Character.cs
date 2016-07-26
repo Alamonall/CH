@@ -8,7 +8,6 @@ public class Character : MonoBehaviour
 	public bool needUpdate = false;
 
 	//[SerializeField]
-	public Specialization currentSpec;
 	public Weapon primaryWeapon;
 	public Weapon secondaryWeapon;
 	public Armor armor;
@@ -23,6 +22,7 @@ public class Character : MonoBehaviour
 	public float nextLevelExperience; // необходимо опыта до получения нового уровня
 
 	public int currentSkillPoints; // текущее количество очков умений
+	//????
 	public int nextLevelSkillPoints;	// количество очков опыта за получение нового уровня
 		
 	public float currentStaminaPoints; // текущая выносливость
@@ -43,6 +43,7 @@ public class Character : MonoBehaviour
 	public float poisonDamagePrimaryWeapon;
 	public float energyDamagePrimaryWeapon;
 	public float corrosionDamagePrimaryWeapon;
+
 	public float physicalDamageSecondaryWeapon;
 	public float fireDamageSecondaryWeapon;
 	public float electricDamageSecondaryWeapon;
@@ -50,6 +51,7 @@ public class Character : MonoBehaviour
 	public float poisonDamageSecondaryWeapon;
 	public float energyDamageSecondaryWeapon;
 	public float corrosionDamageSecondaryyWeapon;
+
 	public float totalPhysicalResistance;
 	public float totalFireResistance;
 	public float totalElectricResistance;
@@ -58,32 +60,60 @@ public class Character : MonoBehaviour
 	public float totalCorrosionResistance;
 	public float totalEnergyResistance;
 
-	public Ammo activeAmmoType;
+	public int activeAmmoType;
 
-	public AssaultRiflesAmmoType assaultRiflesAmmo;
+	public int pistolAmmo;
+	public int shotgunAmmo;
+	public int rifleAmmo;
+	public int assaultRifleAmmo;
+	public int laserAmmo;
+	public int beamAmmo;
+	public int rocketAmmo;
+
+	public Skill[] ArraySkills;
 
 	void Awake(){
 		if (_instanceCharacter == null) {
 			DontDestroyOnLoad (this.gameObject);
 			_instanceCharacter = this;
-			print ("Character Awake!");
 		}
-//		else if (_instanceCharacter != this)
-//			Destroy (this.gameObject);
-		
-	}
 
-	public void SelectSpecialization(Specialization spec){
-		this.currentSpec = spec;
-		this.nextLevelExperience = spec.nextLevelExperience;
-		this.nextLevelSkillPoints = spec.nextLevelSkillPoints;
-		this.maxStaminaPoints = spec.maxStaminaPoints;
-		this.maxHealtPoints = spec.maxHealtPoints;
-		this.modHealtPoints = spec.modHealtPoints;
-		this.speed = spec.speed;
-		this.overSpeed = spec.overSpeed;
+		ArraySkills = new Skill[16];
+		ArraySkills [0] = new FirstSkill();
+		ArraySkills [1] = new SecondSkill ();
+		ArraySkills [2] = new ThirdSkill ();
+		ArraySkills [3] = new FourthSkill ();
+		ArraySkills [4] = new FifthSkill ();
+		ArraySkills [5] = new SixthSkill ();
+		ArraySkills [6] = new SeventhSkill ();
+		ArraySkills [7] = new EighthSkill ();
+		ArraySkills [8] = new NinthSkill ();
+		ArraySkills [9] = new TenthSkill ();
+		ArraySkills [10] = new EleventhSkill ();
+		ArraySkills [11] = new TwelfthSkill ();
+		ArraySkills [12] = new ThirteenthSkill ();
+		ArraySkills [13] = new FourteenthSkill ();
+		ArraySkills [14] = new FifteenthSkill ();
+		ArraySkills [15] = new SixteenthSkill ();
+		pistolAmmo = 100;
+		shotgunAmmo = 100;
+		rifleAmmo = 100;
+		assaultRifleAmmo = 100;
+		laserAmmo = 100;
+		beamAmmo = 100;
+		rocketAmmo = 100;
+		PrimaryWeapon = new Weapon ();
+		SecondaryWeapon = new Weapon ();
 
-		currentLevel = 0;
+		this.nextLevelExperience = 1000;
+		this.nextLevelSkillPoints = 1;
+		this.maxStaminaPoints = 500;
+		this.maxHealtPoints = 100;
+		this.modHealtPoints = 100;
+		this.speed = 100;
+		this.overSpeed = 175;
+
+		currentLevel = 1;
 		currentMoney = 100;
 
 		currentExperience = 0;
@@ -96,10 +126,17 @@ public class Character : MonoBehaviour
 		secondaryWeapon = new Weapon();
 		armor = new Armor();
 		granade = new Granade ();
-		medkit = new Medkit ();
+		//????
+		medkit = null;
 		Inventory = new Inventory (24);
-		//Temp
-		assaultRiflesAmmo = new AssaultRiflesAmmoType ();
+	}
+
+	public void IncreaseGrowth(int incDuration, int incRecoil, int incAction){
+		
+	}
+
+	public Skill GetSkill(int num){
+		return ArraySkills [num];
 	}
 
 	public bool CheckLevelUp(){
@@ -122,43 +159,99 @@ public class Character : MonoBehaviour
 	}
 
 	public void LevelUp(){
-		Debug.Log ("Level Up!");
-		currentLevel++;
+//		Debug.Log ("Level Up! " + currentLevel + "!" );
+		currentLevel+=100;
 		maxHealtPoints += modHealtPoints;
 		currentHealthPoints = maxHealtPoints;
 		currentExperience = currentExperience-nextLevelExperience;
 		nextLevelExperience = nextLevelExperience*2;
+		currentSkillPoints+=1000;
+		gameObject.SendMessage ("CharGetLevel", this);
 	}
 
+	#region GetAmmo
 	public int GetAmmo(){
-		Ammo temp;
+		int temp = 0;
+		string ammoType;
 		if (activeWeapon)
-			temp = primaryWeapon.ammoType;
+			ammoType = primaryWeapon.ammoType;
 		else
-			temp = secondaryWeapon.ammoType;			
-		if(temp is AssaultRiflesAmmoType){
-			return assaultRiflesAmmo.CurrentAmmo;//				
-		}	
-			return 0;
+			ammoType = secondaryWeapon.ammoType;
+	
+		switch(ammoType){
+			case "PistolAmmo": // Пистолеты, револьверы, пистолеты-пулеметы
+				temp = pistolAmmo;
+				
+				break;
+			case "ShotgunAmmo": //дробовики				
+				temp = shotgunAmmo;
+				break;
+			case "RifleAmmo":				
+				temp = rifleAmmo;
+				break;
+			case "AssaultRifleAmmo":
+				temp = assaultRifleAmmo;
+				break;
+			case "LaserAmmo":
+				temp = laserAmmo;
+				break;
+			case "BeamAmmo":
+				temp = beamAmmo;
+				break;
+			case "RocketAmmo":				
+				temp = rocketAmmo;
+				break;
+			}		
+//		print ("GetAmmo " + ammoType + " = " + temp);
+		return temp;
 	}
+	#endregion
 
+	#region SetAmmo
 	public void SetAmmo(int ammo){
-		Ammo temp;
+		string ammoType;
+
 		if (activeWeapon)
-			temp = primaryWeapon.ammoType;
+			ammoType = primaryWeapon.ammoType;
 		else
-			temp = secondaryWeapon.ammoType;			
-		if (temp is AssaultRiflesAmmoType) {
-			assaultRiflesAmmo.CurrentAmmo = ammo;
-		}
+			ammoType = secondaryWeapon.ammoType;
+		
+		switch(ammoType){
+			case "PistolAmmo": // Пистолеты, револьверы, пистолеты-пулеметы
+				pistolAmmo = ammo;
+				break;
+			case "ShotgunAmmo": //дробовики
+				shotgunAmmo = ammo;
+				break;
+			case "RifleAmmo":
+				rifleAmmo = ammo;
+				break;
+			case "AssaultRifleAmmo":
+			print ("SetAmmo " + ammoType + " = " + ammo);
+				assaultRifleAmmo = ammo;
+				break;
+			case "LaserAmmo":
+				laserAmmo = ammo;
+				break;
+			case "BeamAmmo":
+				beamAmmo = ammo;
+				break;
+			case "RocketAmmo":
+				rocketAmmo = ammo;
+				break;
+		}			
 	}
+	#endregion
 
 	public Weapon PrimaryWeapon {
 		get {
 			return primaryWeapon;
 		}
 		set {
-			primaryWeapon = value;
+			if(value == null)
+				primaryWeapon = new Weapon();
+			else
+				primaryWeapon = value;
 			UpdateParameters ();
 		}
 	}
@@ -168,7 +261,10 @@ public class Character : MonoBehaviour
 			return secondaryWeapon;
 		}
 		set {
-			secondaryWeapon = value;
+			if (value == null)
+				secondaryWeapon = new Weapon ();
+			else
+				secondaryWeapon = value;
 			UpdateParameters ();
 		}
 	}
@@ -201,8 +297,6 @@ public class Character : MonoBehaviour
 		}
 	}
 
-
-
 	public Medkit Medkit {
 		get {
 			return medkit;
@@ -232,12 +326,39 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	public AssaultRiflesAmmoType AssaultRiflesAmmo {
+	public float CurrentHealthPoints {
 		get {
-			return assaultRiflesAmmo;
+			return currentHealthPoints;
 		}
 		set {
-			assaultRiflesAmmo = value;
+			currentHealthPoints = value;
+		}
+	}
+
+	public float MaxHealtPoints {
+		get {
+			return maxHealtPoints;
+		}
+		set {
+			maxHealtPoints = value;
+		}
+	}
+
+	public float OverSpeed {
+		get {
+			return overSpeed;
+		}
+		set {
+			overSpeed = value;
+		}
+	}
+
+	public float CurrentMoney {
+		get {
+			return currentMoney;
+		}
+		set {
+			currentMoney = value;
 		}
 	}
 }

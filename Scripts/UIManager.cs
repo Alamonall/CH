@@ -6,38 +6,33 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
+using System;
 
 public class UIManager : MonoBehaviour {
 
 	public static UIManager _instanceUIM;
 
-	Character characterScript; 
-	CharacterAction characterActionScript;
-	GunAction gunActionScript;
-	AdditionalMenuAction addMenuAction;
+	public Character characterScript; 
+	public CharacterAction characterActionScript;
+	public GunAction gunActionScript;
+	public AdditionalMenuAction addMenuAction;
+	public BoardManager bmScript;
+	public CharacterMenuAction characterMenuActionScript;
 
-	public Sprite[] inventoryItemIconList;
 	public TextAsset itemsXml;
-	public ArrayList allItemList;
-	public GameObject additionalMenu;
-	public GameObject mainMenu;
-	public GameObject dropListMenu;
+	public ArrayList allItemsList;
 	public GameObject dropZone;
-	public GameObject characterSelectionMenu;
-	public GameObject multiplayerMenu;
 
 	private GameObject inventoryCellClone; // копия префаба ячейки инвентаря
 	public GameObject prefabEmptyInventoryCell; // пребаф пустой ячейки инвентаря
 	public GameObject prefabDropItem;
-	public bool bAMenu = false; //button additional menu
-	public bool bMMenu = false; //button main menu
-	public bool bDMenu = false; // drop menu flag
+
 	private bool single = true;
 	private string prevMenu;
 	public string selectedCharacter;
 	public bool gameActive = false; //активна ли сейчас игра
-	private Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
-	private Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
+	public Vector3 uiOff = new Vector3 (0,0,0); // вектор для выключения элемента интерфейса
+	public Vector3 uiOn = new Vector3(1,1,1);// вектор для включения элемента интерфейса
 	public GameObject forDropObject; //ближайший drop-обьект
 
 	void Awake(){
@@ -46,99 +41,52 @@ public class UIManager : MonoBehaviour {
 			_instanceUIM = this;
 		} else if (_instanceUIM != this)
 			Destroy (this.gameObject);
-		characterSelectionMenu.transform.localScale = uiOff;
-		allItemList = new ArrayList ();
-		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
+		bmScript = BoardManager._instanceBM;
+		characterMenuActionScript = CharacterMenuAction._instanceCMA;
+		allItemsList = new ArrayList ();
+//		addMenuAction = additionalMenu.GetComponent<AdditionalMenuAction> ();
+//		for (int i = 0; i < allItemsList.Count; i++) {
+//			print ("all[" + i + "] = " + allItemsList [i]);
+//		}
 	}
 
-	void Update ()
-	{	
-		
-		if (Input.GetKeyDown (KeyCode.Escape))
-			WasPressedEscape ();
+	void Update (){	
+		if (gameActive){			
+			InGameMenuActions ();
+		}
+	}
 
-		if (gameActive) {
-			if(characterActionScript == null)
-			{
-				characterActionScript = CharacterAction._instanceCA;
-			}
-			if(gunActionScript == null)
-			{
-				gunActionScript = GunAction._instanceGA;
-			}
-			if (characterScript == null) {
-				characterScript = Character._instanceCharacter;
-				if (characterScript != null) {
-					switch (selectedCharacter) {
-					case "charOne":
-						characterScript.SelectSpecialization (new Assault ());
-						break;
-					case "charTwo":
-						characterScript.SelectSpecialization (new Ingeneer ());
-						break;
-					case "charThree":
-						characterScript.SelectSpecialization (new Support ());
-						break;
-					case "charFour":
-						characterScript.SelectSpecialization (new Recon ());
-						break;						
-					}
-					print ("character script DONT NULL");
-				}
-				if (characterScript == null) {
-					print ("character script is null");
-					return;
-				}
-				//TEMP
-				characterScript.assaultRiflesAmmo.CurrentAmmo = 500;
-				//TEMP
-			}
-			
-			if (characterScript.needUpdate) {
-				if (characterScript == null) {
-					print ("charScript is null");
+	#region InGameMenuActions
+	public void InGameMenuActions(){
+		//
+		if(characterActionScript == null){
+			characterActionScript = CharacterAction._instanceCA;
+		}
+		if(gunActionScript == null){
+			gunActionScript = GunAction._instanceGA;
+		}
+		//
+
+		if (characterScript.needUpdate) {			
+			try{
+				if (characterActionScript == null) {					
+					Debug.Log ("char Action is null");
 					return;
 				}
 				characterScript.needUpdate = false;
 				characterActionScript.UpdateParameters ();
+			}catch (Exception exc){
+				Debug.LogException (exc, this);
 			}
-
-			if (bAMenu && !bMMenu) {
-				if (bDMenu)
-					dropListMenu.transform.localScale = uiOff;
-				additionalMenu.transform.localScale = uiOn;
-			}
-			if (!bAMenu)
-				additionalMenu.transform.localScale = uiOff;
-			
-			if (!bDMenu)
-				dropListMenu.transform.localScale = uiOff;
-		}
-	}
-
-	#region EscapeWasPressed
-	public void WasPressedEscape(){
-		if (bAMenu) {
-			bAMenu = !bAMenu;
-			additionalMenu.transform.localScale = uiOff;
-		} else if (bMMenu) {
-			mainMenu.transform.localScale = uiOff;
-			bMMenu = !bMMenu;
-		} else if (bDMenu) {
-			bDMenu = !bDMenu;
-			dropListMenu.transform.localScale = uiOff;
-		} else {
-			bMMenu = !bMMenu;
-			mainMenu.transform.localScale = uiOn;
 		}
 	}
 	#endregion
-	#region ButtonFunctions
-	public void buttonMultiplayerGameMenu(){
-		single = false;
-		prevMenu = "mainMenu";
-		GameObject.FindGameObjectWithTag (prevMenu).transform.localScale = uiOff;
-		multiplayerMenu.transform.localScale = uiOn;	
+
+
+
+	public void buttonContinue()
+	{
+		
 	}
 
 	public void buttonSettings()
@@ -152,39 +100,32 @@ public class UIManager : MonoBehaviour {
 		Application.Quit ();	
 	}
 
-	public void buttonCharacterSelection(string prev)
-	{
-		prevMenu = prev;
-		characterSelectionMenu.transform.localScale = uiOn;	
-		GameObject.FindGameObjectWithTag (prev).transform.localScale = uiOff;	
-	}
-
-	public void buttonStartArena()
-	{
-		SceneManager.LoadScene ("Arena");
-	}
-
 	public void buttonBackToPrevMenu()
 	{
-		multiplayerMenu.transform.localScale = uiOff;
-		characterSelectionMenu.transform.localScale = uiOff;
 		GameObject.FindGameObjectWithTag (prevMenu).transform.localScale = uiOn;
 		prevMenu = "mainMenu";
 	}
-	#endregion
 
 	#region StartGame
 	public void StartGame ()
 	{
+		LoadingItemsFromXml ();
 		if (!single) {
 			//проверка на то, готовы ли все игроки
-		} else {			
-			characterSelectionMenu.transform.localScale = uiOff;
-			GameObject.Find ("CharacterInfoPanel").transform.localScale = uiOn;		
-			LoadingItemsFromXml ();
+		} else {
+			
+			addMenuAction.mainMenu.transform.localScale = uiOff;
+			addMenuAction.bMMenu = false;
+			//Оптимихация
+			GameObject.Find ("PermanentGUI").transform.localScale = uiOn;		
+
 			gameActive = true;
-			SceneManager.LoadScene (1);
-		
+			SceneManager.LoadScene (1);	
+			BoardManager._instanceBM.SetupScene (1);
+
+			characterScript = Character._instanceCharacter;
+			gunActionScript = GunAction._instanceGA;
+			characterActionScript = CharacterAction._instanceCA;
 		}
 
 	}	
@@ -200,16 +141,16 @@ public class UIManager : MonoBehaviour {
 					50), Quaternion.identity) as GameObject;
 			forDropObject.transform.SetParent (dropZone.transform);
 		}
-		print ("drop id = " + item.id);
-		forDropObject.GetComponent<BagAction> ().AddDropList (item.id);
+//		print ("drop id = " + item.id);
+		forDropObject.GetComponent<BagAction> ().AddDropList (item);
 	}
 	#endregion
 
-	#region GetItemFormAll
+	#region GetItemFromAll
 	public InventoryItem GetItemFromAll(int id){
-//		print ("List = " + allItemList.Count);
-		foreach (InventoryItem ii in allItemList) {
-//			print ("id = " + ii.id + "; ii = " + ii.itemName);
+		print ("List = " + allItemsList.Count);
+		foreach (InventoryItem ii in allItemsList) {
+			print ("id = " + ii.id + "; ii = " + ii.itemName);
 			if (ii.id == id) {	
 				return ii;
 			}
@@ -220,45 +161,81 @@ public class UIManager : MonoBehaviour {
 
 	#region LoadingItemsFromXml
 	public void LoadingItemsFromXml(){
+//		print ("LoadingItemsFromXml");
 		XmlDocument xmld = new XmlDocument ();
 		xmld.LoadXml (itemsXml.text);
-		XmlNodeList itemsList = xmld.GetElementsByTagName ("item");
-		foreach (XmlNode itemInfo in itemsList) {
-			if(itemInfo.Name == "item")
-			{
-				switch(itemInfo.SelectSingleNode ("type").InnerText){
-				case "Weapon":						
-					allItemList.Add (
-						new Weapon (int.Parse(itemInfo.Attributes["id"].Value), //int
-									itemInfo.SelectSingleNode ("name").InnerText, //string
-									float.Parse (itemInfo.SelectSingleNode ("price").InnerText), //float
-									inventoryItemIconList [int.Parse (itemInfo.SelectSingleNode ("icon").InnerText)],//sprite
-									float.Parse (itemInfo.SelectSingleNode ("damage").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("spread").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("rate").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("fullreload").InnerText),//float
-									float.Parse (itemInfo.SelectSingleNode ("fastreload").InnerText),//float
-									int.Parse (itemInfo.SelectSingleNode ("ammo").InnerText),/*int*/ 
-									itemInfo.SelectSingleNode ("type").InnerText,//string
-									itemInfo.SelectSingleNode ("description").InnerText, /*string*/
-									itemInfo.SelectSingleNode ("ammotype").InnerText,//string
-									itemInfo.SelectSingleNode("shootingmode").InnerText));//string
-					break;
-				case "Armor":						
-					allItemList.Add (
-						new Armor (
-							int.Parse(itemInfo.Attributes["id"].Value),
-							itemInfo.SelectSingleNode ("name").InnerText,
-							int.Parse (itemInfo.SelectSingleNode ("price").InnerText),
-							inventoryItemIconList [int.Parse (itemInfo.SelectSingleNode ("icon").InnerText)],
-							itemInfo.SelectSingleNode ("description").InnerText, itemInfo.SelectSingleNode ("type").InnerText));					
-					break;
-				}
-			}		
+
+		XmlNodeList weapons = xmld.GetElementsByTagName ("weapon");
+		foreach (XmlNode weapon in weapons) {
+			Debug.Log ("weapon = " + weapon.Name);	
+			allItemsList.Add (
+				new Weapon (
+					int.Parse (weapon.SelectSingleNode ("id").InnerText), //int
+					weapon.SelectSingleNode ("name").InnerText, //string
+					weapon.SelectSingleNode ("sprite").InnerText, //string
+					float.Parse (weapon.SelectSingleNode ("rate").InnerText),//float
+					weapon.SelectSingleNode ("shootingmode").InnerText,//string
+					int.Parse (weapon.SelectSingleNode ("holder").InnerText),/*int*/ 
+					float.Parse (weapon.SelectSingleNode ("price").InnerText), //float
+					float.Parse (weapon.SelectSingleNode ("fullreload").InnerText),//float
+					float.Parse (weapon.SelectSingleNode ("fastreload").InnerText),//float
+					weapon.SelectSingleNode ("ammo").InnerText, //string	
+					new Damages (float.Parse (weapon.SelectSingleNode ("minphysicaldamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxphysicaldamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minfiredamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxfiredamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minelectrialdamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxelectrialdamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minenergydamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxenergydamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minpoisondamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxpoisondamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("mincorrosivedamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxcorrosivedamage").InnerText)),
+					new Damages (float.Parse (weapon.SelectSingleNode ("minicedamage").InnerText),
+						float.Parse (weapon.SelectSingleNode ("maxicedamage").InnerText)),
+					weapon.SelectSingleNode ("type").InnerText));						
 		}
+
+		XmlNodeList armors = xmld.GetElementsByTagName ("armor");
+		foreach (XmlNode armor in armors) {										
+			allItemsList.Add (
+				new Armor (
+					int.Parse (armor.Attributes ["id"].Value),
+					armor.SelectSingleNode ("name").InnerText,
+					int.Parse (armor.SelectSingleNode ("price").InnerText),
+					armor.SelectSingleNode ("description").InnerText, armor.SelectSingleNode ("type").InnerText));					
+		}
+
+		XmlNodeList medkits = xmld.GetElementsByTagName ("medkit");
+		foreach (XmlNode medkit in medkits) {	
+			switch (medkit.Name) {
+			case "FirstTierMedkit":
+				allItemsList.Add (new FirstTierMedkit ());
+				break;
+			case "SecondTierMedkit":
+				allItemsList.Add (new SecondTierMedkit ());
+				break;
+			case "ThirdTierMedkit":
+				allItemsList.Add (new ThirdTierMedkit ());
+				break;
+			case "FourTierMedkit":
+				allItemsList.Add (new FourTierMedkit ());
+				break;			
+			}
+		}				
 	}
 	#endregion
 
-
+	#region CharGetLevel
+	public void CharGetLevel(Character self){
+		if (characterMenuActionScript == null) {
+			characterMenuActionScript = CharacterMenuAction._instanceCMA;
+			Debug.Log ("character menu action script is null = " + characterMenuActionScript);
+			return;
+		}
+		characterMenuActionScript.CheckOnAvalaible ();
+	}
+	#endregion
 
 }

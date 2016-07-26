@@ -7,22 +7,38 @@ public class BagAction : MonoBehaviour {
 	DropListAction dropListScript;
 	UIManager uiScript;
 	CharacterAction characterActionScript;
+	AdditionalMenuAction addMenuAcion;
 
 	public GameObject buttonE;
-	public Sprite defaultSprite;
-	public int[] dropList;
+	public bool isAChest;
 
-	ArrayList dropTempList;
-	bool isNewChest = false;
+	public List<InventoryItem> dropListInGame; // лист для дропа походу игры
+	public int[] dropListOfChest; // лист для дропа в сундкуе
+
+	public Sprite closed;
+	public Sprite open;
+	public Sprite bag;
 
 	void Start () {		
 		buttonE.SetActive (false);
 		uiScript = UIManager._instanceUIM;
-		this.gameObject.GetComponent<SpriteRenderer> ().sprite = defaultSprite;
+		addMenuAcion = AdditionalMenuAction._instanceAMA;
+
+		if (isAChest) {
+			dropListInGame = new List<InventoryItem> ();
+			foreach (int id in dropListOfChest) {
+//				Debug.Log ("GetItemFromAll = " + uiScript.GetItemFromAll (id));
+				dropListInGame.Add (uiScript.GetItemFromAll (id));
+			}
+		}
 	}
 
-	public void AmEmpty()
-	{
+	public void AmEmpty(){
+		if (isAChest) {
+			this.gameObject.GetComponent<SpriteRenderer> ().sprite = open;
+			return;
+		}
+			
 		Destroy (this.gameObject);
 	}
 
@@ -33,11 +49,14 @@ public class BagAction : MonoBehaviour {
 			dropListScript = DropListAction._instanceDLA;
 	}
 
-	public void AddDropList(int id){
-		isNewChest = true;
-		if (dropTempList == null)
-			dropTempList = new ArrayList();
-		dropTempList.Add (id);
+	//Если не сундук, то создаем новый список, либо добавляем существующий список выкинутых предметов
+	public void AddDropList(InventoryItem item){
+		if (isAChest)
+			return;
+		if (dropListInGame == null) {
+			dropListInGame = new List<InventoryItem> ();
+		}
+		dropListInGame.Add (item);
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
@@ -55,7 +74,7 @@ public class BagAction : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other){
 //		Debug.Log ("OnTriggerExit!");
 		buttonE.SetActive (false);
-		uiScript.bDMenu = false;
+		addMenuAcion.bDMenu = false;
 		if (characterActionScript == null) {
 			print ("CAS is null");
 			return;
@@ -63,19 +82,12 @@ public class BagAction : MonoBehaviour {
 		characterActionScript.YouCantTakeMe ();
 	}
 
-	public void ShowItemList(){			
-		if (isNewChest) {
-			dropList = (int[])dropTempList.ToArray (typeof(int));
-		}
-		isNewChest = false;
-		if (dropList == null) {
-//			print ("doplist is null");
-			return;
-		}	
+
+	public void ShowItemList(){		
 		if (dropListScript == null) {
 			print ("droplistscript null");
 			return;
 		}
-		dropListScript.ShowDropList (dropList, this);	
+		dropListScript.ShowDropList (dropListInGame.ToArray (), this);	
 	}
 }

@@ -10,18 +10,18 @@ public class Bullet : MonoBehaviour {
 	public float bulletTimeLimit = 50.0f;
 	public float bulletSpeed = 10;
 
-	void Update()
+	void Update ()
 	{
-		if(bulletTimeLimit > 0) {	
+		if (bulletTimeLimit > 0) {	
 			bulletTimeLimit -= Time.deltaTime;	
 		} else {
 			bulletTimeLimit = 1.0f;
 			Destroy (this.gameObject);
 		}
 	}
-
-	public void SetDir(Quaternion dir){
-		tempRot = dir;
-	}
 }
+
+
+
+
 

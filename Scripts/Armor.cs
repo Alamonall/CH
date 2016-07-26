@@ -14,11 +14,11 @@ public class Armor : InventoryItem
 	public float energyResistance;
 	//public ArmoryEffect[] armoryEffect;
 	
-	public Armor(int id, string name, float price, Sprite icon, string description, string type){
+	public Armor(int id, string name, float price, string description, string type){
 		this.id = id;
 		this.itemName = name;
 		this.itemPrice = price;
-		this.itemIcon = icon;
+		this.itemIcon = Resources.Load(name,typeof(Sprite)) as Sprite;
 		this.description = description;
 		this.type = type;
 	}

@@ -6,27 +6,29 @@ using System.Collections.Generic;
 public class DragAndDrop : MonoBehaviour,
 IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler{
 	
-	public AdditionalMenuAction amaScript;
-	Sprite tempInventoryCell;
+	AdditionalMenuAction amaScript;
+	Character character;
+	public Sprite emptyInventoryCell;// спрайт пустой ячейки
 	GameObject icon;
 	GameObject drop;
-	bool isDragged = false;
-	public Camera mainCamera;
 	GameObject inventoryPanel;
 	Vector3 screenPoint;
 	Vector3 offset;
-
+	public Camera mainCamera;
+	public InventoryItem item;
 	public bool isInventory = false;
-	bool isDropCell = false;
-	public Sprite emptyInventoryCell;
 	bool mouseInside = false;
+	public string type; //тип InventoryItem, который может поместиться в эту ячейку
 
+	InventoryItem tempInventoryItem; 
+	bool isDragged = true;
 	public int idCell;
+
+	public GameObject preview;
 
 	void Awake()
 	{		
 		inventoryPanel = GameObject.Find ("InventoryPanel");
-
 	}
 
 	void Update(){	
@@ -34,9 +36,15 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 //			print ("ama null");
 			amaScript = AdditionalMenuAction._instanceAMA;
 		}
-		if (Input.GetMouseButtonUp (0) && mouseInside) {
-//			print ("Right click!");
-			amaScript.ShowPreview (idCell, isInventory, this.gameObject);
+		if(character == null)
+		{
+//			print ("character is null");
+			character = Character._instanceCharacter;
+		}
+		if (Input.GetMouseButtonUp (1) && mouseInside) {
+			print ("Right click!");
+			amaScript.ShowContextMenu (this.gameObject, this);			
+//			amaScript.ShowPreview (idCell, isInventory, this.gameObject);
 		}
 	}
 
@@ -48,30 +56,77 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 		mouseInside = false;
 	}
 
+
+	#region UpdateItem
+	public void UpdateItem(InventoryItem item){
+		this.item = item;
+		if(!isInventory)
+			switch (idCell) {
+			case 0:
+				character.PrimaryWeapon = item as Weapon;
+				break;
+			case 1:
+				character.SecondaryWeapon = item as Weapon;
+				break;
+			case 2:
+				character.Armor = item as Armor;
+				break;
+			default:
+//				print ("nothing sacred");
+				break;
+			}
+		if (item == null) 
+			GetComponent<Image> ().sprite = emptyInventoryCell;
+		else
+			GetComponent<Image> ().sprite = item.ItemIcon;
+	}
+	#endregion
+
 	public void OnDrop(PointerEventData data)
 	{
-		if (data.pointerDrag.GetComponent<DragAndDrop> ().isDragged) {
+		DragAndDrop tempScript = data.pointerDrag.GetComponent<DragAndDrop> ();
+		if (tempScript == null) {
+			print ("tempScript is null");
+			return;
+		}
+		if(character == null)
+		{
+			print ("character is null");
+			return;
+		}
+		if (tempScript.isDragged) {
 //			print ("Куда = " + this.gameObject.name);
 //			print ("Что = " + data.pointerDrag.name);
-			if (amaScript.SwapItem (this.gameObject, data.pointerDrag)) {
-				if (isDropCell)
-					return;
-				Sprite newSprite = data.pointerDrag.GetComponent<DragAndDrop> ().tempInventoryCell;
-				data.pointerDrag.GetComponent<Image> ().sprite = GetComponent<Image> ().sprite;
-				GetComponent<Image> ().sprite = newSprite;
-			} else {
-				data.pointerDrag.GetComponent<Image> ().sprite = data.pointerDrag.GetComponent<DragAndDrop> ().tempInventoryCell;
+			if (type.Equals ("Any")) {		
+				InventoryItem temp = tempScript.item;
+				tempScript.UpdateItem (item);
+				UpdateItem (temp);
+			} else if (type.Equals (tempScript.item.Type)) {
+//				print ("type is don't any");
+				switch (type) {
+				case "Weapon":
+					Weapon weapon = item as Weapon;
+					UpdateItem (tempScript.item);
+					tempScript.UpdateItem (weapon);
+					break;
+				case "Armor":
+					Armor armor = item as Armor;
+					UpdateItem (tempScript.item);
+					tempScript.UpdateItem (armor);
+					break;
+				}
 			}
-			data.pointerDrag.GetComponent<DragAndDrop> ().isDragged = false;
 		} else {
 			print ("Opps! Missed!");
+			UIManager._instanceUIM.AddToDropZone (item);
+			UpdateItem (null);
 		}
 	}
 
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
-		if (GetComponent<Image> ().sprite.Equals (emptyInventoryCell)) {			
+		if (item == null) {			
 			return;
 		}
 		else
@@ -81,10 +136,8 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 			icon.AddComponent<Image> ().sprite = GetComponent<Image> ().sprite;
 			icon.transform.localScale = new Vector2 (1, 1);
 			icon.AddComponent<CanvasGroup>().blocksRaycasts = false;
-			tempInventoryCell = GetComponent<Image> ().sprite;
-			GetComponent<Image> ().sprite = emptyInventoryCell;
-			isDragged = true;
 
+			GetComponent<Image> ().sprite = emptyInventoryCell;
 			SetDraggedPosition ();
 		}
 	}
@@ -102,6 +155,7 @@ IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHan
 
 	public void OnEndDrag(PointerEventData eventData)
 	{
+		UpdateItem (this.item);
 		Destroy (icon);
 		icon = null;
 	}

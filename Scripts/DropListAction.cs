@@ -11,7 +11,7 @@ public class DropListAction : MonoBehaviour {
 	UIManager uiScript;
 
 	bool isActive = false; 
-	int[] dropList;
+	InventoryItem[] dropList;
 	public List<GameObject> dropListCells;
 	public Sprite defaultSprite;
 
@@ -33,7 +33,7 @@ public class DropListAction : MonoBehaviour {
 	}
 
 	void Update(){
-		if (!uiScript.bDMenu)
+		if (!amaScript.bDMenu)
 			dropList = null;
 
 		if (count == 0) 	
@@ -45,12 +45,17 @@ public class DropListAction : MonoBehaviour {
 		isActive = !isActive;
 	}
 
-
 	//взятие предмета с id в обьекте
 	public void TakeItemFromBag(int id){
-//		print ("TakeItemFromBag = " + id);
-		amaScript.PutItemFromItemList(dropList[id]);
-		dropList [id] = 0;
+		print ("TakeItemFromBag = " + id);
+		if (dropList[id] == null) {
+			print ("item in GetItemToChar is null");
+			return;
+		}
+		amaScript.GetItemToCharacter(dropList[id]);
+		Debug.Log ("Taking object with index = " + dropList [id].itemName + "from the Bag");
+		myChest.dropListInGame.Remove (dropList [id]);
+		dropList [id] = null;
 		count--;
 		dropListCells [id].GetComponent<Button> ().interactable = false;
 		dropListCells [id].GetComponent<Image> ().sprite = defaultSprite;
@@ -69,32 +74,34 @@ public class DropListAction : MonoBehaviour {
 		if (myChest != null && count == 0) {
 			myChest.AmEmpty ();
 			myChest = null;
-		}	
+		}
 		dropList = null;
 		this.transform.localScale = uiOff;
 		if (uiScript == null)
 			return;
-		uiScript.bDMenu = false;
+		amaScript.bDMenu = false;
 	}
 
-	public void ShowDropList(int[] list, BagAction go){
+	public void ShowDropList(InventoryItem[] list, BagAction go){
 		dropList = list;
 		myChest = go;
-		count = dropList.Length;
+		count = list.Length;
+		if (dropList.Length == 0)
+			return;
 		if (uiScript == null)
 			return;
-		if (list.Length == 1) {			
+		if (dropList.Length == 1) {			
 			TakeAllItemFromBag ();
-		} else {		
+		} else {	
 			for (int i = 0; i < dropList.Length; i++) {			
-				if (dropList [i] != 0) {
+				if (dropList [i].id != 0) {
 //					print ("dropListCells = " + dropListCells [i].name);
-					dropListCells [i].GetComponent<Image> ().sprite = uiScript.GetItemFromAll (dropList [i]).ItemIcon;
+					dropListCells [i].GetComponent<Image> ().sprite = dropList[i].ItemIcon;
 					dropListCells [i].GetComponent<Button> ().interactable = true;
 				}
 			}
 			this.transform.localScale = uiOn;
-			uiScript.bDMenu = true;
+			amaScript.bDMenu = true;
 		}
 
 		/// Добавить Обновление графического представления 

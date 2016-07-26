@@ -3,21 +3,23 @@ using System.Collections;
 using UnityEngine.UI;
 using ProgressBar;
 
-
 public class CharacterInfoPanel : MonoBehaviour {
-
-
+	
 	public GameObject progressBarObject;
 	public GameObject primaryWeaponGO;
-	public GameObject secondaryWeaponGO;
 	public Image weaponIcon;
 	//not public
 	public Character characterScript;
 	public GunAction gunActionScript;
+	public CharacterAction characterActionScript;
 	public UIManager uiScript;
 	public ProgressBarBehaviour progressBarScript;
 	public ProgressBarBehaviour hpProgressBarScript;
 	public ProgressBarBehaviour spProgressBarScript;
+
+	public Image FirstQuickCell;
+	public Image SecondQuickCell;
+	public Image ThirdQuickCell;
 
 	string iPrimaryWeapon = "";
 	string iSecondaryyWeapon = "";
@@ -32,14 +34,29 @@ public class CharacterInfoPanel : MonoBehaviour {
 	float tempAmmo;
 	bool activeWeaponCheck = true;
 
+	void Awake(){
+		gunActionScript = GunAction._instanceGA;
+		characterScript = Character._instanceCharacter;
+		characterActionScript = CharacterAction._instanceCA;
+	}
+
 	void Update () {		
 		if (gunActionScript == null && uiScript.gameActive)
 			gunActionScript = GunAction._instanceGA;
 		if (characterScript == null && uiScript.gameActive)
 			characterScript = Character._instanceCharacter;
+		if(characterActionScript == null && uiScript.gameActive)
+			characterActionScript = CharacterAction._instanceCA;
 		if (characterScript == null || gunActionScript == null) {
 			return;
 		} else {
+			if (characterActionScript.FirstQuickCellSkill != null)
+				FirstQuickCell.sprite = characterActionScript.FirstQuickCellSkill.SkillIcon();
+			if (characterActionScript.SecondQuickCellSkill != null)
+				SecondQuickCell.sprite = characterActionScript.SecondQuickCellSkill.SkillIcon();
+			if (characterActionScript.ThirdQuickCellSkill != null)
+				ThirdQuickCell.sprite = characterActionScript.ThirdQuickCellSkill.SkillIcon();
+
 			iPrimaryWeapon = characterScript.PrimaryWeapon.itemName;
 			iSecondaryyWeapon = characterScript.SecondaryWeapon.itemName;
 			iHolder = gunActionScript.holder;
@@ -52,7 +69,7 @@ public class CharacterInfoPanel : MonoBehaviour {
 				weaponIcon.sprite = characterScript.SecondaryWeapon.ItemIcon;
 				weaponAmmoPanel.text = "Secondary: " + iHolder + " / " + iAmmo;
 			}
-			weaponMaxAmmoInfoPanel.text = " " + iMaxAmmo;
+			weaponMaxAmmoInfoPanel.text = "Max: " + iMaxAmmo;
 
 			if (!characterScript.activeWeapon && !activeWeaponCheck) {
 				primaryWeaponGO.GetComponent<Image> ().color = Color.white;
